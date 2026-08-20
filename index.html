@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset=>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Downstage — The Stage · Rabat</title>
+<meta name="description" content="Downstage is an 100-seat space in Rabat. One stage, one bar, no barrier — the front row is 1 metres from the artist.">
+<link rel="icon" href="images/logo.png">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/* ============ tokens & base ============ */
+:root{
+  --bg:#12100c; --bg-2:#161310; --panel:#1c1813;
+  --ink:#ece3d2; --dim:rgba(236,227,210,.62); --faint:rgba(236,227,210,.38);
+  --hair:rgba(236,227,210,.14);
+  --red:#e04a21; --amber:#e6a03f;
+  --serif:"Fraunces",Georgia,serif; --mono:"Space Mono",ui-monospace,monospace;
+  --ease:cubic-bezier(.22,.8,.24,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:116px}
+body{background:var(--bg);color:var(--ink);font:390 16.5px/1.65 var(--serif);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:var(--red);color:var(--bg)}
+::-webkit-scrollbar{width:10px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:#2b261e;border-radius:5px}
+img{max-width:100%}
+a{color:inherit}
+button{font-family:inherit;color:inherit}
+:focus-visible{outline:1px dashed var(--amber);outline-offset:3px}
+
+/* film grain over everything, very quiet */
+body::after{content:"";position:fixed;inset:0;z-index:999;pointer-events:none;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.7'/%3E%3C/svg%3E");}
+
+.container{width:min(1180px,92vw);margin-inline:auto}
+#glow{position:fixed;left:0;top:0;width:560px;height:560px;border-radius:50%;pointer-events:none;z-index:800;
+  background:radial-gradient(circle,rgba(230,160,63,.12),rgba(230,160,63,.045) 42%,transparent 66%);
+  mix-blend-mode:screen;opacity:0;transition:opacity .8s}
+body.has-pointer #glow{opacity:1}
+
+/* ============ buttons & forms ============ */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:var(--mono);font-weight:700;
+  font-size:11px;letter-spacing:.18em;text-transform:uppercase;padding:14px 22px;border:1px solid var(--ink);
+  background:none;color:var(--ink);cursor:pointer;border-radius:2px;transition:.25s var(--ease);text-decoration:none}
+.btn:hover{background:var(--ink);color:var(--bg)}
+.btn-solid{background:var(--ink);color:var(--bg)}
+.btn-solid:hover{background:var(--red);border-color:var(--red);color:var(--bg)}
+.btn-line.warn{border-color:var(--red);color:var(--red)}
+.btn-line.warn:hover{background:var(--red);color:var(--bg)}
+.wide{width:100%}
+input{background:transparent;border:0;border-bottom:1px solid var(--hair);color:var(--ink);
+  font:400 1.05rem var(--serif);padding:10px 2px;width:100%;outline:none;transition:border-color .25s}
+input:focus{border-color:var(--amber)}
+input::placeholder{color:var(--faint);font-style:italic}
+label{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--dim);text-transform:uppercase}
+.ferr{display:block;color:var(--red);font-family:var(--mono);font-style:normal;font-size:11px;letter-spacing:.04em;margin-top:6px}
+input.bad{border-color:var(--red)}
+
+/* ============ header ============ */
+.site-head{position:fixed;inset:0 0 auto 0;z-index:150;transition:background .35s,border-color .35s,transform .35s var(--ease);border-bottom:1px solid transparent}
+.site-head.nav-hidden{transform:translateY(-100%);opacity:0;visibility:hidden;pointer-events:none}
+.site-head.scrolled{background:rgba(18,16,12,.82);backdrop-filter:blur(10px);border-color:var(--hair)}
+.head-in{display:flex;align-items:center;gap:32px;height:92px}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;margin-right:auto}
+.brand-mark{width:150px;height:auto;max-height:78px;object-fit:contain}
+.brand-name{font:900 1.75rem var(--serif);letter-spacing:-.01em}
+.brand-loc{font-family:var(--mono);font-size:9.5px;letter-spacing:.32em;color:var(--red);margin-top:5px}
+.main-nav{display:flex;gap:30px}
+.main-nav a{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;color:var(--dim);padding:6px 0;border-bottom:1px solid transparent;transition:.25s}
+.main-nav a:hover{color:var(--ink)}
+.main-nav a[aria-current="true"]{color:var(--ink);border-color:var(--red)}
+.head-right{display:flex;align-items:center;gap:16px}
+.chip{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--dim);border:1px solid var(--hair);padding:9px 15px;border-radius:999px;white-space:nowrap}
+.chip .dot{width:6px;height:6px;border-radius:50%;background:var(--red);animation:pulse 2.2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.7)}}
+.head-cta{padding:11px 16px}
+.burger{display:none;flex-direction:column;align-items:center;justify-content:center;gap:6px;width:44px;height:44px;background:none;border:1px solid var(--hair);cursor:pointer}
+.burger span{display:block;width:18px;height:1.5px;background:var(--ink);transition:.3s var(--ease)}
+.burger.on span:first-child{transform:translateY(3.75px) rotate(45deg)}
+.burger.on span:last-child{transform:translateY(-3.75px) rotate(-45deg)}
+.mnav{position:fixed;inset:0;background:var(--bg);z-index:140;display:flex;flex-direction:column;justify-content:center;padding:0 8vw;opacity:0;pointer-events:none;transition:.35s var(--ease)}
+.mnav.open{opacity:1;pointer-events:auto}
+.mnav a{font:italic 400 clamp(2rem,8.5vw,2.7rem)/1.25 var(--serif);text-decoration:none;border-bottom:1px solid var(--hair);padding:16px 0;display:flex;justify-content:space-between;align-items:baseline}
+.mnav a i{font:400 11px var(--mono);font-style:normal;letter-spacing:.2em;color:var(--red)}
+.mnav-meta{margin-top:34px;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:var(--dim);line-height:2}
+
+/* ============ hero ============ */
+.hero{min-height:100svh;display:flex;flex-direction:column;padding-top:104px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(120% 90% at 50% 8%,transparent 45%,rgba(0,0,0,.4) 100%)}
+.hero-in{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;justify-content:center;padding-bottom:34px}
+.kicker{font-family:var(--mono);font-size:16px;letter-spacing:.12em;color:var(--dim)}
+.kicker b{color:var(--red);font-weight:400}
+.hero-title{font:430 clamp(3.2rem,10vw,8rem)/0.99 var(--serif);letter-spacing:-.015em;max-width:none;white-space:nowrap;margin-top:26px}
+.hero-title em{font-style:italic}
+.u-wrap{position:relative;white-space:nowrap;cursor:pointer}
+.u-string{position:absolute;left:-1%;bottom:-.1em;width:102%;height:.16em;overflow:visible;pointer-events:none;display:block}
+.u-string path{fill:none;stroke:var(--red);stroke-width:4;stroke-linecap:round}
+.u-wrap:hover .u-string path{stroke:var(--amber)}
+@keyframes strum{0%,100%{transform:scaleY(1)}18%{transform:scaleY(3.6)}40%{transform:scaleY(.7)}62%{transform:scaleY(2)}80%{transform:scaleY(1.25)}}
+.u-string.plucked{animation:strum .75s var(--ease);transform-origin:50% 100%}
+.hero-sub{max-width:56ch;color:var(--dim);margin-top:30px;font-size:1.06rem}
+.hero-sub strong{color:var(--ink);font-weight:500}
+
+.strings-band{position:relative;width:100%;height:180px;touch-action:pan-y;cursor:crosshair;z-index:2}
+.strings-band canvas{display:block;width:100%;height:100%}
+.strings-hint{position:absolute;top:12px;right:24px;font-family:var(--mono);font-size:9.5px;letter-spacing:.24em;color:var(--faint);pointer-events:none}
+.hero-meta{position:relative;z-index:2;display:flex;flex-wrap:wrap;gap:14px 40px;justify-content:space-between;border-top:1px solid var(--hair);padding:18px 0 22px;font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;color:var(--dim)}
+.hero-meta a{text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:color .25s}
+.hero-meta a:hover{color:var(--amber)}
+.hero-meta svg{width:10px;height:12px;animation:nudge 2.4s var(--ease) infinite}
+@keyframes nudge{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+
+/* ============ ticker ============ */
+.ticker{overflow:hidden;border-block:1px solid var(--hair);background:var(--bg-2);padding:13px 0}
+.ticker-track{display:flex;width:max-content;animation:tick 34s linear infinite}
+.ticker:hover .ticker-track{animation-play-state:paused}
+@keyframes tick{to{transform:translateX(-50%)}}
+.ticker-group{display:flex;align-items:center}
+.ti{font-family:var(--mono);font-size:11px;letter-spacing:.22em;color:var(--dim);white-space:nowrap}
+.dia{display:inline-block;width:5px;height:5px;background:var(--red);transform:rotate(45deg);margin:0 28px;flex:none}
+
+/* ============ sections ============ */
+.sec{padding:clamp(84px,11vh,136px) 0;border-top:1px solid var(--hair);scroll-margin-top:70px;position:relative}
+.sec-alt{background:var(--bg-2)}
+.sec-head{display:grid;grid-template-columns:1fr auto;align-items:end;gap:18px 40px;margin-bottom:clamp(44px,6vh,66px)}
+.sec-kicker{grid-column:1/-1;display:flex;gap:16px;font-family:var(--mono);font-size:11px;letter-spacing:.28em;color:var(--dim)}
+.sec-kicker b{color:var(--red);font-weight:400}
+.sec-title{font:480 clamp(2.1rem,4.6vw,3.7rem)/1.04 var(--serif);letter-spacing:-.015em}
+.sec-title em{font-style:italic}
+.sec-side{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;color:var(--faint);text-align:right;line-height:2;padding-bottom:8px}
+
+/* ============ programme ledger ============ */
+.show{border-top:1px solid var(--hair)}
+.show:hover{background:rgba(236,227,210,.035);z-index:30}
+.show{position:relative;z-index:1}
+.show-hover-note{display:block;background:var(--panel);border:1px solid var(--amber);margin:0 10px 12px;padding:16px 18px;color:var(--dim);font-size:.98rem;line-height:1.55}
+.show-hover-note strong{display:block;color:var(--ink);font:500 1.2rem var(--serif);margin-bottom:6px}
+.show:hover .show-hover-note,.show.show-hover-active .show-hover-note{display:block}
+.show:last-of-type{border-bottom:1px solid var(--hair)}
+.show-head{display:grid;grid-template-columns:104px 1fr 172px 108px 56px;align-items:center;gap:20px;
+  width:100%;padding:24px 10px;background:none;border:0;text-align:left;cursor:pointer;transition:background .3s}
+.show-head:hover{background:rgba(236,227,210,.03)}
+.s-date b{display:block;font:500 2.15rem/1 var(--serif);transition:color .3s}
+.show-head:hover .s-date b{color:var(--amber)}
+.s-date span{font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--dim)}
+.s-artist{display:block;font:480 1.55rem/1.15 var(--serif);letter-spacing:-.01em;transition:transform .35s var(--ease)}
+.show-head:hover .s-artist{transform:translateX(8px)}
+.s-tag{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:var(--dim);margin-top:6px}
+.s-status{font-family:var(--mono);font-size:11px;letter-spacing:.1em}
+.st-ok{color:var(--dim)}.st-ok i{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--ink);opacity:.55;margin-right:9px;vertical-align:1px}
+.st-few{color:var(--amber)}
+.st-sold{display:inline-block;border:1px solid var(--red);color:var(--red);padding:4px 9px;transform:rotate(-3deg);font-weight:700;letter-spacing:.16em}
+.s-price{font-family:var(--mono);font-size:12.5px;color:var(--dim);text-align:right}
+.s-x{justify-self:end;width:34px;height:34px;border:1px solid var(--hair);border-radius:50%;display:grid;place-items:center;transition:.35s var(--ease)}
+.s-x svg{width:11px;height:11px;stroke:var(--ink);stroke-width:1.6;transition:transform .35s var(--ease)}
+.show-head[aria-expanded="true"] .s-x{border-color:var(--amber)}
+.show-head[aria-expanded="true"] .s-x svg{transform:rotate(45deg)}
+.show-body{max-height:0;overflow:hidden;transition:max-height .5s var(--ease)}
+.show-body-in{display:grid;grid-template-columns:104px 1fr auto;gap:20px;padding:2px 10px 30px;align-items:end}
+.s-desc{grid-column:2;max-width:58ch;color:var(--dim);font-size:1.02rem}
+.s-actions{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+.s-times{font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--faint)}
+.list-note{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:var(--faint);margin-top:24px;line-height:2}
+
+/* floating preview */
+.show-preview{position:fixed;left:0;top:0;width:252px;z-index:60;pointer-events:none;will-change:transform}
+.sp-in{opacity:0;transform:scale(.9) translateY(8px);transition:.28s var(--ease)}
+.show-preview.on .sp-in{opacity:1;transform:none}
+.sp-in img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;border:1px solid var(--hair);filter:sepia(.25) contrast(1.05) brightness(.85)}
+.sp-bar{background:var(--panel);border:1px solid var(--hair);border-top:0;padding:9px 12px;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:var(--dim);display:flex;justify-content:space-between;gap:12px}
+.sp-bar b{color:var(--ink);font-weight:400}
+
+/* ============ the room ============ */
+.room-wrap{display:grid;grid-template-columns:minmax(0,1fr) 350px;gap:60px;align-items:start}
+.room-fig{margin:0;border:1px solid var(--hair);padding:clamp(10px,2.4vw,26px);background:var(--bg)}
+.lit-stage{--beam:.13}.lit-house{--beam:0}
+.room-svg{width:100%;height:auto;display:block}
+.room-svg .ln0{fill:none;stroke:rgba(236,227,210,.78);stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+.room-svg .thin{stroke-width:1;stroke:rgba(236,227,210,.4)}
+.room-svg .faint{stroke:rgba(236,227,210,.16)}
+.room-svg .dash{stroke-dasharray:4 5}
+.seatp{fill:none;stroke:rgba(236,227,210,.62);stroke-width:1.2;stroke-linejoin:round}
+.beam{fill:var(--amber);opacity:var(--beam,0);mix-blend-mode:screen;transition:opacity .7s}
+#g-stageglow{fill:var(--amber);opacity:0;mix-blend-mode:screen;transition:opacity .7s}
+.lit-stage #g-stageglow{opacity:.34}
+.halo{fill:var(--amber);opacity:0;mix-blend-mode:screen;transition:opacity .7s}
+.lit-house .halo{opacity:.28}
+.bulb{fill:rgba(236,227,210,.85);transition:fill .5s}
+.lit-house .bulb{fill:var(--amber)}
+.room-svg text{fill:rgba(236,227,210,.55);font-family:var(--mono);font-size:10px;letter-spacing:.12em}
+.arrow{fill:var(--ink)}
+.person circle,.person path{fill:none;stroke:rgba(236,227,210,.78);stroke-width:1.4;stroke-linecap:round}
+.feat{transition:opacity .35s}
+.room-fig[data-focus] .feat{opacity:.15}
+.room-fig[data-focus="f-stage"] #f-stage,.room-fig[data-focus="f-piano"] #f-piano,
+.room-fig[data-focus="f-desk"] #f-desk,.room-fig[data-focus="f-bar"] #f-bar,
+.room-fig[data-focus="f-seats"] #f-seats{opacity:1}
+.room-fig[data-focus]:not([data-focus="f-stage"]) .beam{opacity:calc(var(--beam,0)*.3)}
+.marker{cursor:pointer}
+.mkc{fill:var(--bg);stroke:rgba(236,227,210,.7);stroke-width:1.2;transition:stroke .25s}
+.mkt{fill:var(--dim);font-family:var(--mono);font-size:10px;text-anchor:middle;transition:fill .25s}
+.marker:hover .mkc{stroke:var(--amber)}
+.marker.on .mkc{stroke:var(--red)}
+.marker.on .mkt{fill:var(--red)}
+.room-cap{font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--faint);margin-top:14px}
+.lights{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:26px}
+.lights-label{font-family:var(--mono);font-size:10px;letter-spacing:.26em;color:var(--faint)}
+.lights-seg{display:flex;border:1px solid var(--hair);border-radius:2px;overflow:hidden}
+.lt-btn{background:none;border:0;padding:10px 15px;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);cursor:pointer;transition:.25s}
+.lt-btn:hover{color:var(--ink)}
+.lt-btn.on{background:var(--ink);color:var(--bg)}
+.legend{list-style:none}
+.legend li{display:grid;grid-template-columns:44px 1fr;gap:14px;padding:17px 0;border-top:1px solid var(--hair);cursor:default}
+.legend li:first-child{border-top:0}
+.lg-no{font-family:var(--mono);font-size:11px;color:var(--red);padding-top:4px}
+.legend h4{font:500 1.12rem var(--serif);transition:color .25s}
+.legend li:hover h4,.legend li:focus h4{color:var(--amber)}
+.legend p{font-size:.88rem;color:var(--dim);margin-top:5px;line-height:1.55}
+
+/* interval divider */
+.interval{display:flex;align-items:center;gap:26px;padding:34px 0;border-top:1px solid var(--hair)}
+.interval span{font-family:var(--mono);font-size:9.5px;letter-spacing:.34em;color:var(--faint);white-space:nowrap;animation:ivl 3.4s ease-in-out infinite}
+@keyframes ivl{0%,100%{opacity:.9}50%{opacity:.35}}
+.iv-line{flex:1;height:1px;background:var(--hair);animation:none}
+
+/* ============ story ============ */
+.story-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:76px;align-items:start}
+.story-copy p{color:var(--dim);max-width:58ch}
+.story-copy p strong{color:var(--ink);font-weight:500}
+.story-copy p + p{margin-top:24px}
+.story-copy blockquote{border-left:1px solid var(--red);padding-left:28px;margin:44px 0 0;font:italic 400 clamp(1.35rem,2.3vw,1.8rem)/1.35 var(--serif);letter-spacing:-.01em}
+.story-copy cite{display:block;font:400 11px var(--mono);letter-spacing:.16em;color:var(--dim);font-style:normal;margin-top:16px}
+.story-media{position:relative;padding-bottom:40px}
+.ph{background:#000;border:1px solid var(--hair);padding:10px 10px 13px;max-width:320px}
+.ph img{display:block;width:100%;filter:sepia(.28) saturate(.85) contrast(1.05) brightness(.82)}
+.ph figcaption{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--dim);margin-top:11px}
+.ph-1{transform:rotate(-2.4deg)}
+.ph-2{transform:rotate(1.8deg);margin:-56px 0 0 84px;max-width:268px}
+.stats{display:flex;flex-wrap:wrap;border-top:1px solid var(--hair);margin-top:72px}
+.stat{flex:1 1 210px;padding:32px 26px 4px 0}
+.stat + .stat{border-left:1px solid var(--hair);padding-left:26px}
+.stat b{display:block;font:500 clamp(2.1rem,3.4vw,3.3rem)/1 var(--serif);letter-spacing:-.02em}
+.stat span{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:var(--dim)}
+
+/* ============ rules ============ */
+.rules{list-style:none;max-width:820px}
+.rules li{display:grid;grid-template-columns:78px 1fr;gap:22px;align-items:baseline;padding:26px 0;border-top:1px solid var(--hair)}
+.rules li:last-child{border-bottom:1px solid var(--hair)}
+.r-no{font-family:var(--mono);font-size:12px;color:var(--red);letter-spacing:.1em}
+.rules p{font:430 clamp(1.15rem,2vw,1.42rem)/1.4 var(--serif);letter-spacing:-.005em}
+.rules em{font-style:italic;color:var(--amber)}
+
+/* ============ visit ============ */
+.visit-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:64px;align-items:start}
+.addr{font:430 clamp(1.4rem,2.4vw,1.9rem)/1.4 var(--serif);letter-spacing:-.01em}
+.addr i{font-style:italic;color:var(--amber)}
+.v-block{border-top:1px solid var(--hair);margin-top:34px;padding-top:26px}
+.v-block h4{font-family:var(--mono);font-size:10.5px;letter-spacing:.26em;color:var(--faint);font-weight:400;margin-bottom:14px}
+.v-lines{font-family:var(--mono);font-size:12.5px;line-height:2.1;color:var(--dim)}
+.v-lines a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--hair);transition:.25s}
+.v-lines a:hover{border-color:var(--amber);color:var(--amber)}
+.v-lines .r{color:var(--red)}
+.nl{border-top:1px solid var(--hair);margin-top:34px;padding-top:26px}
+.nl-row{display:flex;gap:14px}
+.nl-row input{flex:1}
+.nl-note{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;color:var(--faint);margin-top:16px;line-height:1.9}
+.nl-done{font:italic 400 1.2rem var(--serif);color:var(--amber)}
+.rehearsal-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:64px;align-items:start}
+.pack-list{display:grid;gap:12px}
+.pack-card{display:flex;align-items:center;justify-content:space-between;gap:20px;border:1px solid var(--hair);padding:20px 22px;background:var(--bg-2);cursor:pointer;transition:.25s var(--ease)}
+.pack-card:hover,.pack-card:has(input:checked){border-color:var(--amber);background:rgba(230,160,63,.06)}
+.pack-card input{position:absolute;opacity:0;pointer-events:none}
+.pack-name{font:500 1.25rem var(--serif)}
+.pack-hours{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--dim);margin-top:5px}
+.pack-price{font:700 1.15rem var(--mono);color:var(--amber);white-space:nowrap}
+.rehearsal-form{border-top:1px solid var(--hair);padding-top:26px}
+.rehearsal-form h3{font:italic 400 1.65rem var(--serif);margin-bottom:24px}
+.rehearsal-fields{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.rehearsal-field label{margin-bottom:8px}
+.rehearsal-field input,.rehearsal-field select{width:100%;background:transparent;border:0;border-bottom:1px solid var(--hair);color:var(--ink);font:400 1.05rem var(--serif);padding:10px 2px;outline:none}
+.rehearsal-field select option{background:var(--bg-2);color:var(--ink)}
+.rehearsal-field input:focus,.rehearsal-field select:focus{border-color:var(--amber)}
+.rehearsal-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+.rehearsal-submit{margin-top:0}
+.map-fig{border:1px solid var(--hair);background:var(--bg);padding:18px;margin:0}
+.map-embed{display:block;width:100%;height:320px;border:0}
+.map-svg{width:100%;height:auto;display:block}
+.map-st{fill:none;stroke:rgba(236,227,210,.22);stroke-width:1}
+.map-river{fill:none;stroke:rgba(236,227,210,.09);stroke-width:26;stroke-linecap:round}
+.map-lm rect{fill:none;stroke:rgba(236,227,210,.6);stroke-width:1.2}
+.map-svg text{fill:rgba(236,227,210,.5);font-family:var(--mono);font-size:9px;letter-spacing:.2em}
+.map-venue text{fill:var(--ink)}
+.map-venue .sub{fill:var(--dim);font-size:8px}
+.mv-dot{fill:var(--red)}
+.mv-pulse{fill:none;stroke:var(--red);stroke-width:1.2;transform-box:fill-box;transform-origin:center;animation:mv 2.8s var(--ease) infinite}
+@keyframes mv{0%{transform:scale(.35);opacity:1}70%,100%{transform:scale(1.6);opacity:0}}
+.map-cap{font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--faint);margin-top:14px}
+
+/* ============ footer ============ */
+footer{border-top:1px solid var(--hair);background:var(--bg-2)}
+.foot-word{font:430 clamp(4rem,15vw,11rem)/.99 var(--serif);letter-spacing:-.015em;padding:clamp(48px,8vh,86px) 0 10px}
+.foot-word b{color:var(--red);font-weight:500}
+.foot-tag{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--dim);margin-bottom:52px}
+.foot-cols{display:flex;flex-wrap:wrap;gap:44px 90px;padding-bottom:64px}
+.fc h5{font-family:var(--mono);font-size:10px;letter-spacing:.28em;color:var(--faint);font-weight:400;margin-bottom:18px}
+.fc a,.fc button{display:block;background:none;border:0;padding:0;text-align:left;font-family:var(--mono);font-size:12px;color:var(--dim);text-decoration:none;margin-bottom:12px;cursor:pointer;transition:color .25s}
+.fc a:hover,.fc button:hover{color:var(--amber)}
+.foot-bot{display:flex;flex-wrap:wrap;gap:14px 40px;justify-content:space-between;border-top:1px solid var(--hair);padding:20px 0 44px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--faint)}
+.foot-bot a{color:var(--dim);text-decoration:none}
+.foot-bot a:hover{color:var(--amber)}
+
+/* ============ modal ============ */
+.modal{position:fixed;inset:0;z-index:900;display:grid;place-items:center;padding:20px;opacity:0;transition:opacity .3s}
+.modal[hidden]{display:none}
+.modal.open{opacity:1}
+.modal-back{position:absolute;inset:0;background:rgba(8,7,5,.72);backdrop-filter:blur(6px)}
+.modal-panel{position:relative;width:min(540px,94vw);max-height:88vh;overflow:auto;background:var(--bg-2);border:1px solid var(--hair);padding:clamp(26px,4vw,40px);transform:translateY(16px);transition:transform .35s var(--ease)}
+.modal.open .modal-panel{transform:none}
+.modal-x{position:absolute;top:16px;right:16px;width:38px;height:38px;background:none;border:1px solid var(--hair);border-radius:50%;cursor:pointer;display:grid;place-items:center;transition:.25s}
+.modal-x:hover{border-color:var(--red)}
+.modal-x svg{width:12px;height:12px;stroke:var(--ink);stroke-width:1.6}
+.modal-kicker{font-family:var(--mono);font-size:10px;letter-spacing:.3em;color:var(--red)}
+#modalTitle{font:480 clamp(1.7rem,4vw,2.3rem)/1.1 var(--serif);letter-spacing:-.015em;margin-top:12px}
+.modal-sub{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--dim);margin-top:10px}
+#modalBody{margin-top:30px}
+.frow{margin-bottom:24px}
+.seats-row{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.stepper{display:flex;align-items:center;border:1px solid var(--hair);border-radius:2px}
+.stepper button{width:40px;height:40px;background:none;border:0;font:16px var(--mono);cursor:pointer;transition:.2s}
+.stepper button:hover{background:rgba(236,227,210,.08)}
+.stepper b{font:700 14px var(--mono);width:46px;text-align:center}
+.tot{font:700 15px var(--mono);color:var(--amber)}
+.pay-note{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:var(--faint);line-height:1.9;margin:6px 0 26px}
+.done{text-align:left}
+.done svg{width:44px;height:44px;margin-bottom:18px}
+.done h4{font:italic 460 1.7rem var(--serif);letter-spacing:-.01em}
+.done .ref{display:inline-block;border:1px solid var(--amber);color:var(--amber);font:700 13px var(--mono);letter-spacing:.14em;padding:7px 13px;margin:18px 0 10px}
+.done p{color:var(--dim);font-size:.98rem}
+.done .btn{margin-top:26px}
+
+/* ============ toasts ============ */
+.toasts{position:fixed;left:22px;bottom:22px;z-index:1000;display:flex;flex-direction:column;gap:10px}
+.toast{display:flex;align-items:flex-start;gap:13px;background:#1e1a14;border:1px solid var(--hair);border-left:2px solid var(--red);padding:14px 18px 14px 15px;max-width:340px;opacity:0;transform:translateY(12px);transition:.35s var(--ease)}
+.toast.on{opacity:1;transform:none}
+.toast svg{width:16px;height:16px;flex:none;margin-top:2px}
+.toast b{display:block;font:500 .98rem var(--serif)}
+.toast span{font-family:var(--mono);font-size:10.5px;color:var(--dim);letter-spacing:.04em;line-height:1.7;display:block;margin-top:3px}
+
+/* ============ reveal ============ */
+.reveal{opacity:1;transform:none;transition:opacity .85s var(--ease),transform .85s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+
+/* ============ responsive ============ */
+@media(max-width:1020px){
+  .room-wrap{grid-template-columns:1fr}
+  .story-grid{grid-template-columns:1fr;gap:56px}
+  .story-media{display:flex;gap:34px;flex-wrap:wrap;align-items:flex-start}
+  .ph-2{margin:36px 0 0}
+  .visit-grid{grid-template-columns:1fr;gap:52px}
+  .rehearsal-grid{grid-template-columns:1fr;gap:44px}
+}
+@media(max-width:760px){
+  .main-nav,.chip,.head-cta{display:none}
+  .burger{display:flex}
+  .sec-head{grid-template-columns:1fr}
+  .sec-side{text-align:left;padding:0}
+  .show-head{grid-template-columns:54px 1fr 40px;grid-template-areas:"date main x" "date status x" "date price x";row-gap:8px}
+  .s-date{grid-area:date}.s-main{grid-area:main}.s-status{grid-area:status}.s-price{grid-area:price;text-align:left}.s-x{grid-area:x;width:30px;height:30px}
+  .s-artist{font-size:1.2rem}.s-date b{font-size:1.7rem}
+  .show-body-in{grid-template-columns:1fr;padding:0 10px 26px}
+  .s-desc{grid-column:1}
+  .hm-coord{display:none}
+  .stat{flex:1 1 42%;padding:26px 16px 4px 0}
+  .stat + .stat{padding-left:0;border-left:0}
+  .stat:nth-child(even){border-left:1px solid var(--hair);padding-left:20px}
+  .strings-band{height:150px}
+  .toasts{left:14px;right:14px}
+  .rehearsal-fields{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .reveal{opacity:1;transform:none}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<div id="glow"></div>
+
+<!-- ================= HEADER ================= -->
+<header class="site-head" id="siteHead">
+  <div class="head-in container">
+    <a class="brand" href="https://downstagerabat.github.io/stage/" aria-label="Downstage — home">
+      <img class="brand-mark" src="images/logo.png" alt="Downstage">
+      <span class="brand-name">Downstage</span>
+      <span class="brand-loc">RABAT</span>
+    </a>
+    <nav class="main-nav" id="mainNav" aria-label="Main">
+      <a href="#programme">Program</a>
+      <a href="#rehearsals">Rehearsals</a>
+      <a href="#room">STAGE</a>
+      <a href="#story">Story</a>
+      <a href="#visit">Visit</a>
+    </nav>
+    <div class="head-right">
+      <div class="chip"><span class="dot"></span><span id="tonightTxt">Doors 18:30 tonight</span></div>
+      <a class="btn head-cta" href="#programme">Reserve a seat</a>
+      <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false"><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- mobile menu -->
+<div class="mnav" id="mnav">
+  <a href="#programme"><span>Programme</span><i>(01)</i></a>
+  <a href="#rehearsals"><span>Rehearsals</span><i>(02)</i></a>
+  <a href="#room"><span>Stage</span><i>(03)</i></a>
+  <a href="#story"><span>Story</span><i>(04)</i></a>
+  <a href="#visit"><span>Visit</span><i>(06)</i></a>
+  <p class="mnav-meta">8 RUE AKNOUL — RABAT 10000<br>WED–SAT · DOORS 19:30 · FIRST SET 20:30</p>
+</div>
+
+<main id="top">
+
+  <!-- ================= HERO ================= -->
+  <section class="hero">
+    <div class="hero-in container">
+      <p class="kicker reveal">ROOM TO GROW - EST 2026</p>
+      <h1 class="hero-title reveal" data-d="120">Your Stage<br>Your Sound, Your Space</h1>
+      <p class="hero-sub reveal" data-d="180">Downstage is a creative space bringing together live music, comedy, jam sessions, artistic residencies, rehearsals, workshops, and cultural events.</p>
+    </div>
+    <div class="strings-band" id="stringsBand">
+      <canvas id="stringsCanvas"></canvas>
+    </div>
+    <div class="hero-meta container reveal" data-d="260">
+      <span>HASSAN · RABAT</span>
+      <span class="hm-coord">34.025185° N, 6.828483° W</span>
+      <span>200 SEATS · 1 STAGE</span>
+      <a href="#programme">PROGRAMME
+        <svg viewBox="0 0 10 12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 1v9M1.5 7 5 10.5 8.5 7"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- ================= TICKER ================= -->
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track" id="tickerTrack">
+      <div class="ticker-group">
+        <span class="ti">TONIGHT &amp; NEXT — LIVE IN THE ROOM</span><i class="dia"></i>
+        <span class="ti">LIFE IS SHORT, ORDER ATAY</span><i class="dia"></i>
+        <span class="ti">NO PHONES UP</span><i class="dia"></i>
+        <span class="ti">IM IN SHAPE. UNFORTUNATELY, ITS A CIRCLE</span><i class="dia"></i>
+        <span class="ti">200 SEATS</span><i class="dia"></i>
+        <span class="ti">YOUR LOCAL EXCUSE TO GO OUT TONIGHT</span><i class="dia"></i>
+        <span class="ti">MINT TEA · 10 MAD</span><i class="dia"></i>
+        <span class="ti">WE LOVE OUR AUDIENCE, EVEN THE ONES WHO ARRIVE 28 MIN LATE</span><i class="dia"></i>
+        <span class="ti">TICKETS AT THE DOOR</span><i class="dia"></i>
+        <span class="ti">THE PUBLIC IS ALWAYS RIGHT, UNFORTUNATELY</span><i class="dia"></i>
+         <span class="ti">RABAT NEEEDED A STAGE, SO WE BUILT ONE</span><i class="dia"></i>
+        <span class="ti">YOUR EARS CALLED, THEY WANT BETTER MUSIC</span><i class="dia"></i>
+        <span class="ti">THE BACK ROW IS STILL CLOSE</span><i class="dia"></i>
+        <span class="ti">insta — @downstage.rabat</span><i class="dia"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= PROGRAMME ================= -->
+  <section class="sec" id="programme">
+    <div class="container">
+      <header class="sec-head reveal">
+        <p class="sec-kicker"><b>(01)</b><span>PROGRAMME</span></p>
+        <h2 class="sec-title">The next nights</em>.</h2>
+        <p class="sec-side">TICKETS AT THE DOOR<br>PREBOOKED SEATS HELD TILL 19:00</p>
+      </header>
+      <div id="showList">
+        <article class="show">
+          <button class="show-head" type="button"><span class="s-date"><b>3</b><span>THU · SEPT</span></span><span class="s-main"><span class="s-artist">DJAM SESSION</span><span class="s-tag">HOUSE BAND · INABSOLUTE</span></span><span class="s-status st-few">AVAILABLE</span><span class="s-price">30 MAD</span><span class="s-x">+</span></button>
+          <div class="show-body"><div class="show-body-in"><p class="s-desc">The night kicks off with a live set by our house band, Inabsolute, before opening the stage to musicians for an evening of improvisation, collaboration, and spontaneous musical moments.</p></div></div>
+        </article>
+        <article class="show masterclass-show"><button class="show-head" type="button"><span class="s-date"><b>4</b><span>FRI · SEPT</span></span><span class="s-main"><span class="s-artist">MASTERCLASS — MANAGEMENT</span><span class="s-tag">ARTIST DEVELOPMENT · CAREER STRATEGY</span></span><span class="s-status st-ok">LIMITED SEATS</span><span class="s-price">FREE</span><span class="s-x">+</span></button><div class="show-body"><div class="show-body-in"><p class="s-desc">A masterclass focused on music management, covering artist development, career strategy, booking, promotion, and the key tools needed to build a successful career in the music industry.</p></div></div></article>
+        <article class="show"><button class="show-head" type="button"><span class="s-date"><b>31</b><span>MON · AUG</span></span><span class="s-main"><span class="s-artist">Bouregreg Sound System</span><span class="s-tag">LIVE DUB · ELECTRONICS</span></span><span class="s-status st-sold">SOLD OUT</span><span class="s-price">140 MAD</span><span class="s-x">+</span></button><div class="show-body"><div class="show-body-in"><p class="s-desc">Analog delays, a borrowed riq, and bass you feel in the chair.</p></div></div></article>
+        <article class="show"><button class="show-head" type="button"><span class="s-date"><b>3</b><span>THU · SEPT</span></span><span class="s-main"><span class="s-artist">Hajar &amp; The Wolves</span><span class="s-tag">ALTERNATIVE ROCK</span></span><span class="s-status st-ok">AVAILABLE</span><span class="s-price">100 MAD</span><span class="s-x">+</span></button><div class="show-body"><div class="show-body-in"><p class="s-desc">Four friends from Sale who got loud in a garage and stayed loud.</p></div></div></article>
+        <article class="show"><button class="show-head" type="button"><span class="s-date"><b>7</b><span>MON · SEPT</span></span><span class="s-main"><span class="s-artist">Taqsim Club</span><span class="s-tag">TARAB · ORIENTAL JAZZ</span></span><span class="s-status st-ok">AVAILABLE</span><span class="s-price">120 MAD</span><span class="s-x">+</span></button><div class="show-body"><div class="show-body-in"><p class="s-desc">Oud and trumpet arguing beautifully across a hundred years of repertoire.</p></div></div></article>
+        <article class="show"><button class="show-head" type="button"><span class="s-date"><b>10</b><span>THU · SEPT</span></span><span class="s-main"><span class="s-artist">Sofia Lahlou Quartet</span><span class="s-tag">STRINGS · NEW CLASSICAL</span></span><span class="s-status st-ok">AVAILABLE</span><span class="s-price">150 MAD</span><span class="s-x">+</span></button><div class="show-body"><div class="show-body-in"><p class="s-desc">Two violins, a cello, and a premiere written for this exact room.</p></div></div></article>
+        <article class="show"><button class="show-head" type="button"><span class="s-date"><b>14</b><span>MON · SEPT</span></span><span class="s-main"><span class="s-artist">Dar Gnawa &amp; guests</span><span class="s-tag">GNAWA FUSION</span></span><span class="s-status st-few">ONLY 5 LEFT</span><span class="s-price">130 MAD</span><span class="s-x">+</span></button><div class="show-body"><div class="show-body-in"><p class="s-desc">A master from Marrakech is bringing friends, and the floor will move.</p></div></div></article>
+        <article class="show"><button class="show-head" type="button"><span class="s-date"><b>17</b><span>THU · SEPT</span></span><span class="s-main"><span class="s-artist">The Oudayas</span><span class="s-tag">GARAGE ROCK · ALBUM NIGHT</span></span><span class="s-status st-ok">AVAILABLE</span><span class="s-price">90 MAD</span><span class="s-x">+</span></button><div class="show-body"><div class="show-body-in"><p class="s-desc">Named after the kasbah, louder than it. Album-release show.</p></div></div></article>
+      </div>
+      <p class="list-note reveal">ALL AGES · PAY AT THE DOOR (CASH) · NO BOOKING FEES, EVER · NO ALCOHOL!! YES WE KNOW.. YOU'LL SURVIVE.</p>
+    </div>
+  </section>
+
+  <!-- ================= THE ROOM ================= -->
+  <!-- ================= REHEARSALS ================= -->
+  <section class="sec sec-alt" id="rehearsals">
+    <div class="container">
+      <header class="sec-head reveal">
+        <p class="sec-kicker"><b>(02)</b><span>REHEARSALS</span></p>
+        <h2 class="sec-title">Book your <em>Space</em>.</h2>
+        <p class="sec-side">PRACTICE · CREATE<br>THE STAGEE IS YOURS</p>
+      </header>
+      <div class="rehearsal-grid">
+        <div class="rehearsal-copy reveal">
+          <div class="v-block">
+            <h4>CHOOSE A PACK</h4>
+            <div class="pack-list">
+              <label class="pack-card"><input type="radio" name="pack" value="Pack Starter — 900 DHS" checked><span><span class="pack-name">Pack Starter</span><span class="pack-hours">10 HOURS</span></span><span class="pack-price">900 DHS</span></label>
+              <label class="pack-card"><input type="radio" name="pack" value="Pack Regular — 1,700 DHS"><span><span class="pack-name">Pack Regular</span><span class="pack-hours">20 HOURS</span></span><span class="pack-price">1,700 DHS</span></label>
+              <label class="pack-card"><input type="radio" name="pack" value="Pack Pro — 2,400 DHS"><span><span class="pack-name">Pack Pro</span><span class="pack-hours">30 HOURS</span></span><span class="pack-price">2,400 DHS</span></label>
+            </div>
+          </div>
+        </div>
+        <form class="rehearsal-form reveal" id="rehearsalForm" data-d="120" action="https://formsubmit.co/downstage.rabat@email.com" method="POST">
+          <input type="hidden" name="_subject" value="New rehearsal reservation request">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_captcha" value="false">
+          <h3>Reserve a rehearsal session</h3>
+          <div class="rehearsal-fields">
+            <div class="rehearsal-field"><label for="rehearsalDate">DAY</label><input type="date" id="rehearsalDate" name="day"></div>
+            <div class="rehearsal-field"><label for="rehearsalTime">TIME</label><input type="time" id="rehearsalTime" name="time"></div>
+          </div>
+          <div class="rehearsal-field" style="margin-top:20px"><label for="rehearsalHours">HOW MANY HOURS?</label><input type="number" id="rehearsalHours" name="hours" min="1" max="30" step="1" value="1" required></div>
+          <div class="rehearsal-field" style="margin-top:20px"><label for="rehearsalName">YOUR NAME</label><input type="text" id="rehearsalName" name="name" placeholder="Band or artist name" required></div>
+          <div class="rehearsal-fields" style="margin-top:20px">
+            <div class="rehearsal-field"><label for="rehearsalEmail">EMAIL</label><input type="email" id="rehearsalEmail" name="email" placeholder="you@example.com" required></div>
+            <div class="rehearsal-field"><label for="rehearsalPhone">PHONE</label><input type="tel" id="rehearsalPhone" name="phone" placeholder="06 00 00 00 00" required></div>
+          </div>
+          <div class="rehearsal-actions">
+            <button class="btn btn-line rehearsal-submit" type="submit" name="requestType" value="Hourly rehearsal session">Request hourly session</button>
+            <button class="btn btn-solid rehearsal-submit" type="submit" name="requestType" value="Pack offer purchase">Buy pack offer</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec sec-alt" id="room">
+    <div class="container">
+      <header class="sec-head reveal">
+        <p class="sec-kicker"><b>(03)</b><span>THE STAGE</span></p>
+        <h2 class="sec-title">Two point eight <em>metres</em>.</h2>
+        <p class="sec-side">SECTION A–A′<br>NOT TO SCALE, BUT HONEST</p>
+      </header>
+
+      <div class="room-wrap">
+        <figure class="room-fig lit-stage reveal" id="roomFig">
+          <svg id="roomSvg" viewBox="0 0 1000 470" role="img" aria-label="Cross-section drawing of the Downstage room">
+            <!-- ground + ceiling -->
+            <line class="ln0 thin faint" x1="24" y1="380" x2="976" y2="380"/>
+            <line class="ln0" x1="24" y1="56" x2="976" y2="56"/>
+            <path class="ln0 thin" id="g-ticks" d=""/>
+
+            <!-- 2.8 m dimension -->
+            <g id="f-dim">
+              <path class="ln0 thin dash" d="M290 300 V246 M300 350 V246"/>
+              <path class="ln0" d="M290 250 h10"/>
+              <path class="arrow" d="M290 250 l4.5 -3.2 v6.4 Z M300 250 l-4.5 -3.2 v6.4 Z"/>
+              <text x="308" y="254">2.8 m</text>
+            </g>
+
+            <!-- pendant lamps over the audience -->
+            <g id="f-pendants" class="feat">
+              <g transform="translate(360,0)"><line class="ln0 thin" x1="0" y1="56" x2="0" y2="118"/><path class="ln0" d="M-12 118 h24 l-5 11 h-14 Z"/><circle class="bulb" cx="0" cy="133" r="3"/><circle class="halo" cx="0" cy="126" r="34"/></g>
+              <g transform="translate(540,0)"><line class="ln0 thin" x1="0" y1="56" x2="0" y2="118"/><path class="ln0" d="M-12 118 h24 l-5 11 h-14 Z"/><circle class="bulb" cx="0" cy="133" r="3"/><circle class="halo" cx="0" cy="126" r="34"/></g>
+              <g transform="translate(720,0)"><line class="ln0 thin" x1="0" y1="56" x2="0" y2="118"/><path class="ln0" d="M-12 118 h24 l-5 11 h-14 Z"/><circle class="bulb" cx="0" cy="133" r="3"/><circle class="halo" cx="0" cy="126" r="34"/></g>
+            </g>
+
+            <!-- stage structure -->
+            <g id="f-stage" class="feat">
+              <rect class="ln0" x="40" y="306" width="250" height="74"/>
+              <path class="ln0 thin" id="g-hatch" d=""/>
+              <line class="ln0" x1="48" y1="92" x2="280" y2="92"/>
+              <path class="ln0" d="M100 92 h20 l-5 12 h-10 Z"/>
+              <path class="ln0" d="M200 92 h20 l-5 12 h-10 Z"/>
+              <!-- amp + mic stand -->
+              <rect class="ln0" x="228" y="278" width="30" height="28"/>
+              <line class="ln0 thin" x1="232" y1="288" x2="254" y2="288"/>
+              <line class="ln0 thin" x1="232" y1="293" x2="254" y2="293"/>
+              <circle class="ln0" cx="243" cy="284" r="2"/>
+              <line class="ln0" x1="272" y1="306" x2="272" y2="256"/>
+              <line class="ln0" x1="272" y1="256" x2="264" y2="248"/>
+              <circle class="ln0" cx="262" cy="246" r="4"/>
+              <ellipse class="ln0 thin" cx="272" cy="306" rx="10" ry="2.5"/>
+            </g>
+
+            <!-- house STUDIO -->
+            <g id="f-piano" class="feat">
+              <rect class="ln0" x="70" y="272" width="126" height="20" rx="7"/>
+              <line class="ln0" x1="76" y1="270" x2="196" y2="250"/>
+              <line class="ln0" x1="84" y1="292" x2="84" y2="306"/>
+              <line class="ln0" x1="180" y1="292" x2="180" y2="306"/>
+              <circle class="ln0" cx="84" cy="306" r="2.5"/>
+              <circle class="ln0" cx="180" cy="306" r="2.5"/>
+              <rect class="ln0" x="196" y="264" width="16" height="16"/>
+            </g>
+
+            <!-- light beams + stage pool -->
+            <g id="f-beams">
+              <polygon class="beam" points="103,106 117,106 262,306 152,306"/>
+              <polygon class="beam" points="203,106 217,106 288,306 178,306"/>
+            </g>
+            <ellipse id="g-stageglow" cx="170" cy="307" rx="130" ry="10"/>
+
+            <!-- audience -->
+            <g id="f-seats" class="feat">
+              <path id="g-treads" class="ln0 faint" d=""/>
+              <path id="g-seats" class="seatp" d=""/>
+            </g>
+
+            <!-- sound desk -->
+            <g id="f-desk" class="feat">
+              <rect class="ln0" x="504" y="268" width="42" height="8"/>
+              <line class="ln0" x1="508" y1="276" x2="508" y2="290"/>
+              <line class="ln0" x1="542" y1="276" x2="542" y2="290"/>
+              <rect class="ln0" x="508" y="262" width="32" height="6"/>
+              <path class="ln0 thin" d="M512 262 v-5 M518 262 v-5 M524 262 v-5 M530 262 v-5"/>
+              <circle class="ln0" cx="525" cy="296" r="6"/>
+              <line class="ln0 thin" x1="525" y1="302" x2="525" y2="312"/>
+            </g>
+
+            <!-- the bar -->
+            <g id="f-bar" class="feat">
+              <g class="person">
+                <circle cx="940" cy="262" r="5"/>
+                <path d="M940 267 v58"/>
+                <path d="M940 284 Q955 272 950 252"/>
+              </g>
+              <rect class="ln0" x="856" y="298" width="104" height="6"/>
+              <rect class="ln0" x="860" y="304" width="96" height="58"/>
+              <line class="ln0 thin" x1="864" y1="330" x2="952" y2="330"/>
+              <line class="ln0 thin" x1="866" y1="362" x2="866" y2="378"/>
+              <line class="ln0 thin" x1="950" y1="362" x2="950" y2="378"/>
+              <line class="ln0" x1="856" y1="240" x2="960" y2="240"/>
+              <g id="g-bottles"></g>
+              <rect class="ln0" x="866" y="280" width="22" height="18"/>
+              <path class="ln0 thin" d="M887 280 q4 -6 0 -12"/>
+              <rect class="ln0 thin" x="912" y="290" width="7" height="8"/>
+              <rect class="ln0 thin" x="922" y="288" width="8" height="10"/>
+              <g><circle class="ln0" cx="806" cy="332" r="7"/><line class="ln0 thin" x1="806" y1="339" x2="806" y2="378"/><path class="ln0 thin" d="M798 378 h16"/></g>
+              <g>
+                <circle class="ln0" cx="834" cy="332" r="7"/>
+                <line class="ln0 thin" x1="834" y1="339" x2="834" y2="378"/>
+                <path class="ln0 thin" d="M826 378 h16"/>
+                <g class="person">
+                  <circle cx="834" cy="308" r="5"/>
+                  <path d="M834 313 q-4 12 -2 19"/>
+                  <path d="M832 332 l12 3 M844 335 l-2 14"/>
+                  <path d="M833 320 Q848 314 856 304"/>
+                </g>
+              </g>
+              <text x="908" y="228" text-anchor="middle" style="letter-spacing:.55em">B·A·R</text>
+            </g>
+
+            <!-- numbered markers -->
+            <g id="f-markers">
+              <g class="marker" data-target="f-stage" transform="translate(160,342)"><circle class="mkc" r="11"/><text class="mkt" y="3.5">1</text></g>
+              <g class="marker" data-target="f-piano" transform="translate(120,238)"><circle class="mkc" r="11"/><text class="mkt" y="3.5">2</text></g>
+              <g class="marker" data-target="f-desk" transform="translate(525,244)"><circle class="mkc" r="11"/><text class="mkt" y="3.5">3</text></g>
+              <g class="marker" data-target="f-bar" transform="translate(928,270)"><circle class="mkc" r="11"/><text class="mkt" y="3.5">4</text></g>
+              <g class="marker" data-target="f-seats" transform="translate(420,322)"><circle class="mkc" r="11"/><text class="mkt" y="3.5">5</text></g>
+            </g>
+          </svg>
+          <figcaption class="room-cap">LIVE SECTION — RUN YOUR CURSOR OVER THE LEGEND, OR OVER THE NUMBERS. PULL THE HOUSE LIGHTS WHEN YOU'RE READY.</figcaption>
+        </figure>
+
+        <div class="room-side reveal" data-d="120">
+          <div class="lights">
+            <span class="lights-label">HOUSE STATE</span>
+            <div class="lights-seg">
+              <button class="lt-btn on" data-mode="stage" aria-pressed="true">Stage lights</button>
+              <button class="lt-btn" data-mode="house" aria-pressed="false">House lights</button>
+            </div>
+          </div>
+          <ol class="legend" id="legend">
+            <li data-target="f-stage" tabindex="0"><span class="lg-no">01</span><div><h4>The stage</h4><p>Four by two metres, wood, no barrier. What the artist hears is what you hear.</p></div></li>
+            <li data-target="f-piano" tabindex="0"><span class="lg-no">02</span><div><h4>The house piano</h4><p>A 1974 Yamaha U3, tuned monthly whether it needs it or not. Bands may not move it. Everyone wants to.</p></div></li>
+            <li data-target="f-desk" tabindex="0"><span class="lg-no">03</span><div><h4>Front of house</h4><p>One desk tucked into the aisle, one engineer, no mystery support-act mixes.</p></div></li>
+            <li data-target="f-bar" tabindex="0"><span class="lg-no">04</span><div><h4>The bar</h4><p>Mint tea for 8 dirhams, one honestly good vermouth, and the merch chair — where artists keep 100%.</p></div></li>
+            <li data-target="f-seats" tabindex="0"><span class="lg-no">05</span><div><h4>Eighty-four seats</h4><p>Six raked rows. The last row is still closer than most rooms' front.</p></div></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- interval divider -->
+  <div class="interval container reveal" aria-hidden="true">
+    <span class="iv-line"></span>
+    <span>INTERVAL — 15 MINUTES · THE COFFEE SHOP IS OPEN</span>
+    <span class="iv-line"></span>
+  </div>
+
+  <!-- ================= STORY ================= -->
+  <section class="sec" id="story">
+    <div class="container">
+      <header class="sec-head reveal">
+        <p class="sec-kicker"><b>(04)</b><span>OUR STORY</span></p>
+        <h2 class="sec-title">Downstage — A <em>Tatmin</em> Creative Space</h2>
+        <p class="sec-side">MUSIC · COMEDY<br>PERFORMANCE · CREATION</p>
+      </header>
+      <div class="story-grid">
+        <div class="story-copy reveal">
+          <p><strong>Downstage is a creative and cultural space by Tatmin, dedicated to music, comedy, performance, and artistic creation.</strong></p>
+          <p>Based in Rabat, Downstage brings together artists, musicians, comedians, producers, and audiences through live concerts, jam sessions, comedy shows, workshops, masterclasses, rehearsals, recording sessions, and artistic residencies.</p>
+          <p>As part of Tatmin, Downstage is more than a stage — it is a place to create, experiment, collaborate, and discover new talent.</p>
+          <p>From emerging artists to established performers, our goal is to build a space where creativity has a place to grow.</p>
+          <blockquote>
+            Downstage<br>
+            <em>A stage for creation, culture, and connection.</em>
+          </blockquote>
+        </div>
+        <div class="story-media reveal" data-d="120">
+          <figure class="ph ph-1">
+            <img src="https://picsum.photos/seed/downstage-room/460/340.jpg" alt="The room before doors open" loading="lazy">
+            <figcaption>THE ROOM, HALF AN HOUR BEFORE DOORS.</figcaption>
+          </figure>
+          <figure class="ph ph-2">
+            <img src="https://picsum.photos/seed/downstage-bar/380/300.jpg" alt="The bar at intermission" loading="lazy">
+            <figcaption>INTERMISSION — THE COFFESHOP DOES MOST OF ITS THINKING HERE.</figcaption>
+          </figure>
+        </div>
+      </div>
+      <div class="stats reveal">
+        <div class="stat"><b>100</b><span>SEATS, ALL OF THEM CLOSE</span></div>
+        <div class="stat"><b>1 m</b><span>STAGE TO FIRST ROW</span></div>
+        <div class="stat"><b>3</b><span>CONCERTS AND COUNTING</span></div>
+        <div class="stat"><b>TATMIN</b><span>THE WHITE ROOM</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= HOUSE RULES ================= -->
+  <section class="sec sec-alt" id="rules">
+    <div class="container">
+      <header class="sec-head reveal">
+        <p class="sec-kicker"><b>(05)</b><span>HOUSE RULES</span></p>
+        <h2 class="sec-title">Gently <em>enforced</em>.</h2>
+        <p class="sec-side">ASKED KINDLY<br>BY SALMA, AT THE DOOR</p>
+      </header>
+      <ol class="rules">
+        <li class="reveal"><span class="r-no">01</span><p>Phones UP. If you must film something, film <em>share and tag us for gods sake</em>.</p></li>
+        <li class="reveal" data-d="60"><span class="r-no">02</span><p>Conversations live at the COFFESHOP. <em>The room listens.</em></p></li>
+        <li class="reveal" data-d="120"><span class="r-no">03</span><p>Doors at 19:00, first set at 19:30 sharp. <em>The artist decides when it ends.</em></p></li>
+        <li class="reveal" data-d="180"><span class="r-no">04</span><p>There's a merch chair by the coffeshop.</em>.</p></li>
+        <li class="reveal" data-d="240"><span class="r-no">05</span><p>Mint tea is 10 dirhams. <em>The atay is worth the splurge.</em></p></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ================= VISIT ================= -->
+  <section class="sec" id="visit">
+    <div class="container">
+      <header class="sec-head reveal">
+        <p class="sec-kicker"><b>(06)</b><span>VISIT</span></p>
+        <h2 class="sec-title">Find the <em>door</em>.</h2>
+        <p class="sec-side">WED–SAT · TRAM TO AV. MOHAMMED V<br>TWO MINUTES FROM BAB EL HAD</p>
+      </header>
+      <div class="visit-grid">
+        <div class="visit-info reveal">
+          <p class="addr">8 Rue Aknoul<br><i>Rabat</i> 10000 — Morocco</p>
+          <div class="v-block">
+            <h4>HOURS</h4>
+            <p class="v-lines">MON–SUN — DOORS 19:30 · FIRST SET 19H · LAST POUR 22:00</p>
+          </div>
+          <div class="v-block">
+            <h4>CONTACT</h4>
+            <p class="v-lines"><strong>TALK TO US — CALL <a href="tel:+212693486997">+212693486997</a></strong><br><strong>WANT TO PLAY? SEND A TAPE TO <a href="mailto:downstage.rabat@gmail.com">downstage.rabat@gmail.com</a> — WE LISTEN TO EVERYTHING.</strong></p>
+          </div>
+          <form class="nl" id="nlForm" novalidate>
+            <h4>THE NEWS LETTER</h4>
+            <div class="nl-row">
+              <input type="email" id="nlEmail" placeholder="you@somewhere.ma" aria-label="Your email">
+              <button class="btn btn-solid" type="submit">Sign up</button>
+            </div>
+            <p class="nl-note">EVERY MONTH: WHO'S ON, WHO CANCELLED, ONE SONG WE CAN'T STOP PLAYING. NOISE, MASTERCLASSES, AND SPECIAL EVENTS.</p>
+          </form>
+        </div>
+        <figure class="map-fig reveal" data-d="120">
+          <iframe class="map-embed" src="https://www.google.com/maps?q=34.025185,-6.828483&amp;z=17&amp;output=embed" title="Downstage exact location" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+          <figcaption class="map-cap">8 RUE AKNOUL · RABAT 10000</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="container">
+    <p class="foot-word reveal">downstage<b>.</b></p>
+    <p class="foot-tag reveal">RABAT'S SPECIAL SPACE — 100 SPECTATORS, ONE STAGE, NO BAD SEAT.</p>
+    <div class="foot-cols">
+      <div class="fc">
+        <h5>NAVIGATE</h5>
+        <a href="#programme">Programme</a><a href="#room">The STAGE</a><a href="#story">Story</a><a href="#rehearsals">Rehearsals</a><a href="#visit">Visit</a>
+      </div>
+      <div class="fc">
+        <h5>FOLLOW</h5>
+        <a href="https://www.instagram.com/downstage.rabat?igsi=OWpsNDlvbnlnZ3Ft&amp;utm_source=qr" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <button class="toastlink" data-t="Bandcamp" data-s="Friday sessions, recorded live off the desk.">REHEARSALS</button>
+        <button class="toastlink" data-t="Book a residency/project" data-s="Tell us about your residency or creative project and we will get back to you.">Book a residency/project</button>
+      </div>
+      <div class="fc">
+        <h5>PRACTICAL</h5>
+        <button class="toastlink" data-t="Press kit" data-s="Email DOWNSTAGE.RABAT@GMAIL.COM — it's yours within a day.">Press kit</button>
+        <button class="toastlink" data-t="Accessibility" data-s="Step-free entry on the left of the door — ring the bell, we'll open the side gate.">Accessibility</button>
+        <button class="toastlink" data-t="The piano" data-s="The piano stays where it is. We're serious about this.">The COFFESHOP</button>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© 2026 DOWNSTAGE · RABAT, MOROCCO</span>
+      <span>ROOM TO GROW</span>
+      <a href="#top">BACK TO TOP ↑</a>
+    </div>
+  </div>
+</footer>
+
+<!-- floating show preview -->
+<div class="show-preview" id="showPreview" aria-hidden="true">
+  <div class="sp-in">
+    <img id="spImg" alt="">
+    <div class="sp-bar" id="spBar"></div>
+  </div>
+</div>
+
+<!-- booking modal -->
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
+  <div class="modal-back" data-close></div>
+  <div class="modal-panel">
+    <button class="modal-x" data-close aria-label="Close">
+      <svg viewBox="0 0 12 12" fill="none"><path d="M1 1l10 10M11 1L1 11"/></svg>
+    </button>
+    <p class="modal-kicker" id="modalKicker">RESERVATION</p>
+    <h3 id="modalTitle">—</h3>
+    <p class="modal-sub" id="modalSub">—</p>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<div class="toasts" id="toasts"></div>
+
+<script>
+/* =========================================================
+   helpers
+========================================================= */
+const $  = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function toast(title, sub){
+  const t = document.createElement('div');
+  t.className = 'toast';
+  t.innerHTML = `<svg viewBox="0 0 20 20" fill="none" stroke="#e6a03f" stroke-width="1.6"><circle cx="10" cy="10" r="8.5"/><path d="M6.2 10.3l2.6 2.6 5-5.6"/></svg><div><b>${title}</b><span>${sub}</span></div>`;
+  $('#toasts').appendChild(t);
+  requestAnimationFrame(()=> requestAnimationFrame(()=> t.classList.add('on')));
+  setTimeout(()=>{ t.classList.remove('on'); setTimeout(()=> t.remove(), 400); }, 4600);
+}
+
+/* =========================================================
+   programme data (dates computed from today, always upcoming)
+========================================================= */
+const SHOWS = [
+  {off:4,  a:"djam session",            tag:"house band · inasolute", desc:"One nylon-string guitar and a voice that barely needs the mic. Forty minutes of new songs about night buses and leaving Casablanca at dawn.", price:80,  seats:9,  seed:"ds-yasmina"},
+  {off:7,  a:"Masterclass — Management", tag:"ARTIST DEVELOPMENT · CAREER STRATEGY", desc:"A masterclass focused on music management, covering artist development, career strategy, booking, promotion, and the key tools needed to build a successful career in the music industry.", price:0, seats:21, seed:"ds-masterclass"},
+  {off:11, a:"Bouregreg Sound System",  tag:"LIVE DUB · ELECTRONICS", desc:"Analog delays, a borrowed riq, and bass you feel in the chair. Free earplugs on the merch chair — tonight you might want them.", price:140, seats:0,  seed:"ds-bouregreg"},
+  {off:14, a:"Hajar & The Wolves",      tag:"ALTERNATIVE ROCK",       desc:"Four friends from Salé who got loud in a garage and stayed loud. Hometown energy, brand-new record, hand-painted sleeves at the merch chair.", price:100, seats:30, seed:"ds-wolves"},
+  {off:18, a:"Taqsim Club",             tag:"TARAB · ORIENTAL JAZZ",  desc:"Oud and trumpet arguing beautifully across a hundred years of repertoire. The late set goes long tonight — plan for it.", price:120, seats:14, seed:"ds-taqsim"},
+  {off:21, a:"Sofia Lahlou Quartet",    tag:"STRINGS · NEW CLASSICAL",desc:"Two violins, a cello, and a premiere written for this exact room. No amplification — the wool curtains do the work.", price:150, seats:26, seed:"ds-quartet"},
+  {off:25, a:"Dar Gnawa & guests",      tag:"GNAWA FUSION",           desc:"The guembri does not need a spotlight. A master from Marrakech is bringing friends, and the floor will move.", price:130, seats:5,  seed:"ds-gnawa"},
+  {off:28, a:"The Oudayas",             tag:"GARAGE ROCK · ALBUM NIGHT", desc:"Named after the kasbah, louder than it. Album-release show — the first fifty through the door get the blue vinyl.", price:90, seats:44, seed:"ds-oudayas"},
+];
+
+function fmtDate(off){
+  const d = new Date(); d.setDate(d.getDate()+off);
+  return {
+    wd:  d.toLocaleDateString('en-GB',{weekday:'short'}).toUpperCase(),
+    day: d.getDate(),
+    mo:  d.toLocaleDateString('en-GB',{month:'short'}).toUpperCase(),
+    full:d.toLocaleDateString('en-GB',{weekday:'long', day:'numeric', month:'long'})
+  };
+}
+
+function statusHTML(s){
+  if(s.seats===0)  return `<span class="st st-sold">SOLD OUT</span>`;
+  if(s.seats<=12)  return `<span class="st st-few">ONLY ${s.seats} LEFT</span>`;
+  return `<span class="st st-ok"><i></i>AVAILABLE</span>`;
+}
+
+function renderShows(){
+  $('#showList').innerHTML = SHOWS.map((s,i)=>{
+    const d = fmtDate(s.off);
+    return `<article class="show reveal" data-i="${i}" data-d="${Math.min(i*45,270)}">
+      <button class="show-head" aria-expanded="false" title="${s.a} — ${s.desc}">
+        <span class="s-date"><b>${d.day}</b><span>${d.wd} · ${d.mo}</span></span>
+        <span class="s-main"><span class="s-artist">${s.a}</span><span class="s-tag">${s.tag}</span></span>
+        <span class="s-status">${statusHTML(s)}</span>
+        <span class="s-price">${s.price} MAD</span>
+        <span class="s-x"><svg viewBox="0 0 16 16" fill="none" stroke-width="1.6"><path d="M8 2v12M2 8h12"/></svg></span>
+      </button>
+      <div class="show-hover-note"><strong>${s.a}</strong>${s.desc}</div>
+      <div class="show-body"><div class="show-body-in">
+        <p class="s-desc">${s.desc}</p>
+        <div class="s-actions">
+          <span class="s-times">DOORS 19:30 · FIRST SET 20:30</span>
+          ${s.seats===0
+            ? `<button class="btn btn-line warn" data-wait="${i}">Join the waitlist</button>`
+            : `<button class="btn btn-line" data-book="${i}">Reserve — ${s.price} MAD</button>`}
+        </div>
+      </div></div>
+    </article>`;
+  }).join('');
+}
+renderShows();
+
+/* accordion behaviour */
+ $('#showList').addEventListener('click', e=>{
+  const head = e.target.closest('.show-head');
+  if(!head) return;
+  const body = head.nextElementSibling;
+  const open = head.getAttribute('aria-expanded') === 'true';
+  $$('.show-head[aria-expanded="true"]').forEach(h=>{
+    h.setAttribute('aria-expanded','false');
+    h.nextElementSibling.style.maxHeight = '0px';
+  });
+  if(!open){
+    head.setAttribute('aria-expanded','true');
+    body.style.maxHeight = body.scrollHeight + 'px';
+  }
+});
+
+/* keep expanded panels sized on resize */
+addEventListener('resize', ()=>{
+  $$('.show-head[aria-expanded="true"]').forEach(h=>{
+    h.nextElementSibling.style.maxHeight = h.nextElementSibling.scrollHeight + 'px';
+  });
+});
+
+/* rehearsal reservation request */
+const rehearsalDate = $('#rehearsalDate');
+if(rehearsalDate){
+  rehearsalDate.min = new Date().toISOString().split('T')[0];
+  $('#rehearsalForm').addEventListener('submit', e=>{
+    const isPackPurchase = e.submitter?.value === 'Pack offer purchase';
+    if(isPackPurchase){
+      rehearsalDate.value = '';
+      $('#rehearsalTime').value = '';
+      return;
+    }
+    if(!rehearsalDate.value || !$('#rehearsalTime').value){
+      e.preventDefault();
+      toast('Choose a day and time', 'Hourly rehearsal requests need both before sending.');
+    }
+  });
+}
+
+/* Keep event descriptions visible across pointer and touch interactions. */
+$('#showList').addEventListener('pointerover', e=>{
+  const row = e.target.closest('.show');
+  if(!row || e.relatedTarget instanceof Node && row.contains(e.relatedTarget)) return;
+  row.classList.add('show-hover-active');
+});
+$('#showList').addEventListener('pointerout', e=>{
+  const row = e.target.closest('.show');
+  if(!row || e.relatedTarget instanceof Node && row.contains(e.relatedTarget)) return;
+  row.classList.remove('show-hover-active');
+});
+
+/* hide the header on downward scroll and restore it on upward scroll */
+const siteHead = $('#siteHead');
+let lastScrollY = scrollY;
+let scrollTicking = false;
+addEventListener('scroll', ()=>{
+  if(scrollTicking) return;
+  scrollTicking = true;
+  requestAnimationFrame(()=>{
+    const currentScrollY = scrollY;
+    siteHead.classList.toggle('scrolled', currentScrollY > 12);
+    if(currentScrollY <= 12 || currentScrollY < lastScrollY){
+      siteHead.classList.remove('nav-hidden');
+    }else if(currentScrollY > lastScrollY){
+      siteHead.classList.add('nav-hidden');
+    }
+    lastScrollY = currentScrollY;
+    scrollTicking = false;
+  });
+},{passive:true});
+
+/* floating image preview (desktop pointer only) */
+(function(){
+  if(!matchMedia('(hover:hover) and (min-width:900px)').matches) return;
+  const pv = $('#showPreview'), img = $('#spImg'), bar = $('#spBar');
+  let tx=0, ty=0, x=0, y=0, rot=0, on=false, raf=null;
+  function loop(){
+    x += (tx-x)*.16; y += (ty-y)*.16; rot *= .88;
+    pv.style.transform = `translate(${x}px,${y}px) rotate(${rot}deg)`;
+    if(on || Math.abs(tx-x) > .5) raf = requestAnimationFrame(loop); else raf = null;
+  }
+  $('#showList').addEventListener('pointermove', e=>{
+    const last = tx;
+    tx = e.clientX + 26; ty = e.clientY - 150;
+    if(tx + 275 > innerWidth) tx = e.clientX - 278;
+    rot = Math.max(-7, Math.min(7, (tx-last)*.4));
+    if(!raf) raf = requestAnimationFrame(loop);
+  });
+  $('#showList').addEventListener('pointerover', e=>{
+    const row = e.target.closest('.show');
+    if(!row || e.relatedTarget instanceof Node && row.contains(e.relatedTarget)) return;
+    const s = SHOWS[+row.dataset.i], d = fmtDate(s.off);
+      img.src = `https://picsum.photos/seed/${s.seed}/420/300.jpg`;
+      bar.innerHTML = `<b>${s.a}</b><span>${d.wd} ${d.day} ${d.mo}</span>`;
+      pv.classList.add('on'); on = true;
+      if(!raf) raf = requestAnimationFrame(loop);
+  });
+  $('#showList').addEventListener('pointerout', e=>{
+    const row = e.target.closest('.show');
+    if(!row || e.relatedTarget instanceof Node && row.contains(e.relatedTarget)) return;
+      pv.classList.remove('on');
+      on = false;
+  });
+})();
+
+/* reveal content as it enters the viewport */
+const revealObserver = new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(!entry.isIntersecting) return;
+    const delay = Number(entry.target.dataset.d || 0);
+    setTimeout(()=>entry.target.classList.add('in'), reduced ? 0 : delay);
+    revealObserver.unobserve(entry.target);
+  });
+},{threshold:.08});
+
+$$('.reveal').forEach(el=>revealObserver.observe(el));
