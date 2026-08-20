@@ -961,11 +961,13 @@ if(rehearsalDate){
     try {
       const response = await fetch(form.action, {method:'POST', body:data, headers:{Accept:'application/json'}});
       if(!response.ok) throw new Error('Request failed');
+      const result = await response.json();
+      if(result.success === false || result.success === 'false') throw new Error('Form activation required');
       toast('Thank you for your purchase', 'We will contact you ASAP.');
       form.reset();
       rehearsalDate.min = new Date().toISOString().split('T')[0];
     } catch(error) {
-      toast('Something went wrong', 'Please try again or email downstage.rabat@gmail.com.');
+      toast(error.message === 'Form activation required' ? 'Activate the form first' : 'Something went wrong', error.message === 'Form activation required' ? 'Click the Activate Form link sent to downstage.rabat@gmail.com, then try again.' : 'Please try again or email downstage.rabat@gmail.com.');
     } finally {
       form.querySelectorAll('button[type="submit"]').forEach(button=>{ button.disabled = false; });
     }
