@@ -872,7 +872,7 @@ function renderShows(){
   $('#showList').innerHTML = SHOWS.map((s,i)=>{
     const d = fmtDate(s.off);
     return `<article class="show reveal" data-i="${i}" data-d="${Math.min(i*45,270)}">
-      <button class="show-head" aria-expanded="false" title="${s.a} — ${s.desc}">
+      <button class="show-head" aria-expanded="false">
         <span class="s-date"><b>${d.day}</b><span>${d.wd} · ${d.mo}</span></span>
         <span class="s-main"><span class="s-artist">${s.a}</span><span class="s-tag">${s.tag}</span></span>
         <span class="s-status">${statusHTML(s)}</span>
