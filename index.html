@@ -167,6 +167,8 @@ input.bad{border-color:var(--red)}
 /* ============ the room ============ */
 .room-wrap{display:grid;grid-template-columns:minmax(0,1fr) 350px;gap:60px;align-items:start}
 .room-fig{margin:0;border:1px solid var(--hair);padding:clamp(10px,2.4vw,26px);background:var(--bg)}
+.room-fig .stage-photo{display:block;width:100%;aspect-ratio:1000/470;object-fit:cover;filter:sepia(.2) saturate(.85) contrast(1.05) brightness(.8)}
+.room-fig > svg{display:none}
 .lit-stage{--beam:.13}.lit-house{--beam:0}
 .room-svg{width:100%;height:auto;display:block}
 .room-svg .ln0{fill:none;stroke:rgba(236,227,210,.78);stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
@@ -538,6 +540,7 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
 
       <div class="room-wrap">
         <figure class="room-fig lit-stage reveal" id="roomFig">
+          <img class="stage-photo" src="stage.jpeg" alt="Downstage under stage lighting" loading="lazy">
           <svg id="roomSvg" viewBox="0 0 1000 470" role="img" aria-label="Cross-section drawing of the Downstage room">
             <!-- ground + ceiling -->
             <line class="ln0 thin faint" x1="24" y1="380" x2="976" y2="380"/>
