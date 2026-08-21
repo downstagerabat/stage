@@ -134,8 +134,9 @@ input.bad{border-color:var(--red)}
 .show{border-top:1px solid var(--hair)}
 .show:hover{background:rgba(236,227,210,.035);z-index:30}
 .show{position:relative;z-index:1}
-.show-hover-note{display:block;background:var(--panel);border:1px solid var(--amber);margin:0 10px 12px;padding:16px 18px;color:var(--dim);font-size:.98rem;line-height:1.55}
-.show-hover-note strong{display:block;color:var(--ink);font:500 1.2rem var(--serif);margin-bottom:6px}
+.show-hover-note{display:none;background:var(--panel);border:1px solid var(--amber);border-left:4px solid var(--red);margin:0 10px 18px;padding:22px 26px;color:var(--dim);font-size:1.18rem;line-height:1.65;box-shadow:12px 12px 0 rgba(230,160,63,.08);animation:show-note-in .3s var(--ease)}
+.show-hover-note strong{display:block;color:var(--amber);font:600 1.45rem/1.15 var(--serif);letter-spacing:.01em;margin-bottom:8px}
+@keyframes show-note-in{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
 .show:hover .show-hover-note,.show.show-hover-active .show-hover-note{display:block}
 .show:last-of-type{border-bottom:1px solid var(--hair)}
 .show-head{display:grid;grid-template-columns:104px 1fr 172px 108px 56px;align-items:center;gap:20px;
@@ -877,6 +878,7 @@ function renderShows(){
         <span class="s-price">${s.price} MAD</span>
         <span class="s-x"><svg viewBox="0 0 16 16" fill="none" stroke-width="1.6"><path d="M8 2v12M2 8h12"/></svg></span>
       </button>
+      <div class="show-hover-note"><strong>${s.a}</strong>${s.desc}</div>
       <div class="show-body"><div class="show-body-in">
         <div class="s-actions">
           <span class="s-times">DOORS 19:30 · FIRST SET 20:30</span>
