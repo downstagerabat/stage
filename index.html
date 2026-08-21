@@ -163,14 +163,6 @@ input.bad{border-color:var(--red)}
 .s-times{font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--faint)}
 .list-note{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:var(--faint);margin-top:24px;line-height:2}
 
-/* floating preview */
-.show-preview{position:fixed;left:0;top:0;width:252px;z-index:60;pointer-events:none;will-change:transform}
-.sp-in{opacity:0;transform:scale(.9) translateY(8px);transition:.28s var(--ease)}
-.show-preview.on .sp-in{opacity:1;transform:none}
-.sp-in img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;border:1px solid var(--hair);filter:sepia(.25) contrast(1.05) brightness(.85)}
-.sp-bar{background:var(--panel);border:1px solid var(--hair);border-top:0;padding:9px 12px;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:var(--dim);display:flex;justify-content:space-between;gap:12px}
-.sp-bar b{color:var(--ink);font-weight:400}
-
 /* ============ the room ============ */
 .room-wrap{display:grid;grid-template-columns:minmax(0,1fr) 350px;gap:60px;align-items:start}
 .room-fig{margin:0;border:1px solid var(--hair);padding:clamp(10px,2.4vw,26px);background:var(--bg)}
@@ -811,14 +803,6 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
   </div>
 </footer>
 
-<!-- floating show preview -->
-<div class="show-preview" id="showPreview" aria-hidden="true">
-  <div class="sp-in">
-    <img id="spImg" alt="">
-    <div class="sp-bar" id="spBar"></div>
-  </div>
-</div>
-
 <!-- booking modal -->
 <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
   <div class="modal-back" data-close></div>
@@ -856,7 +840,7 @@ function toast(title, sub){
    programme data (dates computed from today, always upcoming)
 ========================================================= */
 const SHOWS = [
-  {off:4,  a:"djam session",            tag:"house band · inasolute", desc:"One nylon-string guitar and a voice that barely needs the mic. Forty minutes of new songs about night buses and leaving Casablanca at dawn.", price:80,  seats:9,  seed:"ds-yasmina"},
+  {off:4,  a:"djam session",            tag:"house band · inasolute", desc:"The night kicks off with a live set by our house band, Inabsolute, before opening the stage to musicians for an evening of improvisation, collaboration, and spontaneous musical moments.", price:80,  seats:9,  seed:"ds-yasmina"},
   {off:7,  a:"Masterclass — Management", tag:"ARTIST DEVELOPMENT · CAREER STRATEGY", desc:"A masterclass focused on music management, covering artist development, career strategy, booking, promotion, and the key tools needed to build a successful career in the music industry.", price:0, seats:21, seed:"ds-masterclass"},
   {off:11, a:"Bouregreg Sound System",  tag:"LIVE DUB · ELECTRONICS", desc:"Analog delays, a borrowed riq, and bass you feel in the chair. Free earplugs on the merch chair — tonight you might want them.", price:140, seats:0,  seed:"ds-bouregreg"},
   {off:14, a:"Hajar & The Wolves",      tag:"ALTERNATIVE ROCK",       desc:"Four friends from Salé who got loud in a garage and stayed loud. Hometown energy, brand-new record, hand-painted sleeves at the merch chair.", price:100, seats:30, seed:"ds-wolves"},
@@ -999,40 +983,6 @@ addEventListener('scroll', ()=>{
     scrollTicking = false;
   });
 },{passive:true});
-
-/* floating image preview (desktop pointer only) */
-(function(){
-  if(!matchMedia('(hover:hover) and (min-width:900px)').matches) return;
-  const pv = $('#showPreview'), img = $('#spImg'), bar = $('#spBar');
-  let tx=0, ty=0, x=0, y=0, rot=0, on=false, raf=null;
-  function loop(){
-    x += (tx-x)*.16; y += (ty-y)*.16; rot *= .88;
-    pv.style.transform = `translate(${x}px,${y}px) rotate(${rot}deg)`;
-    if(on || Math.abs(tx-x) > .5) raf = requestAnimationFrame(loop); else raf = null;
-  }
-  $('#showList').addEventListener('pointermove', e=>{
-    const last = tx;
-    tx = e.clientX + 26; ty = e.clientY - 150;
-    if(tx + 275 > innerWidth) tx = e.clientX - 278;
-    rot = Math.max(-7, Math.min(7, (tx-last)*.4));
-    if(!raf) raf = requestAnimationFrame(loop);
-  });
-  $('#showList').addEventListener('pointerover', e=>{
-    const row = e.target.closest('.show');
-    if(!row || e.relatedTarget instanceof Node && row.contains(e.relatedTarget)) return;
-    const s = SHOWS[+row.dataset.i], d = fmtDate(s.off);
-      img.src = `https://picsum.photos/seed/${s.seed}/420/300.jpg`;
-      bar.innerHTML = `<b>${s.a}</b><span>${d.wd} ${d.day} ${d.mo}</span>`;
-      pv.classList.add('on'); on = true;
-      if(!raf) raf = requestAnimationFrame(loop);
-  });
-  $('#showList').addEventListener('pointerout', e=>{
-    const row = e.target.closest('.show');
-    if(!row || e.relatedTarget instanceof Node && row.contains(e.relatedTarget)) return;
-      pv.classList.remove('on');
-      on = false;
-  });
-})();
 
 /* reveal content as it enters the viewport */
 const revealObserver = new IntersectionObserver(entries=>{
