@@ -432,8 +432,8 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
 <div class="mnav" id="mnav">
   <a href="program.html"><span>Programme</span><i>(01)</i></a>
   <a href="rehearsal.html"><span>Rehearsals</span><i>(02)</i></a>
-  <a href="#room"><span>Stage</span><i>(03)</i></a>
-  <a href="#story"><span>Story</span><i>(04)</i></a>
+  <a href="#room"><span>Stage</span><i>(04)</i></a>
+  <a href="#story"><span>Story</span><i>(03)</i></a>
   <a href="#visit"><span>Visit</span><i>(06)</i></a>
   <p class="mnav-meta">8 RUE AKNOUL — RABAT 10000<br>WED–SAT · DOORS 19:30 · FIRST SET 20:30</p>
 </div>
@@ -585,7 +585,7 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
   <section class="sec sec-alt" id="room">
     <div class="container">
       <header class="sec-head reveal">
-        <p class="sec-kicker"><b>(03)</b><span>THE STAGE</span></p>
+        <p class="sec-kicker"><b>(04)</b><span>THE STAGE</span></p>
         <h2 class="sec-title">six point eight <em>metres</em>.</h2>
         <p class="sec-side">SECTION A–A′<br>NOT TO SCALE, BUT HONEST</p>
       </header>
@@ -655,7 +655,7 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
   <section class="sec" id="story">
     <div class="container">
       <header class="sec-head reveal">
-        <p class="sec-kicker"><b>(04)</b><span>OUR STORY</span></p>
+        <p class="sec-kicker"><b>(03)</b><span>OUR STORY</span></p>
         <h2 class="sec-title">Downstage — A <em>Tatmin</em> Creative Space</h2>
         <p class="sec-side">MUSIC · COMEDY<br>PERFORMANCE · CREATION</p>
       </header>
@@ -989,6 +989,10 @@ const revealObserver = new IntersectionObserver(entries=>{
 },{threshold:.08});
 
 $$('.reveal').forEach(el=>revealObserver.observe(el));
+
+const roomSection = $('#room');
+const storySection = $('#story');
+if(roomSection && storySection) roomSection.parentNode.insertBefore(storySection, roomSection);
 
 </script>
 </body>
