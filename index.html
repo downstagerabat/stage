@@ -632,6 +632,7 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
           <input type="hidden" name="_subject" value="New rehearsal reservation request">
           <input type="hidden" name="_template" value="table">
           <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="chosenPack" id="chosenPack" value="Pack Starter — 900 DHS">
           <h3>Reserve a rehearsal session</h3>
           <div class="rehearsal-fields">
             <div class="rehearsal-field"><label for="rehearsalDate">DAY</label><input type="date" id="rehearsalDate" name="day"></div>
@@ -1211,6 +1212,8 @@ if(rehearsalDate){
     }
     const form = e.currentTarget;
     const submitter = e.submitter;
+    const selectedPack = document.querySelector('input[name="pack"]:checked');
+    form.querySelector('input[name="chosenPack"]').value = selectedPack?.value || 'No pack selected';
     form.querySelector('input[name="_subject"]').value = isPackPurchase
       ? 'New rehearsal pack purchase request'
       : 'New rehearsal reservation request';
