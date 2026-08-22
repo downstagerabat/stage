@@ -360,6 +360,10 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
 .contact-fields textarea{resize:vertical;min-height:130px}
 .contact-fields input:focus,.contact-fields textarea:focus{border-color:var(--red)}
 .contact-wide{grid-column:1/-1}
+.event-section{grid-column:1/-1;border-top:1px solid var(--hair);padding-top:18px;margin-top:8px;color:var(--red);font:10px var(--mono);letter-spacing:.2em;text-transform:uppercase}
+.event-checks{grid-column:1/-1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 20px}
+.event-check{display:flex!important;align-items:center;gap:8px;color:var(--dim)!important;font:13px/1.35 var(--serif)!important;letter-spacing:0!important;text-transform:none!important}
+.event-check input{width:17px!important;height:17px!important;margin:0!important;display:inline-block!important;flex:none!important;accent-color:var(--red)}
 .frow{margin-bottom:24px}
 .seats-row{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
 .stepper{display:flex;align-items:center;border:1px solid var(--hair);border-radius:2px}
@@ -439,6 +443,8 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
   .create-together-panel{align-items:flex-start;flex-direction:column}
   .contact-fields{grid-template-columns:1fr}
   .contact-wide{grid-column:auto}
+  .event-section,.event-checks{grid-column:1}
+  .event-checks{grid-template-columns:1fr}
   .practical-row{flex-direction:column;gap:18px}
   .foot-bot span:nth-child(2){position:static;transform:none}
 }
@@ -864,17 +870,33 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
   <div class="modal-back" data-residency-close></div>
   <div class="modal-panel contact-panel">
     <button class="modal-x" data-residency-close aria-label="Close residency form"><svg viewBox="0 0 12 12" fill="none"><path d="M1 1l10 10M11 1L1 11"/></svg></button>
-    <p class="modal-kicker">RESIDENCY / PROJECT</p>
-    <h3 id="residencyTitle">Let's create together</h3>
+    <p class="modal-kicker">EVENT DETAILS</p>
+    <h3 id="residencyTitle">Book Downstage</h3>
     <form id="residencyForm" action="https://formsubmit.co/ajax/downstage.rabat@gmail.com" method="POST">
-      <input type="hidden" name="_subject" value="New residency or project request">
+      <input type="hidden" name="_subject" value="New Downstage event booking request">
       <input type="hidden" name="_template" value="table">
       <input type="hidden" name="_captcha" value="false">
       <div class="contact-fields">
-        <label class="contact-wide">Full name<input type="text" name="full_name" required></label>
-        <label>Email<input type="email" name="email" required></label>
-        <label>Phone number<input type="tel" name="phone" required></label>
-        <label class="contact-wide">Idea / project<textarea name="idea_project" rows="6" required></textarea></label>
+        <label class="contact-wide">1. Full Name<input type="text" name="full_name" required></label>
+        <label>2. Email Address<input type="email" name="email" required></label>
+        <label>3. Phone / WhatsApp<input type="tel" name="phone" required></label>
+        <label class="contact-wide">4. Organization / Company (optional)<input type="text" name="organization"></label>
+        <label class="contact-wide">5. Type of Event<select name="event_type" required><option value="">Choose one</option><option>Concert</option><option>Workshop</option><option>Comedy</option><option>Theatre</option><option>Private Event</option><option>Masterclass</option><option>Other</option></select></label>
+        <label class="contact-wide">6. Event Name / Title<input type="text" name="event_title" required></label>
+        <label>7. Preferred Date<input type="date" name="preferred_date" required></label>
+        <label>8. Alternative Date (optional)<input type="date" name="alternative_date"></label>
+        <label>9. Expected Number of Guests<input type="number" name="guest_count" min="1" required></label>
+        <label>10. Expected Event Duration<input type="text" name="event_duration" required></label>
+        <p class="event-section">Event Requirements</p>
+        <label class="contact-wide">11. Tell us about your event<textarea name="event_description" rows="5" required></textarea></label>
+        <div class="event-checks"><span class="event-section">12. What do you need from Downstage?</span><label class="event-check"><input type="checkbox" name="requirements" value="Venue">Venue</label><label class="event-check"><input type="checkbox" name="requirements" value="Sound system">Sound system</label><label class="event-check"><input type="checkbox" name="requirements" value="Backline / instruments">Backline / instruments</label><label class="event-check"><input type="checkbox" name="requirements" value="Lighting">Lighting</label><label class="event-check"><input type="checkbox" name="requirements" value="Stage">Stage</label><label class="event-check"><input type="checkbox" name="requirements" value="Technical team">Technical team</label><label class="event-check"><input type="checkbox" name="requirements" value="Ticketing">Ticketing</label><label class="event-check"><input type="checkbox" name="requirements" value="Promotion">Promotion</label><label class="event-check"><input type="checkbox" name="requirements" value="Other">Other</label></div>
+        <label class="contact-wide">13. Specific technical requirements?<textarea name="technical_requirements" rows="4"></textarea></label>
+        <label class="contact-wide">14. Will you need rehearsal / setup time?<select name="setup_time" required><option value="">Choose one</option><option>Yes</option><option>No</option><option>Maybe</option></select></label>
+        <p class="event-section">Budget &amp; Collaboration</p>
+        <label class="contact-wide">15. Do you have a budget in mind?<input type="text" name="budget"></label>
+        <label class="contact-wide">16. Rent the venue or collaborate with Downstage?<select name="collaboration_type" required><option value="">Choose one</option><option>Rent the venue</option><option>Collaborate with Downstage</option><option>Not sure yet</option></select></label>
+        <label class="contact-wide">17. How did you hear about Downstage?<input type="text" name="heard_about"></label>
+        <label class="contact-wide">Final: Tell us anything else we should know about your event.<textarea name="anything_else" rows="5"></textarea></label>
       </div>
       <button class="btn btn-solid" type="submit">Send request</button>
     </form>
