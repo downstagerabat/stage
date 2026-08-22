@@ -352,6 +352,12 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
 .idea-form textarea:focus{border-color:var(--red)}
 .idea-form .btn{margin-top:16px}
 .rehearsal-confirm-copy{color:var(--dim);font-size:1.08rem;line-height:1.7;margin-top:24px;max-width:46ch}
+.intro-video-modal{position:fixed;inset:0;z-index:1100;display:grid;place-items:center;padding:20px;background:rgba(8,7,5,.86);opacity:0;pointer-events:none;transition:opacity .3s var(--ease)}
+.intro-video-modal.open{opacity:1;pointer-events:auto}
+.intro-video-panel{position:relative;width:min(720px,94vw);background:var(--bg-2);border:1px solid var(--hair);padding:12px}
+.intro-video-panel video{display:block;width:100%;max-height:78vh;object-fit:contain;background:#000}
+.intro-video-close{position:absolute;top:-14px;right:-14px;width:34px;height:34px;border:1px solid var(--hair);border-radius:50%;background:var(--bg-2);color:var(--ink);font:20px var(--mono);cursor:pointer;z-index:1}
+@media(max-width:760px){.intro-video-modal{padding:12px}.intro-video-panel{width:100%;padding:8px}.intro-video-panel video{max-height:72vh}.intro-video-close{top:-10px;right:-8px}}
 .modal-x{position:absolute;top:16px;right:16px;width:38px;height:38px;background:none;border:1px solid var(--hair);border-radius:50%;cursor:pointer;display:grid;place-items:center;transition:.25s}
 .modal-x:hover{border-color:var(--red)}
 .modal-x svg{width:12px;height:12px;stroke:var(--ink);stroke-width:1.6}
@@ -486,6 +492,15 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
 <body>
 
 <div id="glow"></div>
+
+<div class="intro-video-modal" id="introVideoModal" role="dialog" aria-modal="true" aria-label="Downstage introduction" hidden>
+  <div class="intro-video-panel">
+    <button class="intro-video-close" id="introVideoClose" type="button" aria-label="Close video">×</button>
+    <video id="introVideo" autoplay muted playsinline controls preload="auto">
+      <source src="images/ANIMA%20LOGO%20DOWNSTAIRS.mov" type="video/quicktime">
+    </video>
+  </div>
+</div>
 
 <!-- ================= HEADER ================= -->
 <header class="site-head" id="siteHead">
@@ -1305,6 +1320,28 @@ $$('.reveal').forEach(el=>revealObserver.observe(el));
 const roomSection = $('#room');
 const storySection = $('#story');
 if(roomSection && storySection) roomSection.parentNode.insertBefore(storySection, roomSection);
+
+const introVideoModal = $('#introVideoModal');
+const introVideo = $('#introVideo');
+const introVideoClose = $('#introVideoClose');
+if(introVideoModal && introVideo){
+  const closeIntroVideo = ()=>{
+    introVideo.pause();
+    introVideoModal.classList.remove('open');
+    setTimeout(()=>{ introVideoModal.hidden = true; }, 300);
+  };
+  introVideoModal.hidden = false;
+  requestAnimationFrame(()=>{
+    introVideoModal.classList.add('open');
+    introVideo.play().catch(()=>{});
+  });
+  introVideo.addEventListener('ended', closeIntroVideo);
+  introVideo.addEventListener('error', closeIntroVideo);
+  introVideoClose?.addEventListener('click', closeIntroVideo);
+  introVideoModal.addEventListener('click', event=>{
+    if(event.target === introVideoModal) closeIntroVideo();
+  });
+}
 
 </script>
 </body>
