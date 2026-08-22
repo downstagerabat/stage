@@ -398,6 +398,9 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
   .burger{display:flex}
   .hero-in{grid-template-columns:1fr;align-content:center}
   .hero-newsletter{grid-column:1;grid-row:auto;margin-top:24px}
+  .hero{padding-top:96px}
+  .hero-title{font-size:clamp(2.8rem,13vw,5rem);white-space:normal}
+  .hero-sub{font-size:1rem;margin-top:22px}
   .sec-head{grid-template-columns:1fr}
   .sec-side{text-align:left;padding:0}
   .show-head{grid-template-columns:54px 1fr 40px;grid-template-areas:"date main x" "date status x" "date price x";row-gap:8px}
@@ -721,7 +724,7 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
       <header class="sec-head reveal">
         <p class="sec-kicker"><b>(05)</b><span>HOUSE RULES</span></p>
         <h2 class="sec-title">Gently <em>enforced</em>.</h2>
-        <p class="sec-side">ASKED KINDLY<br>BY SAFIA, AT THE DOOR</p>
+        <p class="sec-side">ASKED KINDLY<br>AT THE DOOR</p>
       </header>
       <ol class="rules">
         <li class="reveal"><span class="r-no">01</span><p>Phones UP. If you must film something, FILM <em>share and tag us</em>.</p></li>
@@ -844,6 +847,21 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
 const $  = s => document.querySelector(s);
 const $$ = s => [...document.querySelectorAll(s)];
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const burger = $('#burger');
+const mobileNav = $('#mnav');
+if(burger && mobileNav){
+  burger.addEventListener('click', ()=>{
+    const isOpen = mobileNav.classList.toggle('open');
+    burger.classList.toggle('on', isOpen);
+    burger.setAttribute('aria-expanded', String(isOpen));
+  });
+  mobileNav.querySelectorAll('a').forEach(link=>link.addEventListener('click', ()=>{
+    mobileNav.classList.remove('open');
+    burger.classList.remove('on');
+    burger.setAttribute('aria-expanded', 'false');
+  }));
+}
 
 function toast(title, sub){
   const t = document.createElement('div');
