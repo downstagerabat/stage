@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Downstage — The Stage · Rabat</title>
 <meta name="description" content="Downstage is an 100-seat space in Rabat. One stage, one bar, no barrier — the front row is 1 metres from the artist.">
-<link rel="icon" href="images/logo.png">
+<link rel="icon" href="downstage/images/logo.png">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
@@ -113,10 +113,10 @@ input.bad{border-color:var(--red)}
 
 /* ============ ticker ============ */
 .ticker{overflow:hidden;border-block:1px solid var(--hair);background:var(--bg-2);padding:13px 0}
-.ticker-track{display:flex;width:max-content;animation:tick 34s linear infinite}
+.ticker-track{display:flex;width:max-content;animation:tick 52s linear infinite;will-change:transform}
 .ticker:hover .ticker-track{animation-play-state:paused}
-@keyframes tick{to{transform:translateX(-50%)}}
-.ticker-group{display:flex;align-items:center}
+@keyframes tick{0%{transform:translate3d(0,0,0)}100%{transform:translate3d(-50%,0,0)}}
+.ticker-group{display:flex;align-items:center;flex-shrink:0}
 .ti{font-family:var(--mono);font-size:11px;letter-spacing:.22em;color:var(--dim);white-space:nowrap}
 .dia{display:inline-block;width:5px;height:5px;background:var(--red);transform:rotate(45deg);margin:0 28px;flex:none}
 
@@ -134,8 +134,9 @@ input.bad{border-color:var(--red)}
 .show{border-top:1px solid var(--hair)}
 .show:hover{background:rgba(236,227,210,.035);z-index:30}
 .show{position:relative;z-index:1}
-.show-hover-note{display:block;background:var(--panel);border:1px solid var(--amber);margin:0 10px 12px;padding:16px 18px;color:var(--dim);font-size:.98rem;line-height:1.55}
-.show-hover-note strong{display:block;color:var(--ink);font:500 1.2rem var(--serif);margin-bottom:6px}
+.show-hover-note{display:none;position:absolute;top:calc(100% - 18px);left:10px;z-index:80;width:300px;aspect-ratio:1;background:var(--panel);border:1px solid var(--amber);border-top:4px solid var(--red);padding:28px;color:var(--dim);font-size:1.08rem;line-height:1.6;box-shadow:5px 5px 0 rgba(0,0,0,.72);animation:show-note-in .3s var(--ease)}
+.show-hover-note strong{display:block;color:var(--amber);font:600 1.45rem/1.15 var(--serif);letter-spacing:.01em;margin-bottom:8px}
+@keyframes show-note-in{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
 .show:hover .show-hover-note,.show.show-hover-active .show-hover-note{display:block}
 .show:last-of-type{border-bottom:1px solid var(--hair)}
 .show-head{display:grid;grid-template-columns:104px 1fr 172px 108px 56px;align-items:center;gap:20px;
@@ -163,17 +164,19 @@ input.bad{border-color:var(--red)}
 .s-times{font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--faint)}
 .list-note{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:var(--faint);margin-top:24px;line-height:2}
 
-/* floating preview */
-.show-preview{position:fixed;left:0;top:0;width:252px;z-index:60;pointer-events:none;will-change:transform}
-.sp-in{opacity:0;transform:scale(.9) translateY(8px);transition:.28s var(--ease)}
-.show-preview.on .sp-in{opacity:1;transform:none}
-.sp-in img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;border:1px solid var(--hair);filter:sepia(.25) contrast(1.05) brightness(.85)}
-.sp-bar{background:var(--panel);border:1px solid var(--hair);border-top:0;padding:9px 12px;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:var(--dim);display:flex;justify-content:space-between;gap:12px}
-.sp-bar b{color:var(--ink);font-weight:400}
-
 /* ============ the room ============ */
-.room-wrap{display:grid;grid-template-columns:minmax(0,1fr) 350px;gap:60px;align-items:start}
-.room-fig{margin:0;border:1px solid var(--hair);padding:clamp(10px,2.4vw,26px);background:var(--bg)}
+.room-wrap{display:grid;place-items:center;gap:22px;max-width:980px;margin:0 auto}
+.room-fig{margin:0;width:min(100%,760px);border:1px solid var(--hair);padding:clamp(8px,1.8vw,18px);background:var(--bg)}
+.room-fig .stage-photo{display:block;width:100%;aspect-ratio:1537/1023;object-fit:cover;filter:sepia(.2) saturate(.85) contrast(1.05) brightness(.8)}
+.room-fig > svg{display:none}
+.room-details{width:min(100%,980px);display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;border:1px solid var(--hair);background:transparent;padding:0}
+.room-details section{border:1px solid var(--hair);background:var(--bg-2);padding:16px 16px 14px;display:grid;gap:10px;min-height:100%}
+.room-details h3{font-family:var(--mono);font-size:9px;letter-spacing:.2em;color:var(--faint);font-weight:400;text-transform:uppercase;margin:0}
+.room-details ul{list-style:none;padding:0;margin:0;display:grid;gap:5px}
+.room-details li{position:relative;padding-left:0.8em;color:var(--dim);font:430 .87rem/1.45 var(--serif);letter-spacing:-.01em}
+.room-details li::before{content:"•";position:absolute;left:0;color:var(--amber)}
+.room-details p{margin:0;color:var(--dim);font:430 .88rem/1.5 var(--serif);letter-spacing:-.01em}
+.room-details section:last-child{grid-column:auto}
 .lit-stage{--beam:.13}.lit-house{--beam:0}
 .room-svg{width:100%;height:auto;display:block}
 .room-svg .ln0{fill:none;stroke:rgba(236,227,210,.78);stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
@@ -267,6 +270,11 @@ input.bad{border-color:var(--red)}
 .nl-note{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;color:var(--faint);margin-top:16px;line-height:1.9}
 .nl-done{font:italic 400 1.2rem var(--serif);color:var(--amber)}
 .rehearsal-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:64px;align-items:start}
+.create-together{display:grid;grid-template-columns:.9fr 1.1fr;gap:64px;align-items:start;border-top:1px solid var(--hair);margin-top:64px;padding-top:26px}
+.create-together h3{font:italic 400 clamp(1.6rem,3vw,2.4rem)/1.05 var(--serif);margin:0}
+.create-together-panel{border:1px solid var(--hair);background:var(--bg-2);padding:20px 22px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.create-together-panel p{margin:0;color:var(--dim);font:430 .95rem/1.5 var(--serif);max-width:620px}
+.create-together-panel .btn{flex:none}
 .pack-list{display:grid;gap:12px}
 .pack-card{display:flex;align-items:center;justify-content:space-between;gap:20px;border:1px solid var(--hair);padding:20px 22px;background:var(--bg-2);cursor:pointer;transition:.25s var(--ease)}
 .pack-card:hover,.pack-card:has(input:checked){border-color:var(--amber);background:rgba(230,160,63,.06)}
@@ -354,11 +362,13 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
 /* ============ responsive ============ */
 @media(max-width:1020px){
   .room-wrap{grid-template-columns:1fr}
+  .room-details{grid-template-columns:repeat(2,minmax(0,1fr))}
   .story-grid{grid-template-columns:1fr;gap:56px}
   .story-media{display:flex;gap:34px;flex-wrap:wrap;align-items:flex-start}
   .ph-2{margin:36px 0 0}
   .visit-grid{grid-template-columns:1fr;gap:52px}
   .rehearsal-grid{grid-template-columns:1fr;gap:44px}
+  .create-together{grid-template-columns:1fr;gap:24px;margin-top:44px}
 }
 @media(max-width:760px){
   .main-nav,.chip,.head-cta{display:none}
@@ -370,6 +380,7 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
   .s-artist{font-size:1.2rem}.s-date b{font-size:1.7rem}
   .show-body-in{grid-template-columns:1fr;padding:0 10px 26px}
   .s-desc{grid-column:1}
+  .show-hover-note{left:0;width:min(280px,calc(100vw - 40px));padding:22px}
   .hm-coord{display:none}
   .stat{flex:1 1 42%;padding:26px 16px 4px 0}
   .stat + .stat{padding-left:0;border-left:0}
@@ -377,6 +388,8 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
   .strings-band{height:150px}
   .toasts{left:14px;right:14px}
   .rehearsal-fields{grid-template-columns:1fr}
+  .room-details{grid-template-columns:1fr}
+  .create-together-panel{align-items:flex-start;flex-direction:column}
 }
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
@@ -393,7 +406,7 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
 <header class="site-head" id="siteHead">
   <div class="head-in container">
     <a class="brand" href="https://downstagerabat.github.io/stage/" aria-label="Downstage — home">
-      <img class="brand-mark" src="images/logo.png" alt="Downstage">
+      <img class="brand-mark" src="downstage/images/logo.png" alt="Downstage">
       <span class="brand-name">Downstage</span>
       <span class="brand-loc">RABAT</span>
     </a>
@@ -405,7 +418,7 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
       <a href="#visit">Visit</a>
     </nav>
     <div class="head-right">
-      <div class="chip"><span class="dot"></span><span id="tonightTxt">Doors 18:30 tonight</span></div>
+      <a class="btn head-cta" href="https://forms.gle/nJm9DmAewahU4h7V6" target="_blank" rel="noopener noreferrer">Collaborate</a>
       <a class="btn head-cta" href="#programme">Reserve a seat</a>
       <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false"><span></span><span></span></button>
     </div>
@@ -437,7 +450,7 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
     <div class="hero-meta container reveal" data-d="260">
       <span>HASSAN · RABAT</span>
       <span class="hm-coord">34.025185° N, 6.828483° W</span>
-      <span>200 SEATS · 1 STAGE</span>
+      <span>100 SEATS · 1 STAGE</span>
       <a href="#programme">PROGRAMME
         <svg viewBox="0 0 10 12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 1v9M1.5 7 5 10.5 8.5 7"/></svg>
       </a>
@@ -452,13 +465,31 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
         <span class="ti">LIFE IS SHORT, ORDER ATAY</span><i class="dia"></i>
         <span class="ti">NO PHONES UP</span><i class="dia"></i>
         <span class="ti">IM IN SHAPE. UNFORTUNATELY, ITS A CIRCLE</span><i class="dia"></i>
-        <span class="ti">200 SEATS</span><i class="dia"></i>
+        <span class="ti">100 SEATS</span><i class="dia"></i>
         <span class="ti">YOUR LOCAL EXCUSE TO GO OUT TONIGHT</span><i class="dia"></i>
-        <span class="ti">MINT TEA · 10 MAD</span><i class="dia"></i>
+        <span class="ti">MINT TEA · 15 DH</span><i class="dia"></i>
+        <span class="ti">COFFEE · 15 DH</span><i class="dia"></i>
         <span class="ti">WE LOVE OUR AUDIENCE, EVEN THE ONES WHO ARRIVE 28 MIN LATE</span><i class="dia"></i>
         <span class="ti">TICKETS AT THE DOOR</span><i class="dia"></i>
         <span class="ti">THE PUBLIC IS ALWAYS RIGHT, UNFORTUNATELY</span><i class="dia"></i>
-         <span class="ti">RABAT NEEEDED A STAGE, SO WE BUILT ONE</span><i class="dia"></i>
+        <span class="ti">RABAT NEEEDED A STAGE, SO WE BUILT ONE</span><i class="dia"></i>
+        <span class="ti">YOUR EARS CALLED, THEY WANT BETTER MUSIC</span><i class="dia"></i>
+        <span class="ti">THE BACK ROW IS STILL CLOSE</span><i class="dia"></i>
+        <span class="ti">insta — @downstage.rabat</span><i class="dia"></i>
+      </div>
+      <div class="ticker-group" aria-hidden="true">
+        <span class="ti">TONIGHT &amp; NEXT — LIVE IN THE ROOM</span><i class="dia"></i>
+        <span class="ti">LIFE IS SHORT, ORDER ATAY</span><i class="dia"></i>
+        <span class="ti">NO PHONES UP</span><i class="dia"></i>
+        <span class="ti">IM IN SHAPE. UNFORTUNATELY, ITS A CIRCLE</span><i class="dia"></i>
+        <span class="ti">100 SEATS</span><i class="dia"></i>
+        <span class="ti">YOUR LOCAL EXCUSE TO GO OUT TONIGHT</span><i class="dia"></i>
+        <span class="ti">MINT TEA · 15 DH</span><i class="dia"></i>
+        <span class="ti">COFFEE · 15 DH</span><i class="dia"></i>
+        <span class="ti">WE LOVE OUR AUDIENCE, EVEN THE ONES WHO ARRIVE 28 MIN LATE</span><i class="dia"></i>
+        <span class="ti">TICKETS AT THE DOOR</span><i class="dia"></i>
+        <span class="ti">THE PUBLIC IS ALWAYS RIGHT, UNFORTUNATELY</span><i class="dia"></i>
+        <span class="ti">RABAT NEEEDED A STAGE, SO WE BUILT ONE</span><i class="dia"></i>
         <span class="ti">YOUR EARS CALLED, THEY WANT BETTER MUSIC</span><i class="dia"></i>
         <span class="ti">THE BACK ROW IS STILL CLOSE</span><i class="dia"></i>
         <span class="ti">insta — @downstage.rabat</span><i class="dia"></i>
@@ -477,17 +508,16 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
       <div id="showList">
         <article class="show">
           <button class="show-head" type="button"><span class="s-date"><b>3</b><span>THU · SEPT</span></span><span class="s-main"><span class="s-artist">DJAM SESSION</span><span class="s-tag">HOUSE BAND · INABSOLUTE</span></span><span class="s-status st-few">AVAILABLE</span><span class="s-price">30 MAD</span><span class="s-x">+</span></button>
-          <div class="show-body"><div class="show-body-in"><p class="s-desc">The night kicks off with a live set by our house band, Inabsolute, before opening the stage to musicians for an evening of improvisation, collaboration, and spontaneous musical moments.</p></div></div>
+          <div class="show-body"><div class="show-body-in"></div></div>
         </article>
-        <article class="show masterclass-show"><button class="show-head" type="button"><span class="s-date"><b>4</b><span>FRI · SEPT</span></span><span class="s-main"><span class="s-artist">MASTERCLASS — MANAGEMENT</span><span class="s-tag">ARTIST DEVELOPMENT · CAREER STRATEGY</span></span><span class="s-status st-ok">LIMITED SEATS</span><span class="s-price">FREE</span><span class="s-x">+</span></button><div class="show-body"><div class="show-body-in"><p class="s-desc">A masterclass focused on music management, covering artist development, career strategy, booking, promotion, and the key tools needed to build a successful career in the music industry.</p></div></div></article>
-        <article class="show"><button class="show-head" type="button"><span class="s-date"><b>31</b><span>MON · AUG</span></span><span class="s-main"><span class="s-artist">Bouregreg Sound System</span><span class="s-tag">LIVE DUB · ELECTRONICS</span></span><span class="s-status st-sold">SOLD OUT</span><span class="s-price">140 MAD</span><span class="s-x">+</span></button><div class="show-body"><div class="show-body-in"><p class="s-desc">Analog delays, a borrowed riq, and bass you feel in the chair.</p></div></div></article>
-        <article class="show"><button class="show-head" type="button"><span class="s-date"><b>3</b><span>THU · SEPT</span></span><span class="s-main"><span class="s-artist">Hajar &amp; The Wolves</span><span class="s-tag">ALTERNATIVE ROCK</span></span><span class="s-status st-ok">AVAILABLE</span><span class="s-price">100 MAD</span><span class="s-x">+</span></button><div class="show-body"><div class="show-body-in"><p class="s-desc">Four friends from Sale who got loud in a garage and stayed loud.</p></div></div></article>
-        <article class="show"><button class="show-head" type="button"><span class="s-date"><b>7</b><span>MON · SEPT</span></span><span class="s-main"><span class="s-artist">Taqsim Club</span><span class="s-tag">TARAB · ORIENTAL JAZZ</span></span><span class="s-status st-ok">AVAILABLE</span><span class="s-price">120 MAD</span><span class="s-x">+</span></button><div class="show-body"><div class="show-body-in"><p class="s-desc">Oud and trumpet arguing beautifully across a hundred years of repertoire.</p></div></div></article>
-        <article class="show"><button class="show-head" type="button"><span class="s-date"><b>10</b><span>THU · SEPT</span></span><span class="s-main"><span class="s-artist">Sofia Lahlou Quartet</span><span class="s-tag">STRINGS · NEW CLASSICAL</span></span><span class="s-status st-ok">AVAILABLE</span><span class="s-price">150 MAD</span><span class="s-x">+</span></button><div class="show-body"><div class="show-body-in"><p class="s-desc">Two violins, a cello, and a premiere written for this exact room.</p></div></div></article>
-        <article class="show"><button class="show-head" type="button"><span class="s-date"><b>14</b><span>MON · SEPT</span></span><span class="s-main"><span class="s-artist">Dar Gnawa &amp; guests</span><span class="s-tag">GNAWA FUSION</span></span><span class="s-status st-few">ONLY 5 LEFT</span><span class="s-price">130 MAD</span><span class="s-x">+</span></button><div class="show-body"><div class="show-body-in"><p class="s-desc">A master from Marrakech is bringing friends, and the floor will move.</p></div></div></article>
-        <article class="show"><button class="show-head" type="button"><span class="s-date"><b>17</b><span>THU · SEPT</span></span><span class="s-main"><span class="s-artist">The Oudayas</span><span class="s-tag">GARAGE ROCK · ALBUM NIGHT</span></span><span class="s-status st-ok">AVAILABLE</span><span class="s-price">90 MAD</span><span class="s-x">+</span></button><div class="show-body"><div class="show-body-in"><p class="s-desc">Named after the kasbah, louder than it. Album-release show.</p></div></div></article>
+        <article class="show masterclass-show"><button class="show-head" type="button"><span class="s-date"><b>4</b><span>FRI · SEPT</span></span><span class="s-main"><span class="s-artist">MASTERCLASS — MANAGEMENT</span><span class="s-tag">ARTIST DEVELOPMENT · CAREER STRATEGY</span></span><span class="s-status st-ok">LIMITED SEATS</span><span class="s-price">FREE</span><span class="s-x">+</span></button><div class="show-body"><div class="show-body-in"></div></div></article>
+        <article class="show"><button class="show-head" type="button"><span class="s-date"><b>31</b><span>MON · AUG</span></span><span class="s-main"><span class="s-artist">Bouregreg Sound System</span><span class="s-tag">LIVE DUB · ELECTRONICS</span></span><span class="s-status st-sold">SOLD OUT</span><span class="s-price">140 MAD</span><span class="s-x">+</span></button><div class="show-body"><div class="show-body-in"></div></div></article>
+        <article class="show"><button class="show-head" type="button"><span class="s-date"><b>3</b><span>THU · SEPT</span></span><span class="s-main"><span class="s-artist">Hajar &amp; The Wolves</span><span class="s-tag">ALTERNATIVE ROCK</span></span><span class="s-status st-ok">AVAILABLE</span><span class="s-price">100 MAD</span><span class="s-x">+</span></button><div class="show-body"><div class="show-body-in"></div></div></article>
+        <article class="show"><button class="show-head" type="button"><span class="s-date"><b>7</b><span>MON · SEPT</span></span><span class="s-main"><span class="s-artist">Taqsim Club</span><span class="s-tag">TARAB · ORIENTAL JAZZ</span></span><span class="s-status st-ok">AVAILABLE</span><span class="s-price">120 MAD</span><span class="s-x">+</span></button><div class="show-body"><div class="show-body-in"></div></div></article>
+        <article class="show"><button class="show-head" type="button"><span class="s-date"><b>10</b><span>THU · SEPT</span></span><span class="s-main"><span class="s-artist">Sofia Lahlou Quartet</span><span class="s-tag">STRINGS · NEW CLASSICAL</span></span><span class="s-status st-ok">AVAILABLE</span><span class="s-price">150 MAD</span><span class="s-x">+</span></button><div class="show-body"><div class="show-body-in"></div></div></article>
+        <article class="show"><button class="show-head" type="button"><span class="s-date"><b>14</b><span>MON · SEPT</span></span><span class="s-main"><span class="s-artist">Dar Gnawa &amp; guests</span><span class="s-tag">GNAWA FUSION</span></span><span class="s-status st-few">ONLY 5 LEFT</span><span class="s-price">130 MAD</span><span class="s-x">+</span></button><div class="show-body"><div class="show-body-in"></div></div></article>
+        <article class="show"><button class="show-head" type="button"><span class="s-date"><b>17</b><span>THU · SEPT</span></span><span class="s-main"><span class="s-artist">The Oudayas</span><span class="s-tag">GARAGE ROCK · ALBUM NIGHT</span></span><span class="s-status st-ok">AVAILABLE</span><span class="s-price">90 MAD</span><span class="s-x">+</span></button><div class="show-body"><div class="show-body-in"></div></div></article>
       </div>
-      <p class="list-note reveal">ALL AGES · PAY AT THE DOOR (CASH) · NO BOOKING FEES, EVER · NO ALCOHOL!! YES WE KNOW.. YOU'LL SURVIVE.</p>
     </div>
   </section>
 
@@ -511,7 +541,7 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
             </div>
           </div>
         </div>
-        <form class="rehearsal-form reveal" id="rehearsalForm" data-d="120" action="https://formsubmit.co/downstage.rabat@email.com" method="POST">
+        <form class="rehearsal-form reveal" id="rehearsalForm" data-d="120" action="https://formsubmit.co/ajax/downstage.rabat@gmail.com" method="POST">
           <input type="hidden" name="_subject" value="New rehearsal reservation request">
           <input type="hidden" name="_template" value="table">
           <input type="hidden" name="_captcha" value="false">
@@ -532,6 +562,13 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
           </div>
         </form>
       </div>
+      <div class="create-together reveal" data-d="180">
+        <h3>Let's create together.</h3>
+        <div class="create-together-panel">
+          <p>For artists, bands, producers, event organizers, brands, and cultural organizations looking to create something at Downstage.</p>
+          <a class="btn btn-line" href="https://forms.gle/nJm9DmAewahU4h7V6" target="_blank" rel="noopener noreferrer">Collaborate</a>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -539,147 +576,60 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
     <div class="container">
       <header class="sec-head reveal">
         <p class="sec-kicker"><b>(03)</b><span>THE STAGE</span></p>
-        <h2 class="sec-title">Two point eight <em>metres</em>.</h2>
+        <h2 class="sec-title">six point eight <em>metres</em>.</h2>
         <p class="sec-side">SECTION A–A′<br>NOT TO SCALE, BUT HONEST</p>
       </header>
 
       <div class="room-wrap">
-        <figure class="room-fig lit-stage reveal" id="roomFig">
-          <svg id="roomSvg" viewBox="0 0 1000 470" role="img" aria-label="Cross-section drawing of the Downstage room">
-            <!-- ground + ceiling -->
-            <line class="ln0 thin faint" x1="24" y1="380" x2="976" y2="380"/>
-            <line class="ln0" x1="24" y1="56" x2="976" y2="56"/>
-            <path class="ln0 thin" id="g-ticks" d=""/>
-
-            <!-- 2.8 m dimension -->
-            <g id="f-dim">
-              <path class="ln0 thin dash" d="M290 300 V246 M300 350 V246"/>
-              <path class="ln0" d="M290 250 h10"/>
-              <path class="arrow" d="M290 250 l4.5 -3.2 v6.4 Z M300 250 l-4.5 -3.2 v6.4 Z"/>
-              <text x="308" y="254">2.8 m</text>
-            </g>
-
-            <!-- pendant lamps over the audience -->
-            <g id="f-pendants" class="feat">
-              <g transform="translate(360,0)"><line class="ln0 thin" x1="0" y1="56" x2="0" y2="118"/><path class="ln0" d="M-12 118 h24 l-5 11 h-14 Z"/><circle class="bulb" cx="0" cy="133" r="3"/><circle class="halo" cx="0" cy="126" r="34"/></g>
-              <g transform="translate(540,0)"><line class="ln0 thin" x1="0" y1="56" x2="0" y2="118"/><path class="ln0" d="M-12 118 h24 l-5 11 h-14 Z"/><circle class="bulb" cx="0" cy="133" r="3"/><circle class="halo" cx="0" cy="126" r="34"/></g>
-              <g transform="translate(720,0)"><line class="ln0 thin" x1="0" y1="56" x2="0" y2="118"/><path class="ln0" d="M-12 118 h24 l-5 11 h-14 Z"/><circle class="bulb" cx="0" cy="133" r="3"/><circle class="halo" cx="0" cy="126" r="34"/></g>
-            </g>
-
-            <!-- stage structure -->
-            <g id="f-stage" class="feat">
-              <rect class="ln0" x="40" y="306" width="250" height="74"/>
-              <path class="ln0 thin" id="g-hatch" d=""/>
-              <line class="ln0" x1="48" y1="92" x2="280" y2="92"/>
-              <path class="ln0" d="M100 92 h20 l-5 12 h-10 Z"/>
-              <path class="ln0" d="M200 92 h20 l-5 12 h-10 Z"/>
-              <!-- amp + mic stand -->
-              <rect class="ln0" x="228" y="278" width="30" height="28"/>
-              <line class="ln0 thin" x1="232" y1="288" x2="254" y2="288"/>
-              <line class="ln0 thin" x1="232" y1="293" x2="254" y2="293"/>
-              <circle class="ln0" cx="243" cy="284" r="2"/>
-              <line class="ln0" x1="272" y1="306" x2="272" y2="256"/>
-              <line class="ln0" x1="272" y1="256" x2="264" y2="248"/>
-              <circle class="ln0" cx="262" cy="246" r="4"/>
-              <ellipse class="ln0 thin" cx="272" cy="306" rx="10" ry="2.5"/>
-            </g>
-
-            <!-- house STUDIO -->
-            <g id="f-piano" class="feat">
-              <rect class="ln0" x="70" y="272" width="126" height="20" rx="7"/>
-              <line class="ln0" x1="76" y1="270" x2="196" y2="250"/>
-              <line class="ln0" x1="84" y1="292" x2="84" y2="306"/>
-              <line class="ln0" x1="180" y1="292" x2="180" y2="306"/>
-              <circle class="ln0" cx="84" cy="306" r="2.5"/>
-              <circle class="ln0" cx="180" cy="306" r="2.5"/>
-              <rect class="ln0" x="196" y="264" width="16" height="16"/>
-            </g>
-
-            <!-- light beams + stage pool -->
-            <g id="f-beams">
-              <polygon class="beam" points="103,106 117,106 262,306 152,306"/>
-              <polygon class="beam" points="203,106 217,106 288,306 178,306"/>
-            </g>
-            <ellipse id="g-stageglow" cx="170" cy="307" rx="130" ry="10"/>
-
-            <!-- audience -->
-            <g id="f-seats" class="feat">
-              <path id="g-treads" class="ln0 faint" d=""/>
-              <path id="g-seats" class="seatp" d=""/>
-            </g>
-
-            <!-- sound desk -->
-            <g id="f-desk" class="feat">
-              <rect class="ln0" x="504" y="268" width="42" height="8"/>
-              <line class="ln0" x1="508" y1="276" x2="508" y2="290"/>
-              <line class="ln0" x1="542" y1="276" x2="542" y2="290"/>
-              <rect class="ln0" x="508" y="262" width="32" height="6"/>
-              <path class="ln0 thin" d="M512 262 v-5 M518 262 v-5 M524 262 v-5 M530 262 v-5"/>
-              <circle class="ln0" cx="525" cy="296" r="6"/>
-              <line class="ln0 thin" x1="525" y1="302" x2="525" y2="312"/>
-            </g>
-
-            <!-- the bar -->
-            <g id="f-bar" class="feat">
-              <g class="person">
-                <circle cx="940" cy="262" r="5"/>
-                <path d="M940 267 v58"/>
-                <path d="M940 284 Q955 272 950 252"/>
-              </g>
-              <rect class="ln0" x="856" y="298" width="104" height="6"/>
-              <rect class="ln0" x="860" y="304" width="96" height="58"/>
-              <line class="ln0 thin" x1="864" y1="330" x2="952" y2="330"/>
-              <line class="ln0 thin" x1="866" y1="362" x2="866" y2="378"/>
-              <line class="ln0 thin" x1="950" y1="362" x2="950" y2="378"/>
-              <line class="ln0" x1="856" y1="240" x2="960" y2="240"/>
-              <g id="g-bottles"></g>
-              <rect class="ln0" x="866" y="280" width="22" height="18"/>
-              <path class="ln0 thin" d="M887 280 q4 -6 0 -12"/>
-              <rect class="ln0 thin" x="912" y="290" width="7" height="8"/>
-              <rect class="ln0 thin" x="922" y="288" width="8" height="10"/>
-              <g><circle class="ln0" cx="806" cy="332" r="7"/><line class="ln0 thin" x1="806" y1="339" x2="806" y2="378"/><path class="ln0 thin" d="M798 378 h16"/></g>
-              <g>
-                <circle class="ln0" cx="834" cy="332" r="7"/>
-                <line class="ln0 thin" x1="834" y1="339" x2="834" y2="378"/>
-                <path class="ln0 thin" d="M826 378 h16"/>
-                <g class="person">
-                  <circle cx="834" cy="308" r="5"/>
-                  <path d="M834 313 q-4 12 -2 19"/>
-                  <path d="M832 332 l12 3 M844 335 l-2 14"/>
-                  <path d="M833 320 Q848 314 856 304"/>
-                </g>
-              </g>
-              <text x="908" y="228" text-anchor="middle" style="letter-spacing:.55em">B·A·R</text>
-            </g>
-
-            <!-- numbered markers -->
-            <g id="f-markers">
-              <g class="marker" data-target="f-stage" transform="translate(160,342)"><circle class="mkc" r="11"/><text class="mkt" y="3.5">1</text></g>
-              <g class="marker" data-target="f-piano" transform="translate(120,238)"><circle class="mkc" r="11"/><text class="mkt" y="3.5">2</text></g>
-              <g class="marker" data-target="f-desk" transform="translate(525,244)"><circle class="mkc" r="11"/><text class="mkt" y="3.5">3</text></g>
-              <g class="marker" data-target="f-bar" transform="translate(928,270)"><circle class="mkc" r="11"/><text class="mkt" y="3.5">4</text></g>
-              <g class="marker" data-target="f-seats" transform="translate(420,322)"><circle class="mkc" r="11"/><text class="mkt" y="3.5">5</text></g>
-            </g>
-          </svg>
-          <figcaption class="room-cap">LIVE SECTION — RUN YOUR CURSOR OVER THE LEGEND, OR OVER THE NUMBERS. PULL THE HOUSE LIGHTS WHEN YOU'RE READY.</figcaption>
+        <figure class="room-fig reveal" id="roomFig">
+          <img class="stage-photo" src="images/stage.jpeg" alt="Downstage under stage lighting" loading="lazy">
         </figure>
 
-        <div class="room-side reveal" data-d="120">
-          <div class="lights">
-            <span class="lights-label">HOUSE STATE</span>
-            <div class="lights-seg">
-              <button class="lt-btn on" data-mode="stage" aria-pressed="true">Stage lights</button>
-              <button class="lt-btn" data-mode="house" aria-pressed="false">House lights</button>
-            </div>
-          </div>
-          <ol class="legend" id="legend">
-            <li data-target="f-stage" tabindex="0"><span class="lg-no">01</span><div><h4>The stage</h4><p>Four by two metres, wood, no barrier. What the artist hears is what you hear.</p></div></li>
-            <li data-target="f-piano" tabindex="0"><span class="lg-no">02</span><div><h4>The house piano</h4><p>A 1974 Yamaha U3, tuned monthly whether it needs it or not. Bands may not move it. Everyone wants to.</p></div></li>
-            <li data-target="f-desk" tabindex="0"><span class="lg-no">03</span><div><h4>Front of house</h4><p>One desk tucked into the aisle, one engineer, no mystery support-act mixes.</p></div></li>
-            <li data-target="f-bar" tabindex="0"><span class="lg-no">04</span><div><h4>The bar</h4><p>Mint tea for 8 dirhams, one honestly good vermouth, and the merch chair — where artists keep 100%.</p></div></li>
-            <li data-target="f-seats" tabindex="0"><span class="lg-no">05</span><div><h4>Eighty-four seats</h4><p>Six raked rows. The last row is still closer than most rooms' front.</p></div></li>
-          </ol>
-        </div>
+        <aside class="room-details reveal" data-d="120">
+          <section>
+            <h3>What We Do</h3>
+            <ul>
+              <li>Live concerts</li>
+              <li>Jam sessions</li>
+              <li>Artist residencies</li>
+              <li>Rehearsals</li>
+              <li>Recording sessions</li>
+              <li>Workshops &amp; masterclasses</li>
+              <li>Comedy &amp; performing arts</li>
+              <li>Creative collaborations</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>For Artists</h3>
+            <ul>
+              <li>Professional stage and sound setup</li>
+              <li>Backline and musical equipment available</li>
+              <li>Rehearsal space</li>
+              <li>Recording opportunities</li>
+              <li>A space to develop and present new projects</li>
+              <li>Support for emerging and established artists</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Downstage Discovery</h3>
+            <p>A platform dedicated to emerging artists and new sounds, giving musicians a stage to experiment, connect, and reach new audiences.</p>
+          </section>
+
+          <section>
+            <h3>The Space</h3>
+            <ul>
+              <li>Intimate concert atmosphere</li>
+              <li>Professional stage</li>
+              <li>Musical instruments &amp; backline</li>
+              <li>Sound system</li>
+              <li>Flexible space for different types of events</li>
+              <li>Capacity for around 150 people</li>
+            </ul>
+          </section>
+
+        </aside>
       </div>
     </div>
   </section>
@@ -687,7 +637,7 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
   <!-- interval divider -->
   <div class="interval container reveal" aria-hidden="true">
     <span class="iv-line"></span>
-    <span>INTERVAL — 15 MINUTES · THE COFFEE SHOP IS OPEN</span>
+    <span>NO INTERVAL · THE COFFEE SHOP IS ALWAYS OPEN</span>
     <span class="iv-line"></span>
   </div>
 
@@ -712,12 +662,10 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
         </div>
         <div class="story-media reveal" data-d="120">
           <figure class="ph ph-1">
-            <img src="https://picsum.photos/seed/downstage-room/460/340.jpg" alt="The room before doors open" loading="lazy">
-            <figcaption>THE ROOM, HALF AN HOUR BEFORE DOORS.</figcaption>
+            <img src="images/tatmin-front.jpg" alt="Tatmin room in the foreground" loading="lazy">
           </figure>
           <figure class="ph ph-2">
-            <img src="https://picsum.photos/seed/downstage-bar/380/300.jpg" alt="The bar at intermission" loading="lazy">
-            <figcaption>INTERMISSION — THE COFFESHOP DOES MOST OF ITS THINKING HERE.</figcaption>
+            <img src="images/stage-story.jpg" alt="Downstage stage in the background" loading="lazy">
           </figure>
         </div>
       </div>
@@ -739,11 +687,11 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
         <p class="sec-side">ASKED KINDLY<br>BY SALMA, AT THE DOOR</p>
       </header>
       <ol class="rules">
-        <li class="reveal"><span class="r-no">01</span><p>Phones UP. If you must film something, film <em>share and tag us for gods sake</em>.</p></li>
+        <li class="reveal"><span class="r-no">01</span><p>Phones UP. If you must film something, FILM <em>share and tag us</em>.</p></li>
         <li class="reveal" data-d="60"><span class="r-no">02</span><p>Conversations live at the COFFESHOP. <em>The room listens.</em></p></li>
         <li class="reveal" data-d="120"><span class="r-no">03</span><p>Doors at 19:00, first set at 19:30 sharp. <em>The artist decides when it ends.</em></p></li>
         <li class="reveal" data-d="180"><span class="r-no">04</span><p>There's a merch chair by the coffeshop.</em>.</p></li>
-        <li class="reveal" data-d="240"><span class="r-no">05</span><p>Mint tea is 10 dirhams. <em>The atay is worth the splurge.</em></p></li>
+        <li class="reveal" data-d="240"><span class="r-no">05</span><p>Mint tea and coffee are 15 dirhams. <em>The atay is worth the splurge.</em></p></li>
       </ol>
     </div>
   </section>
@@ -770,7 +718,7 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
           <form class="nl" id="nlForm" novalidate>
             <h4>THE NEWS LETTER</h4>
             <div class="nl-row">
-              <input type="email" id="nlEmail" placeholder="you@somewhere.ma" aria-label="Your email">
+              <input type="email" id="nlEmail" name="email" placeholder="you@somewhere.ma" aria-label="Your email" required>
               <button class="btn btn-solid" type="submit">Sign up</button>
             </div>
             <p class="nl-note">EVERY MONTH: WHO'S ON, WHO CANCELLED, ONE SONG WE CAN'T STOP PLAYING. NOISE, MASTERCLASSES, AND SPECIAL EVENTS.</p>
@@ -778,7 +726,6 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
         </div>
         <figure class="map-fig reveal" data-d="120">
           <iframe class="map-embed" src="https://www.google.com/maps?q=34.025185,-6.828483&amp;z=17&amp;output=embed" title="Downstage exact location" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
-          <figcaption class="map-cap">8 RUE AKNOUL · RABAT 10000</figcaption>
         </figure>
       </div>
     </div>
@@ -816,14 +763,6 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
   </div>
 </footer>
 
-<!-- floating show preview -->
-<div class="show-preview" id="showPreview" aria-hidden="true">
-  <div class="sp-in">
-    <img id="spImg" alt="">
-    <div class="sp-bar" id="spBar"></div>
-  </div>
-</div>
-
 <!-- booking modal -->
 <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
   <div class="modal-back" data-close></div>
@@ -854,21 +793,21 @@ function toast(title, sub){
   t.innerHTML = `<svg viewBox="0 0 20 20" fill="none" stroke="#e6a03f" stroke-width="1.6"><circle cx="10" cy="10" r="8.5"/><path d="M6.2 10.3l2.6 2.6 5-5.6"/></svg><div><b>${title}</b><span>${sub}</span></div>`;
   $('#toasts').appendChild(t);
   requestAnimationFrame(()=> requestAnimationFrame(()=> t.classList.add('on')));
-  setTimeout(()=>{ t.classList.remove('on'); setTimeout(()=> t.remove(), 400); }, 4600);
+  setTimeout(()=>{ t.classList.remove('on'); setTimeout(()=> t.remove(), 400); }, 5000);
 }
 
 /* =========================================================
    programme data (dates computed from today, always upcoming)
 ========================================================= */
 const SHOWS = [
-  {off:4,  a:"djam session",            tag:"house band · inasolute", desc:"One nylon-string guitar and a voice that barely needs the mic. Forty minutes of new songs about night buses and leaving Casablanca at dawn.", price:80,  seats:9,  seed:"ds-yasmina"},
+  {off:4,  a:"djam session",            tag:"house band · inasolute", desc:"The night kicks off with a live set by our house band, Inabsolute, before opening the stage to musicians for an evening of improvisation, collaboration, and spontaneous musical moments.", price:80,  seats:9,  seed:"ds-yasmina"},
   {off:7,  a:"Masterclass — Management", tag:"ARTIST DEVELOPMENT · CAREER STRATEGY", desc:"A masterclass focused on music management, covering artist development, career strategy, booking, promotion, and the key tools needed to build a successful career in the music industry.", price:0, seats:21, seed:"ds-masterclass"},
-  {off:11, a:"Bouregreg Sound System",  tag:"LIVE DUB · ELECTRONICS", desc:"Analog delays, a borrowed riq, and bass you feel in the chair. Free earplugs on the merch chair — tonight you might want them.", price:140, seats:0,  seed:"ds-bouregreg"},
-  {off:14, a:"Hajar & The Wolves",      tag:"ALTERNATIVE ROCK",       desc:"Four friends from Salé who got loud in a garage and stayed loud. Hometown energy, brand-new record, hand-painted sleeves at the merch chair.", price:100, seats:30, seed:"ds-wolves"},
-  {off:18, a:"Taqsim Club",             tag:"TARAB · ORIENTAL JAZZ",  desc:"Oud and trumpet arguing beautifully across a hundred years of repertoire. The late set goes long tonight — plan for it.", price:120, seats:14, seed:"ds-taqsim"},
-  {off:21, a:"Sofia Lahlou Quartet",    tag:"STRINGS · NEW CLASSICAL",desc:"Two violins, a cello, and a premiere written for this exact room. No amplification — the wool curtains do the work.", price:150, seats:26, seed:"ds-quartet"},
-  {off:25, a:"Dar Gnawa & guests",      tag:"GNAWA FUSION",           desc:"The guembri does not need a spotlight. A master from Marrakech is bringing friends, and the floor will move.", price:130, seats:5,  seed:"ds-gnawa"},
-  {off:28, a:"The Oudayas",             tag:"GARAGE ROCK · ALBUM NIGHT", desc:"Named after the kasbah, louder than it. Album-release show — the first fifty through the door get the blue vinyl.", price:90, seats:44, seed:"ds-oudayas"},
+  {off:11, a:"CHRISTELS CONCERT",  tag:"LIVE DUB · ELECTRONICS", desc:".", price:140, seats:0,  seed:"ds-bouregreg"},
+  {off:14, a:"SIMO THE ROCKER",      tag:"ALTERNATIVE ROCK",       desc:".", price:100, seats:30, seed:"ds-wolves"},
+  {off:18, a:"Club",             tag:"TARAB · ORIENTAL JAZZ",  desc:".", price:120, seats:14, seed:"ds-taqsim"},
+  {off:21, a:"hlou Quartet",    tag:"STRINGS · NEW CLASSICAL",desc:".", price:150, seats:26, seed:"ds-quartet"},
+  {off:25, a:"Dar Gnawa & guests",      tag:"GNAWA FUSION",           desc:".", price:130, seats:5,  seed:"ds-gnawa"},
+  {off:28, a:"The Oudayas",             tag:"GARAGE ROCK · ALBUM NIGHT", desc:".", price:90, seats:44, seed:"ds-oudayas"},
 ];
 
 function fmtDate(off){
@@ -891,7 +830,7 @@ function renderShows(){
   $('#showList').innerHTML = SHOWS.map((s,i)=>{
     const d = fmtDate(s.off);
     return `<article class="show reveal" data-i="${i}" data-d="${Math.min(i*45,270)}">
-      <button class="show-head" aria-expanded="false" title="${s.a} — ${s.desc}">
+      <button class="show-head" aria-expanded="false">
         <span class="s-date"><b>${d.day}</b><span>${d.wd} · ${d.mo}</span></span>
         <span class="s-main"><span class="s-artist">${s.a}</span><span class="s-tag">${s.tag}</span></span>
         <span class="s-status">${statusHTML(s)}</span>
@@ -900,7 +839,6 @@ function renderShows(){
       </button>
       <div class="show-hover-note"><strong>${s.a}</strong>${s.desc}</div>
       <div class="show-body"><div class="show-body-in">
-        <p class="s-desc">${s.desc}</p>
         <div class="s-actions">
           <span class="s-times">DOORS 19:30 · FIRST SET 20:30</span>
           ${s.seats===0
@@ -940,16 +878,68 @@ addEventListener('resize', ()=>{
 const rehearsalDate = $('#rehearsalDate');
 if(rehearsalDate){
   rehearsalDate.min = new Date().toISOString().split('T')[0];
-  $('#rehearsalForm').addEventListener('submit', e=>{
+  $('#rehearsalForm').addEventListener('submit', async e=>{
+    e.preventDefault();
+    e.stopPropagation();
     const isPackPurchase = e.submitter?.value === 'Pack offer purchase';
-    if(isPackPurchase){
-      rehearsalDate.value = '';
-      $('#rehearsalTime').value = '';
+    if(!rehearsalDate.value || !$('#rehearsalTime').value){
+      if(isPackPurchase){
+        rehearsalDate.value = '';
+        $('#rehearsalTime').value = '';
+      } else {
+        toast('Choose a day and time', 'Hourly rehearsal requests need both before sending.');
+        return;
+      }
+    }
+    const form = e.currentTarget;
+    const submitter = e.submitter;
+    const data = new FormData(form);
+    data.set('_subject', isPackPurchase ? 'New rehearsal pack purchase request' : 'New rehearsal reservation request');
+    data.set('requestType', submitter?.value || 'Rehearsal request');
+    form.querySelectorAll('button[type="submit"]').forEach(button=>{ button.disabled = true; });
+    try {
+      const response = await fetch(form.action, {method:'POST', body:data, headers:{Accept:'application/json'}});
+      if(!response.ok) throw new Error('Request failed');
+      const result = await response.json();
+      if(result.success === false || result.success === 'false') throw new Error('Form activation required');
+      toast('Thank you for your purchase', 'We will contact you ASAP.');
+      form.reset();
+      rehearsalDate.min = new Date().toISOString().split('T')[0];
+    } catch(error) {
+      toast(error.message === 'Form activation required' ? 'Activate the form first' : 'Something went wrong', error.message === 'Form activation required' ? 'Click the Activate Form link sent to downstage.rabat@gmail.com, then try again.' : 'Please try again or email downstage.rabat@gmail.com.');
+    } finally {
+      form.querySelectorAll('button[type="submit"]').forEach(button=>{ button.disabled = false; });
+    }
+  });
+}
+
+const nlForm = $('#nlForm');
+if(nlForm){
+  nlForm.addEventListener('submit', async e=>{
+    e.preventDefault();
+    e.stopPropagation();
+    const email = $('#nlEmail');
+    if(!email.checkValidity()){
+      email.reportValidity();
       return;
     }
-    if(!rehearsalDate.value || !$('#rehearsalTime').value){
-      e.preventDefault();
-      toast('Choose a day and time', 'Hourly rehearsal requests need both before sending.');
+    const data = new FormData(nlForm);
+    data.set('_subject', 'New Downstage newsletter signup');
+    data.set('_template', 'table');
+    data.set('_captcha', 'false');
+    const submit = nlForm.querySelector('button[type="submit"]');
+    submit.disabled = true;
+    try {
+      const response = await fetch('https://formsubmit.co/ajax/downstage.rabat@gmail.com', {method:'POST', body:data, headers:{Accept:'application/json'}});
+      if(!response.ok) throw new Error('Request failed');
+      const result = await response.json();
+      if(result.success === false || result.success === 'false') throw new Error('Form activation required');
+      toast('You are on the list', 'Thanks for signing up.');
+      nlForm.reset();
+    } catch(error) {
+      toast(error.message === 'Form activation required' ? 'Activate the form first' : 'Something went wrong', error.message === 'Form activation required' ? 'Click the Activate Form link sent to downstage.rabat@gmail.com, then try again.' : 'Please try again or email downstage.rabat@gmail.com.');
+    } finally {
+      submit.disabled = false;
     }
   });
 }
@@ -986,40 +976,6 @@ addEventListener('scroll', ()=>{
   });
 },{passive:true});
 
-/* floating image preview (desktop pointer only) */
-(function(){
-  if(!matchMedia('(hover:hover) and (min-width:900px)').matches) return;
-  const pv = $('#showPreview'), img = $('#spImg'), bar = $('#spBar');
-  let tx=0, ty=0, x=0, y=0, rot=0, on=false, raf=null;
-  function loop(){
-    x += (tx-x)*.16; y += (ty-y)*.16; rot *= .88;
-    pv.style.transform = `translate(${x}px,${y}px) rotate(${rot}deg)`;
-    if(on || Math.abs(tx-x) > .5) raf = requestAnimationFrame(loop); else raf = null;
-  }
-  $('#showList').addEventListener('pointermove', e=>{
-    const last = tx;
-    tx = e.clientX + 26; ty = e.clientY - 150;
-    if(tx + 275 > innerWidth) tx = e.clientX - 278;
-    rot = Math.max(-7, Math.min(7, (tx-last)*.4));
-    if(!raf) raf = requestAnimationFrame(loop);
-  });
-  $('#showList').addEventListener('pointerover', e=>{
-    const row = e.target.closest('.show');
-    if(!row || e.relatedTarget instanceof Node && row.contains(e.relatedTarget)) return;
-    const s = SHOWS[+row.dataset.i], d = fmtDate(s.off);
-      img.src = `https://picsum.photos/seed/${s.seed}/420/300.jpg`;
-      bar.innerHTML = `<b>${s.a}</b><span>${d.wd} ${d.day} ${d.mo}</span>`;
-      pv.classList.add('on'); on = true;
-      if(!raf) raf = requestAnimationFrame(loop);
-  });
-  $('#showList').addEventListener('pointerout', e=>{
-    const row = e.target.closest('.show');
-    if(!row || e.relatedTarget instanceof Node && row.contains(e.relatedTarget)) return;
-      pv.classList.remove('on');
-      on = false;
-  });
-})();
-
 /* reveal content as it enters the viewport */
 const revealObserver = new IntersectionObserver(entries=>{
   entries.forEach(entry=>{
@@ -1031,3 +987,7 @@ const revealObserver = new IntersectionObserver(entries=>{
 },{threshold:.08});
 
 $$('.reveal').forEach(el=>revealObserver.observe(el));
+
+</script>
+</body>
+</html>
