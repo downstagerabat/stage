@@ -1063,6 +1063,8 @@ const ideaThanks = [
 ];
 if(ideaModal && ideaOpen && ideaForm){
   ideaOpen.addEventListener('click', ()=>{
+    ideaForm.reset();
+    ideaForm.querySelector('button[type="submit"]').disabled = false;
     ideaModal.hidden = false;
     requestAnimationFrame(()=>ideaModal.classList.add('open'));
   });
@@ -1080,7 +1082,6 @@ if(ideaModal && ideaOpen && ideaForm){
     submit.disabled = true;
     ideaModal.classList.remove('open');
     setTimeout(()=>{ ideaModal.hidden = true; }, 300);
-    setTimeout(()=>ideaForm.reset(), 1000);
     setTimeout(()=>toast(ideaThanks[Math.floor(Math.random() * ideaThanks.length)], ''), 700);
   });
 }
