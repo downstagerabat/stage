@@ -628,7 +628,7 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
             </div>
           </div>
         </div>
-        <form class="rehearsal-form reveal" id="rehearsalForm" data-d="120" action="https://formsubmit.co/ajax/downstage.rabat@gmail.com" method="POST">
+        <form class="rehearsal-form reveal" id="rehearsalForm" data-d="120" action="https://formsubmit.co/downstage.rabat@gmail.com" method="POST" target="rehearsalSubmitFrame">
           <input type="hidden" name="_subject" value="New rehearsal reservation request">
           <input type="hidden" name="_template" value="table">
           <input type="hidden" name="_captcha" value="false">
@@ -648,6 +648,7 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
             <button class="btn btn-solid rehearsal-submit" type="submit" name="requestType" value="Pack offer purchase">Buy pack offer</button>
           </div>
         </form>
+        <iframe name="rehearsalSubmitFrame" title="Rehearsal submission" hidden></iframe>
       </div>
       <div class="create-together reveal" data-d="180">
         <h3>Let's create together.</h3>
@@ -1197,9 +1198,7 @@ if(residencyModal && residencyForm && residencyOpen){
 const rehearsalDate = $('#rehearsalDate');
 if(rehearsalDate){
   rehearsalDate.min = new Date().toISOString().split('T')[0];
-  $('#rehearsalForm').addEventListener('submit', async e=>{
-    e.preventDefault();
-    e.stopPropagation();
+  $('#rehearsalForm').addEventListener('submit', e=>{
     const isPackPurchase = e.submitter?.value === 'Pack offer purchase';
     if(!rehearsalDate.value || !$('#rehearsalTime').value){
       if(isPackPurchase){
@@ -1212,23 +1211,10 @@ if(rehearsalDate){
     }
     const form = e.currentTarget;
     const submitter = e.submitter;
-    const data = new FormData(form);
-    data.set('_subject', isPackPurchase ? 'New rehearsal pack purchase request' : 'New rehearsal reservation request');
-    data.set('requestType', submitter?.value || 'Rehearsal request');
-    form.querySelectorAll('button[type="submit"]').forEach(button=>{ button.disabled = true; });
-    try {
-      const response = await fetch(form.action, {method:'POST', body:data, headers:{Accept:'application/json'}});
-      if(!response.ok) throw new Error('Request failed');
-      const result = await response.json();
-      if(result.success === false || result.success === 'false') throw new Error('Form activation required');
-      showRehearsalConfirmation();
-      form.reset();
-      rehearsalDate.min = new Date().toISOString().split('T')[0];
-    } catch(error) {
-      toast(error.message === 'Form activation required' ? 'Activate the form first' : 'Something went wrong', error.message === 'Form activation required' ? 'Click the Activate Form link sent to downstage.rabat@gmail.com, then try again.' : 'Please try again or email downstage.rabat@gmail.com.');
-    } finally {
-      form.querySelectorAll('button[type="submit"]').forEach(button=>{ button.disabled = false; });
-    }
+    form.querySelector('input[name="_subject"]').value = isPackPurchase
+      ? 'New rehearsal pack purchase request'
+      : 'New rehearsal reservation request';
+    showRehearsalConfirmation();
   });
 }
 
