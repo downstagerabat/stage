@@ -325,6 +325,8 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
 .foot-bot{display:flex;flex-wrap:wrap;gap:14px 40px;justify-content:space-between;border-top:1px solid var(--hair);padding:20px 0 44px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--faint)}
 .foot-bot a{color:var(--dim);text-decoration:none}
 .foot-bot a:hover{color:var(--amber)}
+.contact-launch{margin:0 auto 28px;display:flex;width:max-content;border-color:var(--red);color:var(--red)}
+.contact-launch:hover{background:var(--red);border-color:var(--red);color:var(--bg)}
 
 /* ============ modal ============ */
 .modal{position:fixed;inset:0;z-index:900;display:grid;place-items:center;padding:20px;opacity:0;transition:opacity .3s}
@@ -340,6 +342,13 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
 #modalTitle{font:480 clamp(1.7rem,4vw,2.3rem)/1.1 var(--serif);letter-spacing:-.015em;margin-top:12px}
 .modal-sub{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--dim);margin-top:10px}
 #modalBody{margin-top:30px}
+.contact-panel{width:min(760px,94vw)}
+.contact-fields{display:grid;grid-template-columns:1fr 1fr;gap:16px 20px;margin:26px 0}
+.contact-fields label{font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--dim);text-transform:uppercase}
+.contact-fields input,.contact-fields textarea{display:block;width:100%;margin-top:7px;background:#fff;border:1px solid rgba(8,7,5,.18);color:#17130f;font:400 1rem var(--serif);padding:11px 12px;outline:none}
+.contact-fields textarea{resize:vertical;min-height:130px}
+.contact-fields input:focus,.contact-fields textarea:focus{border-color:var(--red)}
+.contact-wide{grid-column:1/-1}
 .frow{margin-bottom:24px}
 .seats-row{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
 .stepper{display:flex;align-items:center;border:1px solid var(--hair);border-radius:2px}
@@ -400,6 +409,8 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
   .rehearsal-fields{grid-template-columns:1fr}
   .room-details{grid-template-columns:1fr}
   .create-together-panel{align-items:flex-start;flex-direction:column}
+  .contact-fields{grid-template-columns:1fr}
+  .contact-wide{grid-column:auto}
 }
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
@@ -770,6 +781,7 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
       <span>ROOM TO GROW</span>
       <a href="#top">BACK TO TOP ↑</a>
     </div>
+    <button class="btn contact-launch" id="contactOpen" type="button">Contact</button>
   </div>
 </footer>
 
@@ -784,6 +796,30 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
     <h3 id="modalTitle">—</h3>
     <p class="modal-sub" id="modalSub">—</p>
     <div id="modalBody"></div>
+  </div>
+</div>
+
+<div class="modal" id="contactModal" role="dialog" aria-modal="true" aria-labelledby="contactTitle" hidden>
+  <div class="modal-back" data-contact-close></div>
+  <div class="modal-panel contact-panel">
+    <button class="modal-x" data-contact-close aria-label="Close contact form"><svg viewBox="0 0 12 12" fill="none"><path d="M1 1l10 10M11 1L1 11"/></svg></button>
+    <p class="modal-kicker">CONTACT</p>
+    <h3 id="contactTitle">Contact Downstage</h3>
+    <form id="contactForm" action="https://formsubmit.co/ajax/downstage.rabat@gmail.com" method="POST">
+      <input type="hidden" name="_subject" value="New Downstage contact message">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_captcha" value="false">
+      <div class="contact-fields">
+        <label>Nom<input type="text" name="nom" required></label>
+        <label>Prénom<input type="text" name="prenom" required></label>
+        <label>Profession<input type="text" name="profession"></label>
+        <label>Adresse mail<input type="email" name="email" required></label>
+        <label>Tél<input type="tel" name="telephone"></label>
+        <label class="contact-wide">Objet<input type="text" name="objet" required></label>
+        <label class="contact-wide">Message<textarea name="message" rows="6" required></textarea></label>
+      </div>
+      <button class="btn btn-solid" type="submit">Envoyer</button>
+    </form>
   </div>
 </div>
 
@@ -883,6 +919,43 @@ addEventListener('resize', ()=>{
     h.nextElementSibling.style.maxHeight = h.nextElementSibling.scrollHeight + 'px';
   });
 });
+
+/* rehearsal reservation request */
+const contactModal = $('#contactModal');
+const contactForm = $('#contactForm');
+if(contactModal && contactForm){
+  $('#contactOpen').addEventListener('click', ()=>{
+    contactModal.hidden = false;
+    requestAnimationFrame(()=>contactModal.classList.add('open'));
+  });
+  contactModal.querySelectorAll('[data-contact-close]').forEach(control=>control.addEventListener('click', ()=>{
+    contactModal.classList.remove('open');
+    setTimeout(()=>{ contactModal.hidden = true; }, 300);
+  }));
+  contactForm.addEventListener('submit', async e=>{
+    e.preventDefault();
+    if(!contactForm.checkValidity()){
+      contactForm.reportValidity();
+      return;
+    }
+    const submit = contactForm.querySelector('button[type="submit"]');
+    submit.disabled = true;
+    try{
+      const response = await fetch(contactForm.action, {method:'POST', body:new FormData(contactForm), headers:{Accept:'application/json'}});
+      if(!response.ok) throw new Error('Request failed');
+      const result = await response.json();
+      if(result.success === false || result.success === 'false') throw new Error('Form activation required');
+      contactForm.reset();
+      contactModal.classList.remove('open');
+      setTimeout(()=>{ contactModal.hidden = true; }, 300);
+      toast('Message sent', 'Thank you. We will get back to you soon.');
+    }catch(error){
+      toast(error.message === 'Form activation required' ? 'Activate the form first' : 'Something went wrong', error.message === 'Form activation required' ? 'Click the Activate Form link sent to downstage.rabat@gmail.com.' : 'Please try again or email downstage.rabat@gmail.com.');
+    }finally{
+      submit.disabled = false;
+    }
+  });
+}
 
 /* rehearsal reservation request */
 const rehearsalDate = $('#rehearsalDate');
