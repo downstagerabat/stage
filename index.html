@@ -57,7 +57,7 @@ label{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.18em;
 input.bad{border-color:var(--red)}
 
 /* ============ header ============ */
-.site-head{position:fixed;inset:0 0 auto 0;z-index:150;transition:background .35s,border-color .35s,transform .35s var(--ease);border-bottom:1px solid transparent}
+.site-head{position:fixed;inset:0 0 auto 0;z-index:150;transition:background .35s,border-color .35s,transform .55s var(--ease),opacity .55s var(--ease),visibility 0s linear .55s;border-bottom:1px solid transparent}
 .site-head.nav-hidden{transform:translate3d(0,calc(-100% - 2px),0);opacity:0;visibility:hidden;pointer-events:none}
 .site-head.scrolled{background:rgba(18,16,12,.82);backdrop-filter:blur(10px);border-color:var(--hair)}
 .head-in{display:flex;align-items:center;gap:22px;height:92px}
@@ -119,8 +119,6 @@ input.bad{border-color:var(--red)}
 .ticker{overflow:hidden;border-block:1px solid var(--hair);background:var(--bg-2);padding:13px 0}
 .ticker-track{display:flex;width:max-content;animation:tick 52s linear infinite;will-change:transform}
 .ticker-track{animation-play-state:running!important}
-@media(hover:hover){.ticker:hover .ticker-track{animation-play-state:paused!important}}
-.ticker-track.is-paused{animation-play-state:paused!important}
 @keyframes tick{0%{transform:translate3d(0,0,0)}100%{transform:translate3d(-50%,0,0)}}
 .ticker-group{display:flex;align-items:center;flex-shrink:0}
 .ti{font-family:var(--mono);font-size:11px;letter-spacing:.22em;color:var(--dim);white-space:nowrap}
@@ -330,6 +328,7 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
 .foot-bot{display:flex;flex-wrap:wrap;gap:14px 40px;justify-content:space-between;border-top:1px solid var(--hair);padding:20px 0 44px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--faint)}
 .foot-bot a{color:var(--dim);text-decoration:none}
 .foot-bot a:hover{color:var(--amber)}
+.foot-credit{font-size:9px;color:var(--faint)}
 .foot-bot{position:relative}
 .foot-bot span:nth-child(2){position:absolute;left:50%;transform:translateX(-50%);font-size:14px;color:var(--ink);letter-spacing:.18em}
 .contact-launch{margin:18px 0 0;display:flex;width:160px;padding:14px 22px;border-color:var(--red);color:var(--red)}
@@ -346,6 +345,11 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
 .modal-back{position:absolute;inset:0;background:rgba(8,7,5,.72);backdrop-filter:blur(6px)}
 .modal-panel{position:relative;width:min(540px,94vw);max-height:88vh;overflow:auto;background:var(--bg-2);border:1px solid var(--hair);padding:clamp(26px,4vw,40px);transform:translateY(16px);transition:transform .35s var(--ease)}
 .modal.open .modal-panel{transform:none}
+.idea-copy{color:var(--dim);font-size:1.05rem;line-height:1.6;margin-top:24px;max-width:50ch}
+.idea-form{margin-top:24px}
+.idea-form textarea{display:block;width:100%;min-height:150px;resize:vertical;background:#fff;border:1px solid rgba(8,7,5,.18);color:#17130f;font:400 1rem var(--serif);padding:11px 12px;outline:none}
+.idea-form textarea:focus{border-color:var(--red)}
+.idea-form .btn{margin-top:16px}
 .modal-x{position:absolute;top:16px;right:16px;width:38px;height:38px;background:none;border:1px solid var(--hair);border-radius:50%;cursor:pointer;display:grid;place-items:center;transition:.25s}
 .modal-x:hover{border-color:var(--red)}
 .modal-x svg{width:12px;height:12px;stroke:var(--ink);stroke-width:1.6}
@@ -428,7 +432,10 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
   .show-body-in{grid-template-columns:1fr;padding:0 10px 26px}
   .s-desc{grid-column:1}
   .show-hover-note{left:0;width:min(280px,calc(100vw - 40px));padding:22px}
-  .hm-coord{display:none}
+  .hero-meta{flex-wrap:nowrap;justify-content:space-between;gap:6px;overflow:hidden;font-size:6px;letter-spacing:.08em}
+  .hero-meta::-webkit-scrollbar{display:none}
+  .hero-meta span,.hero-meta a{flex:none;white-space:nowrap}
+  .hm-coord{display:inline}
   .stat{flex:1 1 42%;padding:26px 16px 4px 0}
   .stat + .stat{padding-left:0;border-left:0}
   .stat:nth-child(even){border-left:1px solid var(--hair);padding-left:20px}
@@ -446,7 +453,12 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
   .event-section,.event-checks{grid-column:1}
   .event-checks{grid-template-columns:1fr}
   .practical-row{flex-direction:column;gap:18px}
-  .foot-bot span:nth-child(2){position:static;transform:none}
+  .foot-bot{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px 18px;font-size:9px;align-items:center}
+  .foot-bot span,.foot-bot a{white-space:nowrap}
+  .foot-bot > span:first-child{grid-column:1/-1}
+  .foot-bot span:nth-child(2){position:static;grid-column:1;transform:none;font-size:9px}
+  .foot-bot > a{grid-column:2;grid-row:2}
+  .foot-bot > .foot-credit{grid-column:1/-1;grid-row:3;font-size:8px}
 }
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
@@ -511,7 +523,7 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
     <div class="hero-meta container reveal" data-d="260">
       <span>HASSAN · RABAT</span>
       <span class="hm-coord">34.025185° N, 6.828483° W</span>
-      <span>100 SEATS · 1 STAGE</span>
+      <span>100 SEATS</span>
       <a href="#story">TATMIN
         <svg viewBox="0 0 10 12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 1v9M1.5 7 5 10.5 8.5 7"/></svg>
       </a>
@@ -816,6 +828,7 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
             <button class="toastlink" data-t="Press kit" data-s="Email DOWNSTAGE.RABAT@GMAIL.COM — it's yours within a day.">Press kit</button>
             <button class="toastlink" data-t="Accessibility" data-s="Step-free entry on the left of the door — ring the bell, we'll open the side gate.">Accessibility</button>
             <button class="toastlink" data-t="The piano" data-s="The piano stays where it is. We're serious about this.">The COFFESHOP</button>
+            <button class="toastlink" id="ideaOpen" type="button">IDEA BOX</button>
           </div>
         </div>
       </div>
@@ -823,7 +836,7 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
     <div class="foot-bot">
       <span>© 2026 DOWNSTAGE · RABAT, MOROCCO</span>
       <span>ROOM TO GROW</span>
-      <a href="#top">BACK TO TOP ↑</a>
+      <span class="foot-credit">Developed by: MEHDI MAOUCHE PRD</span>
     </div>
   </div>
 </footer>
@@ -903,6 +916,24 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
   </div>
 </div>
 
+<div class="modal" id="ideaModal" role="dialog" aria-modal="true" aria-labelledby="ideaTitle" hidden>
+  <div class="modal-back" data-idea-close></div>
+  <div class="modal-panel">
+    <button class="modal-x" data-idea-close aria-label="Close idea box"><svg viewBox="0 0 12 12" fill="none"><path d="M1 1l10 10M11 1L1 11"/></svg></button>
+    <p class="modal-kicker">IDEA BOX</p>
+    <h3 id="ideaTitle">Got an idea?</h3>
+    <p class="idea-copy">Got an idea? We’re listening. Suggest an event, artist, collaboration, workshop, or anything you’d love to see at Downstage.</p>
+    <form class="idea-form" id="ideaForm" action="https://formsubmit.co/downstage.rabat@gmail.com" method="POST" target="ideaSubmitFrame">
+      <input type="hidden" name="_subject" value="New Downstage idea box submission">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_captcha" value="false">
+      <textarea name="idea" aria-label="Your idea" placeholder="Write your idea here..." required></textarea>
+      <button class="btn btn-solid" type="submit">Send idea</button>
+    </form>
+    <iframe name="ideaSubmitFrame" title="Idea submission" hidden></iframe>
+  </div>
+</div>
+
 <div class="toasts" id="toasts"></div>
 
 <script>
@@ -912,12 +943,6 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
 const $  = s => document.querySelector(s);
 const $$ = s => [...document.querySelectorAll(s)];
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-const ticker = $('#tickerTrack');
-if(ticker){
-  ticker.addEventListener('pointerdown', ()=>ticker.classList.add('is-paused'));
-  ['pointerup','pointercancel','pointerleave'].forEach(type=>ticker.addEventListener(type, ()=>ticker.classList.remove('is-paused')));
-}
 
 const burger = $('#burger');
 const mobileNav = $('#mnav');
@@ -1025,6 +1050,40 @@ addEventListener('resize', ()=>{
 const contactModal = $('#contactModal');
 const contactForm = $('#contactForm');
 const contactOpen = $('#contactOpen');
+const ideaModal = $('#ideaModal');
+const ideaOpen = $('#ideaOpen');
+const ideaForm = $('#ideaForm');
+const ideaThanks = [
+  'Idea received. The Downstage council will now pretend to be very serious about it. 🧐',
+  'Boom! Your idea has entered the building. 💡🔥',
+  'Got it! Now we just need to convince everyone else. 😎',
+  'Your idea is safe with us. Probably. 👀',
+  'Thank you! You’ve officially added another thing to our to-do list. 😤',
+  'Noted! If this becomes a reality, we’ll pretend it was our idea. 😌'
+];
+if(ideaModal && ideaOpen && ideaForm){
+  ideaOpen.addEventListener('click', ()=>{
+    ideaModal.hidden = false;
+    requestAnimationFrame(()=>ideaModal.classList.add('open'));
+  });
+  ideaModal.querySelectorAll('[data-idea-close]').forEach(control=>control.addEventListener('click', ()=>{
+    ideaModal.classList.remove('open');
+    setTimeout(()=>{ ideaModal.hidden = true; }, 300);
+  }));
+  ideaForm.addEventListener('submit', e=>{
+    if(!ideaForm.checkValidity()){
+      e.preventDefault();
+      ideaForm.reportValidity();
+      return;
+    }
+    const submit = ideaForm.querySelector('button[type="submit"]');
+    submit.disabled = true;
+    ideaForm.reset();
+    ideaModal.classList.remove('open');
+    setTimeout(()=>{ ideaModal.hidden = true; }, 300);
+    setTimeout(()=>toast(ideaThanks[Math.floor(Math.random() * ideaThanks.length)], ''), 700);
+  });
+}
 if(contactModal && contactForm && contactOpen){
   contactOpen.addEventListener('click', ()=>{
     contactModal.hidden = false;
