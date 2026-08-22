@@ -55,6 +55,16 @@ if(packPurchase && packList){
 }
 const rehearsalForm = document.querySelector('#rehearsalForm');
 const confirmModal = document.querySelector('#confirmModal');
+if(rehearsalForm){
+  const nameField = rehearsalForm.querySelector('#name')?.closest('.field');
+  if(nameField){
+    const musicianField = document.createElement('div');
+    musicianField.className = 'field';
+    musicianField.style.marginTop = '20px';
+    musicianField.innerHTML = '<label for="musicianCount">Number of musicians</label><input id="musicianCount" name="musician_count" type="number" min="1" max="100" value="1" required>';
+    nameField.before(musicianField);
+  }
+}
 if(rehearsalForm && confirmModal){
   rehearsalForm.addEventListener('submit', event=>{
     rehearsalForm.querySelector('input[name="chosenPack"]').value = document.querySelector('input[name="pack"]:checked')?.value || 'No pack selected';
