@@ -58,7 +58,7 @@ input.bad{border-color:var(--red)}
 
 /* ============ header ============ */
 .site-head{position:fixed;inset:0 0 auto 0;z-index:150;transition:background .35s,border-color .35s,transform .35s var(--ease);border-bottom:1px solid transparent}
-.site-head.nav-hidden{transform:translateY(-100%);opacity:0;visibility:hidden;pointer-events:none}
+.site-head.nav-hidden{transform:translate3d(0,calc(-100% - 2px),0);opacity:0;visibility:hidden;pointer-events:none}
 .site-head.scrolled{background:rgba(18,16,12,.82);backdrop-filter:blur(10px);border-color:var(--hair)}
 .head-in{display:flex;align-items:center;gap:22px;height:92px}
 .brand{display:flex;align-items:center;gap:11px;text-decoration:none;margin-right:auto}
@@ -1024,8 +1024,9 @@ addEventListener('resize', ()=>{
 /* rehearsal reservation request */
 const contactModal = $('#contactModal');
 const contactForm = $('#contactForm');
-if(contactModal && contactForm){
-  $('#contactOpen').addEventListener('click', ()=>{
+const contactOpen = $('#contactOpen');
+if(contactModal && contactForm && contactOpen){
+  contactOpen.addEventListener('click', ()=>{
     contactModal.hidden = false;
     requestAnimationFrame(()=>contactModal.classList.add('open'));
   });
@@ -1060,8 +1061,9 @@ if(contactModal && contactForm){
 
 const residencyModal = $('#residencyModal');
 const residencyForm = $('#residencyForm');
-if(residencyModal && residencyForm){
-  $('#residencyOpen').addEventListener('click', ()=>{
+const residencyOpen = $('#residencyOpen');
+if(residencyModal && residencyForm && residencyOpen){
+  residencyOpen.addEventListener('click', ()=>{
     residencyModal.hidden = false;
     requestAnimationFrame(()=>residencyModal.classList.add('open'));
   });
@@ -1179,6 +1181,7 @@ $('#showList').addEventListener('pointerout', e=>{
 /* hide the header on downward scroll and restore it on upward scroll */
 const siteHead = $('#siteHead');
 let lastScrollY = scrollY;
+let headerScrollAnchor = scrollY;
 let scrollTicking = false;
 addEventListener('scroll', ()=>{
   if(scrollTicking) return;
@@ -1186,10 +1189,13 @@ addEventListener('scroll', ()=>{
   requestAnimationFrame(()=>{
     const currentScrollY = scrollY;
     siteHead.classList.toggle('scrolled', currentScrollY > 12);
-    if(currentScrollY <= 12 || currentScrollY < lastScrollY){
+    const movement = currentScrollY - headerScrollAnchor;
+    if(currentScrollY <= 12 || movement < -8){
       siteHead.classList.remove('nav-hidden');
-    }else if(currentScrollY > lastScrollY){
+      headerScrollAnchor = currentScrollY;
+    }else if(movement > 8){
       siteHead.classList.add('nav-hidden');
+      headerScrollAnchor = currentScrollY;
     }
     lastScrollY = currentScrollY;
     scrollTicking = false;

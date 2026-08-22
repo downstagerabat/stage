@@ -27,6 +27,6 @@
   </section>
   <a class="back-link" href="https://downstagerabat.github.io/stage/">← Back to Downstage</a>
 </main>
-<script>const pageHeader=document.querySelector('.site-head');let previousScroll=window.scrollY;window.addEventListener('scroll',()=>{const currentScroll=window.scrollY;if(currentScroll<=12||currentScroll<previousScroll)pageHeader.classList.remove('nav-hidden');else if(currentScroll>previousScroll)pageHeader.classList.add('nav-hidden');previousScroll=currentScroll},{passive:true});</script>
+<script>const pageHeader=document.querySelector('.site-head');let headerScrollAnchor=window.scrollY;window.addEventListener('scroll',()=>{const currentScroll=window.scrollY;const movement=currentScroll-headerScrollAnchor;if(currentScroll<=12||movement<-8){pageHeader.classList.remove('nav-hidden');headerScrollAnchor=currentScroll}else if(movement>8){pageHeader.classList.add('nav-hidden');headerScrollAnchor=currentScroll}},{passive:true});</script>
 </body>
 </html>

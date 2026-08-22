@@ -58,6 +58,6 @@ document.querySelectorAll('[data-pack]').forEach(pack=>pack.addEventListener('cl
   if(modal){modal.classList.remove('open');modal.hidden=true}
 }));
 </script>
-<script>const pageHeader=document.querySelector('.site-head');let previousScroll=window.scrollY;window.addEventListener('scroll',()=>{const currentScroll=window.scrollY;if(currentScroll<=12||currentScroll<previousScroll)pageHeader.classList.remove('nav-hidden');else if(currentScroll>previousScroll)pageHeader.classList.add('nav-hidden');previousScroll=currentScroll},{passive:true});</script>
+<script>const pageHeader=document.querySelector('.site-head');let headerScrollAnchor=window.scrollY;window.addEventListener('scroll',()=>{const currentScroll=window.scrollY;const movement=currentScroll-headerScrollAnchor;if(currentScroll<=12||movement<-8){pageHeader.classList.remove('nav-hidden');headerScrollAnchor=currentScroll}else if(movement>8){pageHeader.classList.add('nav-hidden');headerScrollAnchor=currentScroll}},{passive:true});</script>
 </body>
 </html>
