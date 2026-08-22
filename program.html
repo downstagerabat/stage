@@ -14,7 +14,7 @@
 <style>
 .site-head{position:fixed;inset:0 0 auto 0;z-index:10;background:rgba(18,16,12,.92);border-bottom:1px solid var(--hair)}
 .head-in{display:flex;align-items:center;gap:32px;height:92px;max-width:1180px;margin:auto;padding:0 clamp(18px,5vw,72px)}
-.brand{display:flex;align-items:center;gap:11px;text-decoration:none;margin-right:auto}.brand-mark{width:110px;height:auto;max-height:58px;object-fit:contain}.brand-name{font:900 1.75rem var(--serif);color:#fff}.brand-loc{font:9.5px var(--mono);letter-spacing:.32em;color:var(--red);margin-top:5px}.main-nav{display:flex;gap:30px}.main-nav a{font:11px var(--mono);letter-spacing:.16em;text-transform:uppercase;text-decoration:none;color:var(--dim)}.main-nav a:hover{color:var(--ink)}.head-right{display:flex;align-items:center;gap:16px}.head-cta{width:160px}.back-link{display:inline-block;margin-bottom:28px;color:var(--amber);font:10px var(--mono);letter-spacing:.16em;text-decoration:none;text-transform:uppercase}.back-link:hover{color:var(--ink)}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;margin-right:auto}.brand-mark{width:110px;height:auto;max-height:58px;object-fit:contain}.brand-name{font:900 1.75rem var(--serif);color:#fff!important}.brand-loc{font:9.5px var(--mono);letter-spacing:.32em;color:var(--red);margin-top:5px}.main-nav{display:flex;gap:30px}.main-nav a{font:11px var(--mono);letter-spacing:.16em;text-transform:uppercase;text-decoration:none;color:var(--dim)}.main-nav a:hover{color:var(--ink)}.head-right{display:flex;align-items:center;gap:16px}.head-cta{width:160px}.back-link{display:block;margin:28px 0 0;color:var(--amber);font:10px var(--mono);letter-spacing:.16em;text-decoration:none;text-transform:uppercase}.back-link:hover{color:var(--ink)}
 .topline a,.topline span{color:#fff}
 @media(max-width:760px){.head-in{height:72px}.brand-mark{width:84px}.brand-name{font-size:1.35rem}.brand-loc{font-size:8px}.main-nav,.head-right{display:none}body{padding-top:88px}.sec-head{grid-template-columns:1fr;gap:14px}.sec-side{text-align:left}.show-head{grid-template-columns:58px 1fr 35px;grid-template-areas:"date main x" "date status x" "date price x";gap:6px 12px;padding:20px 0}.s-date{grid-area:date;display:grid;gap:0}.s-date b{font-size:1.9rem}.s-main{grid-area:main}.s-status{grid-area:status}.s-price{grid-area:price;text-align:left}.s-x{grid-area:x}.show-body-in{padding:0 0 24px}.s-actions{align-items:flex-start;flex-direction:column}}
 </style>
@@ -23,11 +23,11 @@
 <header class="site-head"><div class="head-in"><a class="brand" href="https://downstagerabat.github.io/stage/" aria-label="Downstage — home"><img class="brand-mark" src="images/logo.png" alt="Downstage"><span class="brand-name">Downstage</span><span class="brand-loc">RABAT</span></a><nav class="main-nav" aria-label="Main"><a href="program.html">Program</a><a href="https://downstagerabat.github.io/stage/#rehearsals">Rehearsals</a><a href="https://downstagerabat.github.io/stage/#room">STAGE</a><a href="https://downstagerabat.github.io/stage/#story">Story</a><a href="https://downstagerabat.github.io/stage/#visit">Visit</a></nav><div class="head-right"><a class="btn head-cta" href="https://forms.gle/nJm9DmAewahU4h7V6" target="_blank" rel="noopener noreferrer">Collaborate</a><a class="btn head-cta" href="program.html">Reserve a seat</a></div></div></header>
 <main>
   <div class="topline"><a href="https://downstagerabat.github.io/stage/">Downstage</a><span>Rabat · Live programme</span></div>
-  <a class="back-link" href="https://downstagerabat.github.io/stage/">← Back to Downstage</a>
   <section id="programme">
     <header class="sec-head"><p class="sec-kicker"><b>(01)</b><span>PROGRAMME</span></p><h1 class="sec-title">The next <em>nights</em>.</h1><p class="sec-side">TICKETS AT THE DOOR<br>PREBOOKED SEATS HELD TILL 19:00</p></header>
     <div id="showList"></div>
   </section>
+  <a class="back-link" href="https://downstagerabat.github.io/stage/">← Back to Downstage</a>
 </main>
 <script>
 const shows=[
