@@ -350,6 +350,7 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
 .idea-form textarea{display:block;width:100%;min-height:150px;resize:vertical;background:#fff;border:1px solid rgba(8,7,5,.18);color:#17130f;font:400 1rem var(--serif);padding:11px 12px;outline:none}
 .idea-form textarea:focus{border-color:var(--red)}
 .idea-form .btn{margin-top:16px}
+.rehearsal-confirm-copy{color:var(--dim);font-size:1.08rem;line-height:1.7;margin-top:24px;max-width:46ch}
 .modal-x{position:absolute;top:16px;right:16px;width:38px;height:38px;background:none;border:1px solid var(--hair);border-radius:50%;cursor:pointer;display:grid;place-items:center;transition:.25s}
 .modal-x:hover{border-color:var(--red)}
 .modal-x svg{width:12px;height:12px;stroke:var(--ink);stroke-width:1.6}
@@ -948,6 +949,16 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
   </div>
 </div>
 
+<div class="modal" id="rehearsalConfirmModal" role="dialog" aria-modal="true" aria-labelledby="rehearsalConfirmTitle" hidden>
+  <div class="modal-back" data-rehearsal-confirm-close></div>
+  <div class="modal-panel">
+    <button class="modal-x" data-rehearsal-confirm-close aria-label="Close confirmation"><svg viewBox="0 0 12 12" fill="none"><path d="M1 1l10 10M11 1L1 11"/></svg></button>
+    <p class="modal-kicker">REQUEST RECEIVED</p>
+    <h3 id="rehearsalConfirmTitle">Hi! 👋 Thanks for your request.</h3>
+    <p class="rehearsal-confirm-copy">We’ve received your rehearsal booking request. 🎶<br>We’ll confirm the availability and get back to you shortly with the details and payment information.<br><br>See you at Downstage! 🤘</p>
+  </div>
+</div>
+
 <div class="toasts" id="toasts"></div>
 
 <script>
@@ -1067,6 +1078,18 @@ const contactOpen = $('#contactOpen');
 const ideaModal = $('#ideaModal');
 const ideaOpen = $('#ideaOpen');
 const ideaForm = $('#ideaForm');
+const rehearsalConfirmModal = $('#rehearsalConfirmModal');
+function showRehearsalConfirmation(){
+  if(!rehearsalConfirmModal) return;
+  rehearsalConfirmModal.hidden = false;
+  requestAnimationFrame(()=>rehearsalConfirmModal.classList.add('open'));
+}
+if(rehearsalConfirmModal){
+  rehearsalConfirmModal.querySelectorAll('[data-rehearsal-confirm-close]').forEach(control=>control.addEventListener('click', ()=>{
+    rehearsalConfirmModal.classList.remove('open');
+    setTimeout(()=>{ rehearsalConfirmModal.hidden = true; }, 300);
+  }));
+}
 const ideaThanks = [
   'Idea received. The Downstage council will now pretend to be very serious about it. 🧐',
   'Boom! Your idea has entered the building. 💡🔥',
@@ -1198,7 +1221,7 @@ if(rehearsalDate){
       if(!response.ok) throw new Error('Request failed');
       const result = await response.json();
       if(result.success === false || result.success === 'false') throw new Error('Form activation required');
-      toast('Thank you for your purchase', 'We will contact you ASAP.');
+      showRehearsalConfirmation();
       form.reset();
       rehearsalDate.min = new Date().toISOString().split('T')[0];
     } catch(error) {
