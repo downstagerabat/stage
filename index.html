@@ -779,7 +779,7 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
         <h5>FOLLOW</h5>
         <a href="https://www.instagram.com/downstage.rabat?igsi=OWpsNDlvbnlnZ3Ft&amp;utm_source=qr" target="_blank" rel="noopener noreferrer">Instagram</a>
         <a href="https://downstagerabat.github.io/stage/?v=20260822-4#rehearsals">REHEARSALS</a>
-        <a href="https://forms.gle/nJm9DmAewahU4h7V6" target="_blank" rel="noopener noreferrer">Book a residency/project</a>
+        <button class="toastlink" id="residencyOpen" type="button">Book a residency/project</button>
       </div>
       <div class="fc">
         <h5>PRACTICAL</h5>
@@ -834,6 +834,27 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
         <label class="contact-wide">Message<textarea name="message" rows="6" required></textarea></label>
       </div>
       <button class="btn btn-solid" type="submit">Envoyer</button>
+    </form>
+  </div>
+</div>
+
+<div class="modal" id="residencyModal" role="dialog" aria-modal="true" aria-labelledby="residencyTitle" hidden>
+  <div class="modal-back" data-residency-close></div>
+  <div class="modal-panel contact-panel">
+    <button class="modal-x" data-residency-close aria-label="Close residency form"><svg viewBox="0 0 12 12" fill="none"><path d="M1 1l10 10M11 1L1 11"/></svg></button>
+    <p class="modal-kicker">RESIDENCY / PROJECT</p>
+    <h3 id="residencyTitle">Let's create together</h3>
+    <form id="residencyForm" action="https://formsubmit.co/ajax/downstage.rabat@gmail.com" method="POST">
+      <input type="hidden" name="_subject" value="New residency or project request">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_captcha" value="false">
+      <div class="contact-fields">
+        <label class="contact-wide">Full name<input type="text" name="full_name" required></label>
+        <label>Email<input type="email" name="email" required></label>
+        <label>Phone number<input type="tel" name="phone" required></label>
+        <label class="contact-wide">Idea / project<textarea name="idea_project" rows="6" required></textarea></label>
+      </div>
+      <button class="btn btn-solid" type="submit">Send request</button>
     </form>
   </div>
 </div>
@@ -979,6 +1000,42 @@ if(contactModal && contactForm){
       contactModal.classList.remove('open');
       setTimeout(()=>{ contactModal.hidden = true; }, 300);
       toast('Message sent', 'Thank you. We will get back to you soon.');
+    }catch(error){
+      toast(error.message === 'Form activation required' ? 'Activate the form first' : 'Something went wrong', error.message === 'Form activation required' ? 'Click the Activate Form link sent to downstage.rabat@gmail.com.' : 'Please try again or email downstage.rabat@gmail.com.');
+    }finally{
+      submit.disabled = false;
+    }
+  });
+}
+
+const residencyModal = $('#residencyModal');
+const residencyForm = $('#residencyForm');
+if(residencyModal && residencyForm){
+  $('#residencyOpen').addEventListener('click', ()=>{
+    residencyModal.hidden = false;
+    requestAnimationFrame(()=>residencyModal.classList.add('open'));
+  });
+  residencyModal.querySelectorAll('[data-residency-close]').forEach(control=>control.addEventListener('click', ()=>{
+    residencyModal.classList.remove('open');
+    setTimeout(()=>{ residencyModal.hidden = true; }, 300);
+  }));
+  residencyForm.addEventListener('submit', async e=>{
+    e.preventDefault();
+    if(!residencyForm.checkValidity()){
+      residencyForm.reportValidity();
+      return;
+    }
+    const submit = residencyForm.querySelector('button[type="submit"]');
+    submit.disabled = true;
+    try{
+      const response = await fetch(residencyForm.action, {method:'POST', body:new FormData(residencyForm), headers:{Accept:'application/json'}});
+      if(!response.ok) throw new Error('Request failed');
+      const result = await response.json();
+      if(result.success === false || result.success === 'false') throw new Error('Form activation required');
+      residencyForm.reset();
+      residencyModal.classList.remove('open');
+      setTimeout(()=>{ residencyModal.hidden = true; }, 300);
+      toast('Request sent', 'Thank you. We will get back to you soon.');
     }catch(error){
       toast(error.message === 'Form activation required' ? 'Activate the form first' : 'Something went wrong', error.message === 'Form activation required' ? 'Click the Activate Form link sent to downstage.rabat@gmail.com.' : 'Please try again or email downstage.rabat@gmail.com.');
     }finally{
