@@ -327,7 +327,10 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
 .foot-bot a:hover{color:var(--amber)}
 .contact-launch{margin:18px 0 0;display:flex;width:160px;padding:14px 22px;border-color:var(--red);color:var(--red)}
 .contact-launch:hover{background:var(--red);border-color:var(--red);color:var(--bg)}
-.fc .contact-launch{display:flex;width:230px;min-height:112px;padding:14px 22px;border:1px solid var(--red);color:var(--red);margin:18px 0 0;align-items:center;justify-content:center;text-align:center}
+.fc .contact-launch{display:flex;width:160px;padding:14px 22px;border:1px solid var(--red);color:var(--red);margin:18px 0 0}
+.practical-row{display:flex;align-items:flex-start;gap:58px}
+.practical-links{min-width:125px}
+.practical-row .contact-launch{flex:none;width:230px;min-height:112px;margin:0;align-items:center;justify-content:center;text-align:center}
 
 /* ============ modal ============ */
 .modal{position:fixed;inset:0;z-index:900;display:grid;place-items:center;padding:20px;opacity:0;transition:opacity .3s}
@@ -412,6 +415,7 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
   .create-together-panel{align-items:flex-start;flex-direction:column}
   .contact-fields{grid-template-columns:1fr}
   .contact-wide{grid-column:auto}
+  .practical-row{flex-direction:column;gap:18px}
 }
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
@@ -772,10 +776,14 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
       </div>
       <div class="fc">
         <h5>PRACTICAL</h5>
-        <button class="toastlink" data-t="Press kit" data-s="Email DOWNSTAGE.RABAT@GMAIL.COM — it's yours within a day.">Press kit</button>
-        <button class="toastlink" data-t="Accessibility" data-s="Step-free entry on the left of the door — ring the bell, we'll open the side gate.">Accessibility</button>
-        <button class="toastlink" data-t="The piano" data-s="The piano stays where it is. We're serious about this.">The COFFESHOP</button>
-        <button class="btn contact-launch" id="contactOpen" type="button">Contact</button>
+        <div class="practical-row">
+          <div class="practical-links">
+            <button class="toastlink" data-t="Press kit" data-s="Email DOWNSTAGE.RABAT@GMAIL.COM — it's yours within a day.">Press kit</button>
+            <button class="toastlink" data-t="Accessibility" data-s="Step-free entry on the left of the door — ring the bell, we'll open the side gate.">Accessibility</button>
+            <button class="toastlink" data-t="The piano" data-s="The piano stays where it is. We're serious about this.">The COFFESHOP</button>
+          </div>
+          <button class="btn contact-launch" id="contactOpen" type="button">Contact</button>
+        </div>
       </div>
     </div>
     <div class="foot-bot">
