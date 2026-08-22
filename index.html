@@ -354,10 +354,10 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
 .rehearsal-confirm-copy{color:var(--dim);font-size:1.08rem;line-height:1.7;margin-top:24px;max-width:46ch}
 .intro-video-modal{position:fixed;inset:0;z-index:1100;display:grid;place-items:center;padding:20px;background:rgba(8,7,5,.86);opacity:0;pointer-events:none;transition:opacity .3s var(--ease)}
 .intro-video-modal.open{opacity:1;pointer-events:auto}
-.intro-video-panel{position:relative;width:min(720px,94vw);background:var(--bg-2);border:1px solid var(--hair);padding:12px}
-.intro-video-panel video{display:block;width:100%;max-height:78vh;object-fit:contain;background:#000}
-.intro-video-close{position:absolute;top:-14px;right:-14px;width:34px;height:34px;border:1px solid var(--hair);border-radius:50%;background:var(--bg-2);color:var(--ink);font:20px var(--mono);cursor:pointer;z-index:1}
-@media(max-width:760px){.intro-video-modal{padding:12px}.intro-video-panel{width:100%;padding:8px}.intro-video-panel video{max-height:72vh}.intro-video-close{top:-10px;right:-8px}}
+.intro-video-panel{position:relative;width:min(980px,96vw);padding:0}
+.intro-video-panel video{display:block;width:100%;max-height:88vh;object-fit:contain;background:#000}
+.intro-video-close{display:none}
+@media(max-width:760px){.intro-video-modal{padding:6px}.intro-video-panel{width:100%}.intro-video-panel video{max-height:88vh}}
 .modal-x{position:absolute;top:16px;right:16px;width:38px;height:38px;background:none;border:1px solid var(--hair);border-radius:50%;cursor:pointer;display:grid;place-items:center;transition:.25s}
 .modal-x:hover{border-color:var(--red)}
 .modal-x svg{width:12px;height:12px;stroke:var(--ink);stroke-width:1.6}
