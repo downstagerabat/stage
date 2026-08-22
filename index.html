@@ -396,7 +396,10 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
   .create-together{grid-template-columns:1fr;gap:24px;margin-top:44px}
 }
 @media(max-width:760px){
-  .main-nav,.chip,.head-cta{display:none}
+  .main-nav,.chip{display:none}
+  .head-in{height:126px;position:relative;align-items:flex-start;padding-top:12px}
+  .head-right{position:absolute;left:0;right:0;top:68px;display:flex;gap:8px}
+  .head-cta{display:inline-flex;flex:1;width:auto;padding:9px 6px;font-size:8px;letter-spacing:.08em}
   .burger{display:flex}
   .hero-in{grid-template-columns:1fr;align-content:center}
   .hero-newsletter{grid-column:1;grid-row:auto;margin-top:24px}
