@@ -20,6 +20,7 @@
 .confirm-panel h2{font:430 clamp(1.6rem,5vw,2.4rem)/1.1 var(--serif);margin-bottom:22px}
 .confirm-panel p{color:var(--dim);font-size:1.05rem;line-height:1.7}
 .confirm-close{position:absolute;top:12px;right:12px;background:none;border:1px solid var(--hair);color:var(--ink);font:20px var(--mono);width:34px;height:34px;cursor:pointer}
+.pack-purchase{margin-top:18px}
 @media(max-width:760px){.confirm-panel{padding:24px 18px}.confirm-panel p{font-size:.95rem;line-height:1.55}}
 </style>
 </head>
@@ -45,6 +46,13 @@
 </div>
 <script>const pageHeader=document.querySelector('.site-head');let headerScrollAnchor=window.scrollY;window.addEventListener('scroll',()=>{const currentScroll=window.scrollY;const movement=currentScroll-headerScrollAnchor;if(currentScroll<=12||movement<-8){pageHeader.classList.remove('nav-hidden');headerScrollAnchor=currentScroll}else if(movement>8){pageHeader.classList.add('nav-hidden');headerScrollAnchor=currentScroll}},{passive:true});</script>
 <script>
+const packPurchase = document.querySelector('button[value="Pack offer purchase"]');
+const packList = document.querySelector('.pack-list');
+if(packPurchase && packList){
+  packPurchase.classList.add('pack-purchase');
+  packPurchase.setAttribute('form', 'rehearsalForm');
+  packList.insertAdjacentElement('afterend', packPurchase);
+}
 const rehearsalForm = document.querySelector('#rehearsalForm');
 const confirmModal = document.querySelector('#confirmModal');
 if(rehearsalForm && confirmModal){
