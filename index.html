@@ -1078,9 +1078,9 @@ if(ideaModal && ideaOpen && ideaForm){
     }
     const submit = ideaForm.querySelector('button[type="submit"]');
     submit.disabled = true;
-    ideaForm.reset();
     ideaModal.classList.remove('open');
     setTimeout(()=>{ ideaModal.hidden = true; }, 300);
+    setTimeout(()=>ideaForm.reset(), 1000);
     setTimeout(()=>toast(ideaThanks[Math.floor(Math.random() * ideaThanks.length)], ''), 700);
   });
 }
