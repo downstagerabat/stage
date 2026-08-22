@@ -117,7 +117,7 @@ input.bad{border-color:var(--red)}
 /* ============ ticker ============ */
 .ticker{overflow:hidden;border-block:1px solid var(--hair);background:var(--bg-2);padding:13px 0}
 .ticker-track{display:flex;width:max-content;animation:tick 52s linear infinite;will-change:transform}
-@media(hover:hover){.ticker:hover .ticker-track{animation-play-state:paused}}
+.ticker-track{animation-play-state:running!important}
 @keyframes tick{0%{transform:translate3d(0,0,0)}100%{transform:translate3d(-50%,0,0)}}
 .ticker-group{display:flex;align-items:center;flex-shrink:0}
 .ti{font-family:var(--mono);font-size:11px;letter-spacing:.22em;color:var(--dim);white-space:nowrap}
@@ -423,7 +423,7 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
   .ticker-track{animation-duration:44s}
   .interval{gap:12px;padding:28px 12px;text-align:center}
   .interval .iv-line{display:none}
-  .interval span:not(.iv-line){white-space:normal;font-size:11px;letter-spacing:.12em;line-height:1.6}
+  .interval span:not(.iv-line){display:block;flex:1;min-width:0;white-space:normal;font-size:11px;letter-spacing:.12em;line-height:1.6}
   .toasts{left:14px;right:14px}
   .rehearsal-fields{grid-template-columns:1fr}
   .room-details{grid-template-columns:1fr}
@@ -438,6 +438,7 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
   .reveal{opacity:1;transform:none}
   html{scroll-behavior:auto}
 }
+.ticker-track{animation:tick 44s linear infinite!important;animation-play-state:running!important}
 </style>
 </head>
 <body>
