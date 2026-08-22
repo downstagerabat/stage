@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Downstage — Programme</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#12100c;--bg-2:#161310;--ink:#ece3d2;--dim:rgba(236,227,210,.62);--faint:rgba(236,227,210,.38);--hair:rgba(236,227,210,.14);--red:#e04a21;--amber:#e6a03f;--serif:"Fraunces",Georgia,serif;--mono:"Space Mono",monospace}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}body{background:var(--bg);color:var(--ink);font:390 16px/1.6 var(--serif);padding:clamp(28px,6vw,88px) clamp(18px,5vw,72px)}main{max-width:1180px;margin:auto}.topline{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--hair);padding-bottom:18px;margin-bottom:clamp(48px,9vw,110px);font:10px var(--mono);letter-spacing:.2em;color:var(--faint);text-transform:uppercase}.topline a{color:var(--ink);text-decoration:none}.topline a:hover{color:var(--amber)}.sec-head{display:grid;grid-template-columns:1fr 1.5fr .8fr;gap:24px;align-items:end;border-bottom:1px solid var(--hair);padding-bottom:28px;margin-bottom:10px}.sec-kicker{display:flex;gap:14px;font:10px var(--mono);letter-spacing:.2em;color:var(--faint);text-transform:uppercase}.sec-kicker b{color:var(--red);font-weight:400}.sec-title{font:430 clamp(2.4rem,6vw,5.5rem)/.96 var(--serif);letter-spacing:-.02em}.sec-title em{color:var(--amber);font-style:italic}.sec-side{text-align:right;font:10px/1.8 var(--mono);letter-spacing:.12em;color:var(--faint)}.show{position:relative;border-bottom:1px solid var(--hair)}.show-head{width:100%;display:grid;grid-template-columns:104px 1fr 172px 108px 56px;align-items:center;gap:20px;padding:25px 10px;background:none;border:0;color:inherit;text-align:left;font:inherit;cursor:pointer}.show-head:hover{background:rgba(236,227,210,.03)}.s-date{display:flex;align-items:baseline;gap:9px;font:10px var(--mono);color:var(--faint)}.s-date b{font:400 2.2rem var(--serif);color:var(--ink)}.s-main{display:grid;gap:4px}.s-artist{font:500 1.2rem var(--serif);text-transform:none}.s-tag,.s-status{font:10px var(--mono);letter-spacing:.12em;color:var(--faint)}.s-status .st{color:var(--amber)}.s-status .st-sold{color:var(--red)}.s-price{font:700 14px var(--mono);color:var(--amber);text-align:right}.s-x{width:34px;height:34px;border:1px solid var(--hair);display:grid;place-items:center;justify-self:end}.s-x svg{width:14px;transition:transform .25s}.show-head[aria-expanded=true] .s-x{border-color:var(--amber)}.show-head[aria-expanded=true] .s-x svg{transform:rotate(45deg)}.show-body{max-height:0;overflow:hidden;transition:max-height .45s ease}.show-body-in{padding:0 10px 26px 124px}.show-desc{max-width:680px;color:var(--dim);font-size:1rem;margin-bottom:16px}.s-actions{display:flex;justify-content:space-between;align-items:center;gap:18px}.s-times{font:10px var(--mono);letter-spacing:.12em;color:var(--faint)}.btn{display:inline-block;border:1px solid var(--amber);padding:10px 15px;color:var(--amber);font:10px var(--mono);letter-spacing:.12em;text-transform:uppercase;text-decoration:none;background:none;cursor:pointer}.btn:hover{background:var(--amber);color:var(--bg)}@media(max-width:760px){.topline{margin-bottom:54px}.sec-head{grid-template-columns:1fr;gap:14px}.sec-side{text-align:left}.show-head{grid-template-columns:58px 1fr 35px;grid-template-areas:"date main x" "date status x" "date price x";gap:6px 12px;padding:20px 0}.s-date{grid-area:date;display:grid;gap:0}.s-date b{font-size:1.9rem}.s-main{grid-area:main}.s-status{grid-area:status}.s-price{grid-area:price;text-align:left}.s-x{grid-area:x}.show-body-in{padding:0 0 24px}.s-actions{align-items:flex-start;flex-direction:column}.s-times{line-height:1.6}}
+</style>
+</head>
+<body>
+<main>
+  <div class="topline"><a href="https://downstagerabat.github.io/stage/">Downstage</a><span>Rabat · Live programme</span></div>
+  <section id="programme">
+    <header class="sec-head"><p class="sec-kicker"><b>(01)</b><span>PROGRAMME</span></p><h1 class="sec-title">The next <em>nights</em>.</h1><p class="sec-side">TICKETS AT THE DOOR<br>PREBOOKED SEATS HELD TILL 19:00</p></header>
+    <div id="showList"></div>
+  </section>
+</main>
+<script>
+const shows=[
+  ['djam session','HOUSE BAND · INABSOLUTE','The night kicks off with a live set by our house band, Inabsolute, before opening the stage to musicians for an evening of improvisation and collaboration.',80,9],
+  ['Masterclass — Management','ARTIST DEVELOPMENT · CAREER STRATEGY','A masterclass focused on music management, artist development, career strategy, booking, and promotion.',0,21],
+  ['CHRISTELS CONCERT','LIVE DUB · ELECTRONICS','',140,0],
+  ['SIMO THE ROCKER','ALTERNATIVE ROCK','',100,30],
+  ['Club','TARAB · ORIENTAL JAZZ','',120,14],
+  ['hlou Quartet','STRINGS · NEW CLASSICAL','',150,26],
+  ['Dar Gnawa & guests','GNAWA FUSION','',130,5],
+  ['The Oudayas','GARAGE ROCK · ALBUM NIGHT','',90,44]
+];
+const date=new Date();
+function dateFor(offset){const d=new Date(date);d.setDate(d.getDate()+offset);return `${d.getDate()} ${d.toLocaleDateString('en-GB',{weekday:'short'}).toUpperCase()} · ${d.toLocaleDateString('en-GB',{month:'short'}).toUpperCase()}`}
+document.querySelector('#showList').innerHTML=shows.map((show,index)=>`<article class="show"><button class="show-head" aria-expanded="false"><span class="s-date"><b>${dateFor([4,7,11,14,18,21,25,28][index]).split(' ')[0]}</b><span>${dateFor([4,7,11,14,18,21,25,28][index]).slice(2)}</span></span><span class="s-main"><span class="s-artist">${show[0]}</span><span class="s-tag">${show[1]}</span></span><span class="s-status"><span class="st ${show[4]===0?'st-sold':''}">${show[4]===0?'SOLD OUT':show[4]<=12?'ONLY '+show[4]+' LEFT':'AVAILABLE'}</span></span><span class="s-price">${show[3]===0?'FREE':show[3]+' MAD'}</span><span class="s-x"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 2v12M2 8h12"/></svg></span></button><div class="show-body"><div class="show-body-in"><p class="show-desc">${show[2]}</p><div class="s-actions"><span class="s-times">DOORS 19:30 · FIRST SET 20:30</span>${show[4]===0?'<button class="btn" type="button">Join the waitlist</button>':'<button class="btn" type="button">Reserve · '+(show[3]===0?'FREE':show[3]+' MAD')+'</button>'}</div></div></div></article>`).join('');
+document.querySelector('#showList').addEventListener('click',event=>{const head=event.target.closest('.show-head');if(!head)return;const body=head.nextElementSibling;const open=head.getAttribute('aria-expanded')==='true';document.querySelectorAll('.show-head[aria-expanded=true]').forEach(item=>{item.setAttribute('aria-expanded','false');item.nextElementSibling.style.maxHeight='0'});if(!open){head.setAttribute('aria-expanded','true');body.style.maxHeight=body.scrollHeight+'px'}});
+</script>
+</body>
+</html>
