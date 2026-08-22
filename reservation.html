@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Downstage — Reserve a seat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#12100c;--bg-2:#161310;--ink:#ece3d2;--dim:rgba(236,227,210,.62);--faint:rgba(236,227,210,.38);--hair:rgba(236,227,210,.14);--red:#e04a21;--amber:#e6a03f;--serif:"Fraunces",Georgia,serif;--mono:"Space Mono",monospace}
+*{box-sizing:border-box;margin:0;padding:0}body{background:var(--bg);color:var(--ink);font:400 16px/1.65 var(--serif);padding:clamp(28px,6vw,88px) 18px}main{max-width:760px;margin:auto}.topline{display:flex;justify-content:space-between;gap:18px;border-bottom:1px solid var(--hair);padding-bottom:18px;margin-bottom:clamp(48px,9vw,92px);font:10px var(--mono);letter-spacing:.2em;color:var(--faint);text-transform:uppercase}.topline a{color:var(--ink);text-decoration:none}.topline a:hover{color:var(--amber)}h1{font:430 clamp(2.8rem,8vw,5.8rem)/.98 var(--serif);letter-spacing:-.02em}h1 em{color:var(--amber)}.event-card{border-block:1px solid var(--hair);margin:34px 0 42px;padding:24px 0}.event-card h2{font:500 clamp(1.45rem,4vw,2.2rem)/1.15 var(--serif)}.event-card p{font:10px var(--mono);letter-spacing:.12em;color:var(--dim);margin-top:10px}.kicker{font:10px var(--mono);letter-spacing:.22em;color:var(--red);text-transform:uppercase;margin-bottom:24px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px 20px}.field{display:grid;gap:8px}.field.full{grid-column:1/-1}.field label,.choice-title{font:10px var(--mono);letter-spacing:.18em;color:var(--dim);text-transform:uppercase}.field input{width:100%;background:transparent;border:0;border-bottom:1px solid var(--hair);color:var(--ink);font:400 1.05rem var(--serif);padding:10px 2px;outline:0}.field input:focus{border-color:var(--amber)}.choices{display:grid;gap:12px;margin-top:10px}.choice{display:flex;align-items:flex-start;gap:10px;color:var(--dim);font-size:1rem}.choice input{accent-color:var(--red);margin-top:6px}.btn{display:inline-flex;align-items:center;justify-content:center;margin-top:32px;padding:14px 22px;border:1px solid var(--ink);background:var(--ink);color:var(--bg);font:700 11px var(--mono);letter-spacing:.16em;text-transform:uppercase;cursor:pointer}.btn:hover{background:var(--red);border-color:var(--red)}.note{border-top:1px solid var(--hair);margin-top:34px;padding-top:20px;color:var(--dim);font-size:.98rem}.success{display:none}.success.show{display:block}.success h2{font:italic 400 clamp(1.8rem,5vw,3rem)/1.1 var(--serif);color:var(--amber)}.success p{color:var(--dim);margin-top:20px}.success .note{margin-top:32px}.back{display:inline-block;margin-top:36px;color:var(--amber);font:10px var(--mono);letter-spacing:.16em;text-decoration:none;text-transform:uppercase}@media(max-width:600px){.topline{align-items:flex-start;flex-direction:column}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}}
+</style>
+</head>
+<body>
+<main>
+  <div class="topline"><a href="https://downstagerabat.github.io/stage/">Downstage</a><span>Rabat · Reservation</span></div>
+  <section id="reservationView">
+    <p class="kicker">Reserve a seat</p>
+    <h1>Your night<br>at <em>Downstage</em>.</h1>
+    <div class="event-card"><h2 id="eventName">Selected event</h2><p id="eventMeta"></p></div>
+    <form id="reservationForm" action="https://formsubmit.co/downstage.rabat@email.com" method="POST">
+      <input type="hidden" name="_subject" id="formSubject" value="New seat reservation request">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_next" id="formNext">
+      <input type="hidden" name="event" id="formEvent">
+      <p class="kicker">Your details</p>
+      <div class="form-grid">
+        <div class="field"><label for="fullName">Full name</label><input id="fullName" name="full_name" required></div>
+        <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" required></div>
+        <div class="field"><label for="phone">Phone number</label><input id="phone" name="phone" type="tel" required></div>
+        <div class="field"><label for="seats">Number of seats</label><input id="seats" name="number_of_seats" type="number" min="1" max="20" value="1" required></div>
+        <div class="field full"><span class="choice-title">Reservation / Payment</span><div class="choices"><label class="choice"><input type="radio" name="payment" value="Pay at the venue" checked>Pay at the venue</label><label class="choice"><input type="radio" name="payment" value="Reservation only - we'll contact you to confirm">Reservation only — we'll contact you to confirm</label></div></div>
+      </div>
+      <button class="btn" type="submit">Send seat request</button>
+    </form>
+  </section>
+  <section class="success" id="successView">
+    <p class="kicker">Confirmation</p>
+    <h2>Your seat request has been received! 🎶</h2>
+    <p>We’ll contact you shortly to confirm your reservation. See you at Downstage!</p>
+    <p class="note">Please note: Your reservation is only confirmed once you receive a confirmation message from our team.</p>
+  </section>
+  <a class="back" href="program.html">← Back to programme</a>
+</main>
+<script>
+const shows=[['djam session','HOUSE BAND · INABSOLUTE',80],['Masterclass — Management','ARTIST DEVELOPMENT · CAREER STRATEGY',0],['CHRISTELS CONCERT','LIVE DUB · ELECTRONICS',140],['SIMO THE ROCKER','ALTERNATIVE ROCK',100],['Club','TARAB · ORIENTAL JAZZ',120],['hlou Quartet','STRINGS · NEW CLASSICAL',150],['Dar Gnawa & guests','GNAWA FUSION',130],['The Oudayas','GARAGE ROCK · ALBUM NIGHT',90]];
+const offsets=[4,7,11,14,18,21,25,28];
+const date=new Date();
+function dateFor(offset){const d=new Date(date);d.setDate(d.getDate()+offset);return `${d.getDate()} ${d.toLocaleDateString('en-GB',{weekday:'short'}).toUpperCase()} · ${d.toLocaleDateString('en-GB',{month:'short'}).toUpperCase()}`}
+const params=new URLSearchParams(location.search);const index=Number(params.get('event'));const show=shows[index]||shows[0];const eventDate=dateFor(offsets[index]||offsets[0]);
+document.querySelector('#eventName').textContent=show[0];document.querySelector('#eventMeta').textContent=`${eventDate} · ${show[1]} · ${show[2]===0?'FREE':show[2]+' MAD'}`;document.querySelector('#formEvent').value=`${show[0]} — ${eventDate} — ${show[1]}`;document.querySelector('#formSubject').value=`Seat reservation: ${show[0]}`;document.querySelector('#formNext').value=`${location.origin}${location.pathname}?submitted=1&event=${Number.isInteger(index)&&index>=0&&index<shows.length?index:0}`;
+if(params.get('submitted')==='1'){document.querySelector('#reservationView').style.display='none';document.querySelector('#successView').classList.add('show')}
+</script>
+</body>
+</html>
