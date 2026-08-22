@@ -118,6 +118,8 @@ input.bad{border-color:var(--red)}
 .ticker{overflow:hidden;border-block:1px solid var(--hair);background:var(--bg-2);padding:13px 0}
 .ticker-track{display:flex;width:max-content;animation:tick 52s linear infinite;will-change:transform}
 .ticker-track{animation-play-state:running!important}
+@media(hover:hover){.ticker:hover .ticker-track{animation-play-state:paused!important}}
+.ticker-track.is-paused{animation-play-state:paused!important}
 @keyframes tick{0%{transform:translate3d(0,0,0)}100%{transform:translate3d(-50%,0,0)}}
 .ticker-group{display:flex;align-items:center;flex-shrink:0}
 .ti{font-family:var(--mono);font-size:11px;letter-spacing:.22em;color:var(--dim);white-space:nowrap}
@@ -881,6 +883,12 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
 const $  = s => document.querySelector(s);
 const $$ = s => [...document.querySelectorAll(s)];
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const ticker = $('#tickerTrack');
+if(ticker){
+  ticker.addEventListener('pointerdown', ()=>ticker.classList.add('is-paused'));
+  ['pointerup','pointercancel','pointerleave'].forEach(type=>ticker.addEventListener(type, ()=>ticker.classList.remove('is-paused')));
+}
 
 const burger = $('#burger');
 const mobileNav = $('#mnav');
