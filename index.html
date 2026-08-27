@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Downstage — The Stage · Rabat</title>
 <meta name="description" content="Downstage is an 100-seat space in Rabat. One stage, one bar, no barrier — the front row is 1 metres from the artist.">
-<link rel="icon" href="downstage/images/logo.png">
+<link rel="icon" href="images/logo.png">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
@@ -62,7 +62,7 @@ input.bad{border-color:var(--red)}
 .site-head.scrolled{background:rgba(18,16,12,.82);backdrop-filter:blur(10px);border-color:var(--hair)}
 .head-in{display:flex;align-items:center;gap:22px;height:92px}
 .brand{display:flex;align-items:center;gap:11px;text-decoration:none;margin-right:auto}
-.brand-mark{width:92px;height:auto;max-height:52px;object-fit:contain}
+.brand-mark{display:block;width:120px;height:64px;object-fit:contain;filter:drop-shadow(0 0 7px rgba(255,255,255,.38))}
 .brand-name{font:900 1.75rem var(--serif);letter-spacing:-.01em;color:#fff}
 .brand-loc{font-family:var(--mono);font-size:9.5px;letter-spacing:.32em;color:var(--red);margin-top:5px}
 .main-nav{display:flex;gap:22px}
@@ -416,6 +416,7 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
 @media(max-width:760px){
   .main-nav,.chip{display:none}
   .head-in{height:126px;position:relative;align-items:flex-start;padding-top:12px}
+  .brand-mark{width:92px;height:48px}
   .head-right{position:absolute;left:0;right:0;top:68px;display:flex;gap:8px}
   .head-cta{display:inline-flex;flex:1;width:auto;padding:9px 6px;font-size:8px;letter-spacing:.08em}
   .burger{display:flex}
@@ -493,7 +494,7 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
 <header class="site-head" id="siteHead">
   <div class="head-in container">
     <a class="brand" href="https://downstagerabat.github.io/stage/" aria-label="Downstage — home">
-      <img class="brand-mark" src="downstage/images/logo.png" alt="Downstage">
+      <img class="brand-mark" src="images/logo.png" alt="Downstage">
       <span class="brand-name">Downstage</span>
       <span class="brand-loc">RABAT</span>
     </a>
@@ -1001,21 +1002,18 @@ function toast(title, sub){
 }
 
 /* =========================================================
-   programme data (dates computed from today, always upcoming)
+   programme data
 ========================================================= */
 const SHOWS = [
-  {off:4,  a:"djam session",            tag:"house band · inasolute", desc:"The night kicks off with a live set by our house band, Inabsolute, before opening the stage to musicians for an evening of improvisation, collaboration, and spontaneous musical moments.", price:80,  seats:9,  seed:"ds-yasmina"},
-  {off:7,  a:"Masterclass — Management", tag:"ARTIST DEVELOPMENT · CAREER STRATEGY", desc:"A masterclass focused on music management, covering artist development, career strategy, booking, promotion, and the key tools needed to build a successful career in the music industry.", price:0, seats:21, seed:"ds-masterclass"},
-  {off:11, a:"CHRISTELS CONCERT",  tag:"LIVE DUB · ELECTRONICS", desc:".", price:140, seats:0,  seed:"ds-bouregreg"},
-  {off:14, a:"SIMO THE ROCKER",      tag:"ALTERNATIVE ROCK",       desc:".", price:100, seats:30, seed:"ds-wolves"},
-  {off:18, a:"Club",             tag:"TARAB · ORIENTAL JAZZ",  desc:".", price:120, seats:14, seed:"ds-taqsim"},
-  {off:21, a:"hlou Quartet",    tag:"STRINGS · NEW CLASSICAL",desc:".", price:150, seats:26, seed:"ds-quartet"},
-  {off:25, a:"Dar Gnawa & guests",      tag:"GNAWA FUSION",           desc:".", price:130, seats:5,  seed:"ds-gnawa"},
-  {off:28, a:"The Oudayas",             tag:"GARAGE ROCK · ALBUM NIGHT", desc:".", price:90, seats:44, seed:"ds-oudayas"},
+  {date:"2026-09-04", a:"Masterclass — Management & Bookings", tag:"SOUMAYA IDBA · IRICO FRANCO", desc:"A masterclass focused on music management, covering artist development, career strategy, booking, promotion, and the key tools needed to build a successful career in the music industry.", price:100, seats:21, seed:"ds-masterclass"},
+  {date:"2026-09-10", a:"Jam Session", tag:"HOUSE BAND · INABSOLUTE", desc:"The night kicks off with a live set by our house band, Inabsolute, before opening the stage to musicians for an evening of improvisation, collaboration, and spontaneous musical moments.", price:30, seats:30, seed:"ds-jam-10"},
+  {date:"2026-09-12", a:"CORE Comedy Club", tag:"STAND-UP COMEDY · 4 ACTS", desc:"CORE COMEDY CLUB est de retour ! Le CORE Comedy Club revient en force à Rabat pour un spectacle franco-marocain inédit.", price:100, seats:30, seed:"ds-core-comedy"},
+  {date:"2026-09-17", a:"Jam Session", tag:"HOUSE BAND · INABSOLUTE", desc:"The night kicks off with a live set by our house band, Inabsolute, before opening the stage to musicians for an evening of improvisation, collaboration, and spontaneous musical moments.", price:30, seats:30, seed:"ds-jam-17"},
+  {date:"2026-09-25", a:"Faten Wehebe", tag:"STAND-UP COMEDY", desc:"Rabat. J’arriiive. Prépare-toi à rire de moi avec moi. Je vais te parler de mes sujets préférés : l’amour (ou son absence), les rencontres (souvent ratées), les ruptures (parfois libératrices), et les joies, disons sportives, d’être dans une famille monoparentale. Et apparemment, je ne suis pas la seule à vivre ça. Et si ça se passe bien, promis, j’enverrai une carte postale à mes ex pour les remercier de l’inspiration. Merci.", price:100, seats:30, seed:"ds-faten-wehebe"},
 ];
 
-function fmtDate(off){
-  const d = new Date(); d.setDate(d.getDate()+off);
+function fmtDate(date){
+  const d = new Date(`${date}T12:00:00`);
   return {
     wd:  d.toLocaleDateString('en-GB',{weekday:'short'}).toUpperCase(),
     day: d.getDate(),
@@ -1032,7 +1030,7 @@ function statusHTML(s){
 
 function renderShows(){
   $('#showList').innerHTML = SHOWS.map((s,i)=>{
-    const d = fmtDate(s.off);
+    const d = fmtDate(s.date);
     return `<article class="show reveal" data-i="${i}" data-d="${Math.min(i*45,270)}">
       <button class="show-head" aria-expanded="false">
         <span class="s-date"><b>${d.day}</b><span>${d.wd} · ${d.mo}</span></span>
