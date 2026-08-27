@@ -32,7 +32,7 @@
         <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" required></div>
         <div class="field"><label for="phone">Phone number</label><input id="phone" name="phone" type="tel" required></div>
         <div class="field"><label for="seats">Number of seats</label><input id="seats" name="number_of_seats" type="number" min="1" max="20" value="1" required></div>
-        <div class="field full"><span class="choice-title">Reservation / Payment</span><div class="choices"><label class="choice disabled"><input type="radio" name="payment_online" disabled>Pay online — unavailable yet</label><label class="choice"><input type="radio" name="payment" value="Reservation only — Pay at the venue — we'll contact you to confirm" checked>Reservation only — Pay at the venue — we'll contact you to confirm</label></div></div>
+        <div class="field full"><span class="choice-title">Reservation / Payment</span><div class="choices"><label class="choice disabled"><input type="radio" name="payment_online" disabled>Pay online — currently unavailable</label><label class="choice"><input type="radio" name="payment" value="Reservation only — Pay at the venue — we'll contact you to confirm" checked>Reservation only — Pay at the venue — we'll contact you to confirm</label></div></div>
       </div>
       <button class="btn" id="submitButton" type="submit">Send seat request</button>
       <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
@@ -47,12 +47,16 @@
   <a class="back" href="program.html">← Back to programme</a>
 </main>
 <script>
-const shows=[['djam session','HOUSE BAND · INABSOLUTE',80],['Masterclass — Management','ARTIST DEVELOPMENT · CAREER STRATEGY',0],['CHRISTELS CONCERT','LIVE DUB · ELECTRONICS',140],['SIMO THE ROCKER','ALTERNATIVE ROCK',100],['Club','TARAB · ORIENTAL JAZZ',120],['hlou Quartet','STRINGS · NEW CLASSICAL',150],['Dar Gnawa & guests','GNAWA FUSION',130],['The Oudayas','GARAGE ROCK · ALBUM NIGHT',90]];
-const offsets=[4,7,11,14,18,21,25,28];
-const date=new Date();
-function dateFor(offset){const d=new Date(date);d.setDate(d.getDate()+offset);return `${d.getDate()} ${d.toLocaleDateString('en-GB',{weekday:'short'}).toUpperCase()} · ${d.toLocaleDateString('en-GB',{month:'short'}).toUpperCase()}`}
-const params=new URLSearchParams(location.search);const index=Number(params.get('event'));const show=shows[index]||shows[0];const eventDate=dateFor(offsets[index]||offsets[0]);
-document.querySelector('#eventName').textContent=show[0];document.querySelector('#eventMeta').textContent=`${eventDate} · ${show[1]} · ${show[2]===0?'FREE':show[2]+' MAD'}`;document.querySelector('#formEvent').value=`${show[0]} — ${eventDate} — ${show[1]}`;document.querySelector('#formSubject').value=`Seat reservation: ${show[0]}`;document.querySelector('#formNext').value=`${location.origin}${location.pathname}?submitted=1&event=${Number.isInteger(index)&&index>=0&&index<shows.length?index:0}`;
+const shows=[
+  ['2026-09-04','Masterclass — Management & Bookings','SOUMAYA IDBA · IRICO FRANCO',100],
+  ['2026-09-10','Jam Session','HOUSE BAND · INABSOLUTE',30],
+  ['2026-09-12','CORE Comedy Club','STAND-UP COMEDY · 4 ACTS',100],
+  ['2026-09-17','Jam Session','HOUSE BAND · INABSOLUTE',30],
+  ['2026-09-25','Faten Wehebe','STAND-UP COMEDY',100]
+];
+function dateFor(date){const d=new Date(`${date}T12:00:00`);return `${d.getDate()} ${d.toLocaleDateString('en-GB',{weekday:'short'}).toUpperCase()} · ${d.toLocaleDateString('en-GB',{month:'short'}).toUpperCase()}`}
+const params=new URLSearchParams(location.search);const index=Number(params.get('event'));const show=shows[index]||shows[0];const eventDate=dateFor(show[0]);
+document.querySelector('#eventName').textContent=show[1];document.querySelector('#eventMeta').textContent=`${eventDate} · ${show[2]} · ${show[3]+' MAD'}`;document.querySelector('#formEvent').value=`${show[1]} — ${eventDate} — ${show[2]}`;document.querySelector('#formSubject').value=`Seat reservation: ${show[1]}`;document.querySelector('#formNext').value=`${location.origin}${location.pathname}?submitted=1&event=${Number.isInteger(index)&&index>=0&&index<shows.length?index:0}`;
 const reservationForm=document.querySelector('#reservationForm');const submitButton=document.querySelector('#submitButton');const formStatus=document.querySelector('#formStatus');reservationForm.addEventListener('submit',async event=>{event.preventDefault();submitButton.disabled=true;formStatus.textContent='Sending your request…';try{const response=await fetch(reservationForm.action,{method:'POST',body:new FormData(reservationForm),headers:{Accept:'application/json'}});if(!response.ok)throw new Error('Unable to submit');document.querySelector('#reservationView').style.display='none';document.querySelector('#successView').classList.add('show')}catch(error){formStatus.textContent='We could not send your request. Please try again from the live website.';submitButton.disabled=false}});
 if(params.get('submitted')==='1'){document.querySelector('#reservationView').style.display='none';document.querySelector('#successView').classList.add('show')}
 </script>
