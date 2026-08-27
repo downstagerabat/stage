@@ -88,22 +88,23 @@ input.bad{border-color:var(--red)}
 .hero{min-height:100svh;display:flex;flex-direction:column;padding-top:124px;position:relative;overflow:hidden}
 .hero::before{content:"";position:absolute;inset:0;pointer-events:none;
   background:radial-gradient(120% 90% at 50% 8%,transparent 45%,rgba(0,0,0,.4) 100%)}
-.hero-in{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;justify-content:center;padding-bottom:24px}
+.hero-in{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding-bottom:24px}
 .kicker{font-family:var(--mono);font-size:16px;letter-spacing:.12em;color:var(--dim)}
 .kicker b{color:var(--red);font-weight:400}
-.hero-title{font:430 clamp(3.2rem,7.2vw,6.2rem)/0.99 var(--serif);letter-spacing:-.015em;max-width:none;white-space:nowrap;margin-top:26px}
+.hero-title{font:430 clamp(3.2rem,7.2vw,6.2rem)/0.99 var(--serif);letter-spacing:-.015em;max-width:none;white-space:nowrap;text-align:center;margin-top:26px}
 .hero-title em{font-style:italic}
+.hero-image{display:block;width:100%;aspect-ratio:1537/1023;object-fit:cover;margin-top:32px;border:1px solid var(--hair);filter:sepia(.18) saturate(.9) contrast(1.05) brightness(.86)}
 .u-wrap{position:relative;white-space:nowrap;cursor:pointer}
 .u-string{position:absolute;left:-1%;bottom:-.1em;width:102%;height:.16em;overflow:visible;pointer-events:none;display:block}
 .u-string path{fill:none;stroke:var(--red);stroke-width:4;stroke-linecap:round}
 .u-wrap:hover .u-string path{stroke:var(--amber)}
 @keyframes strum{0%,100%{transform:scaleY(1)}18%{transform:scaleY(3.6)}40%{transform:scaleY(.7)}62%{transform:scaleY(2)}80%{transform:scaleY(1.25)}}
 .u-string.plucked{animation:strum .75s var(--ease);transform-origin:50% 100%}
-.hero-sub{max-width:56ch;color:var(--dim);margin-top:30px;font-size:1.06rem}
+.hero-sub{max-width:62ch;color:var(--dim);margin:30px auto 0;font-size:.96rem;text-align:center}
 .hero-sub strong{color:var(--ink);font-weight:500}
 .hero-newsletter{width:min(100%,620px);max-width:620px;margin:12px 0 0}
-.residency-hero-wrap{width:min(100%,620px);border-top:1px solid var(--hair);margin-top:22px;padding-top:20px}
-.residency-hero-actions{display:flex;gap:14px;flex-wrap:wrap}
+.residency-hero-wrap{width:min(100%,620px);border-top:1px solid var(--hair);margin:22px auto 0;padding-top:20px}
+.residency-hero-actions{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
 .residency-hero{width:max-content;font:italic 400 1.3rem/1.5 var(--serif);letter-spacing:0;text-transform:none;padding:13px 20px}
 
 .strings-band{position:relative;width:100%;height:130px;touch-action:pan-y;cursor:crosshair;z-index:2}
@@ -426,7 +427,8 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
   .residency-hero-actions{flex-wrap:nowrap;gap:8px}
   .residency-hero-actions .residency-hero{flex:1;min-width:0;width:auto;padding:10px 5px;font-size:1rem;line-height:1.2;text-align:center}
   .hero-title{font-size:clamp(2.8rem,13vw,5rem);white-space:normal}
-  .hero-sub{font-size:1rem;margin-top:22px}
+  .hero-image{width:100%;height:clamp(220px,52vw,360px);aspect-ratio:auto;margin-top:20px}
+  .hero-sub{font-size:.92rem;margin-top:22px}
   .sec-head{grid-template-columns:1fr}
   .sec-side{text-align:left;padding:0}
   .show-head{grid-template-columns:54px 1fr 40px;grid-template-areas:"date main x" "date status x" "date price x";row-gap:8px}
@@ -528,7 +530,8 @@ footer{border-top:1px solid var(--hair);background:var(--bg-2)}
   <section class="hero">
     <div class="hero-in container">
       <p class="kicker reveal">ROOM TO GROW - EST 2026</p>
-      <h1 class="hero-title reveal" data-d="120">Your Space<br>Your Stage, Your Sound</h1>
+      <h1 class="hero-title reveal" data-d="120">Your Space · Your Stage, Your Sound</h1>
+    <img class="hero-image reveal" data-d="180" src="images/imagehero.jpeg" alt="Downstage stage and creative space" loading="eager" decoding="async">
       <p class="hero-sub reveal" data-d="180">Downstage is a creative space bringing together live music, comedy, jam sessions, artistic residencies, rehearsals, workshops, and cultural events.</p>
       <div class="residency-hero-wrap"><div class="residency-hero-actions"><a class="btn btn-line residency-hero" href="event.html">Book Downstage</a><a class="btn btn-line residency-hero" href="team.html">Join the team</a></div></div>
     </div>
